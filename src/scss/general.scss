@@ -1,0 +1,33 @@
+.debug{
+  background-color:rgba(156, 21, 21, 0.253);
+  border: 1px solid black;
+}
+
+.main-wrapper{
+  width:100%;
+  height:100%;
+}
+
+header{
+  width:100%;
+  height: 40px;
+}
+
+main{
+  width: 100%;
+
+}
+
+.control-surface{
+  width: 100%;
+  height: 160px;
+  background-color: red;
+}
+
+.battle-ground{
+  position: relative;
+  width: 600px;
+  height: 600px;
+  background-color: grey;
+}
+

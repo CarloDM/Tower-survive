@@ -1,0 +1,19 @@
+<script>
+import BattleGrond from './partials/battleGround.vue'
+export default {
+  name:'Main',
+  components:{BattleGrond},
+  methods:{},
+  props:{},
+}
+</script>
+
+<template>
+  <main class="w-100 h-100 d-flex justify-content-center align-item-center debug ">
+
+    <BattleGrond />
+
+  </main>
+</template>
+
+<style lang="scss" scoped></style>
