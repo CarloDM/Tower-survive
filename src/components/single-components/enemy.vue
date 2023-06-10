@@ -1,5 +1,6 @@
 <script>
 import {store} from '../../data/store';
+import {animazioneMovimentoVerticale} from '../../functions/gameLogic'
 export default {
 name: 'Enemy',
 data() {
@@ -8,29 +9,9 @@ data() {
     enemyY: 0, // Coordinata Y corrente dell'oggetto nemico
   };
 },
-methods: {
-  animazioneMovimentoVerticale() {
-    const altezzaCampoBattaglia = 650; // Altezza del campo di battaglia
-    const velocitaMovimento = 0.5; // Velocità di movimento in pixel per frame (puoi regolare il valore)
-
-
-    setInterval(() => {
-      // Calcola la nuova coordinata Y in base alla velocità
-      this.enemyY += velocitaMovimento;
-      this.enemyx = store.enemy.cord.x;
-      store.enemy.cord.y += velocitaMovimento;
-      // console.log(store.enemy.cord.y)
-
-      // Verifica se l'oggetto nemico ha superato l'altezza del campo di battaglia
-      if (this.enemyY > altezzaCampoBattaglia ) {
-        // Riposiziona l'oggetto nemico all'inizio del campo di battaglia
-        this.enemyY = 0; store.enemy.cord.y = 0;
-      }
-    }, 1000 / 60); // Esegui l'animazione a 60 frame al secondo (puoi regolare il valore)
-  },
-},
-mounted() {
-  this.animazioneMovimentoVerticale();
+methods: {},
+mounted(){
+  // animazioneMovimentoVerticale(store.enemy);
 },
 
 props:{
@@ -41,7 +22,7 @@ props:{
 </script>
 
 <template>
-  <div class="enemy" :style="{  left: enemyx + 'px' , top: enemyY + 'px',} ">
+  <div class="enemy" :style="{  left: store.enemy.cord.x + 'px' , top: store.enemy.cord.y + 'px',} ">
 
   </div>
   
