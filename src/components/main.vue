@@ -9,7 +9,7 @@ export default {
 </script>
 
 <template>
-  <main class="w-100 h-100 d-flex justify-content-center align-item-center debug ">
+  <main class="d-flex justify-content-center align-item-center debug ">
 
     <BattleGrond />
 

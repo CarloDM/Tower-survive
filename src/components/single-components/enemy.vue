@@ -6,38 +6,47 @@ name: 'Enemy',
 data() {
   return {
     store,
-    enemyY: 0, // Coordinata Y corrente dell'oggetto nemico
   };
+},
+props:{
+  id: Number,
+  health: Number,
+  alive: Boolean,
 },
 methods: {},
 mounted(){
-  // animazioneMovimentoVerticale(store.enemy);
+  // animazioneMovimentoVerticale(store.army[0]);
 },
-
-props:{
-  
-}
-
 }
 </script>
 
 <template>
-  <div class="enemy" :style="{  left: store.enemy.cord.x + 'px' , top: store.enemy.cord.y + 'px',} ">
+  <div class="enemy" :class="!(alive) ? 'dead' : '' " :style="{  left: store.army[id].cord.x + 'px' , top: store.army[id].cord.y + 'px',} ">
 
-  </div>
-  
+    <p>{{ health }}</p>
+
+  </div> 
 </template>
 
 
 <style lang="scss" scoped>
 .enemy{
   position: absolute;
+  z-index: 999;
   // left: calc( (600px) - 40px);  /* Posiziona al centro orizzontalmente */
   // bottom: calc( (600px) - 40px); /* Posiziona nella parte inferiore con uno spazio di 10px */
   // transform: translate(-50%,-50%); /* Centra orizzontalmente */
   background-color: rgb(61, 70, 80);
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  aspect-ratio: 1/1;
+  margin-top: -15px;
+  margin-left: -15px;
   border-radius: 50%;
+  font-size: 0.7rem;
+
+  &.dead{
+    opacity: 0.1;
+    z-index: 0;
+  }
 }
 </style>

@@ -19,9 +19,12 @@ export default {
 </script>
 
 <template>
-<div class="main-wrapper container-fluid debug">
-<Header />
-<Main />
+<div class="main-wrapper container-fluid">
+  <div class="d-flex  flex-row justify-content-around main_container m-auto debug">
+    <Main class="main d-inline-block" />
+    <Header class="" />
+    
+</div>
 <ControlSurface />
 
 

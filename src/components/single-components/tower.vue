@@ -8,42 +8,8 @@ data() {
     angoloTorretta: 0, // Angolo di puntamento corrente della torretta
   };
 },
-methods: {
-  
-  aggiornaAngoloPuntamento() {
-    setInterval(() => {
-      
-      const torrettaX = store.tower.cord.x; /* Coordinata X della torretta */
-      const torrettaY = store.tower.cord.y;  /* Coordinata Y della torretta */
-      const oggettoX = store.enemy.cord.x; /* Coordinata X dell'oggetto nemico */
-      const oggettoY = store.enemy.cord.y;/* Coordinata Y dell'oggetto nemico */
-
-      calcolaAngolo(torrettaX,torrettaY,oggettoX,oggettoY);
-      function calcolaAngolo(torrettaX, torrettaY, oggettoX, oggettoY) {
-      const deltaX = oggettoX - torrettaX;
-      const deltaY = torrettaY - oggettoY; // Inverti la differenza Y per il sistema di coordinate
-
-      let angoloInRadianti = Math.atan2(deltaY, deltaX);
-      let angoloInGradi = angoloInRadianti * (180 / Math.PI);
-
-  // Adatta l'angolo in base al sistema di coordinate desiderato
-      angoloInGradi = (450 - angoloInGradi) % 360;
-      console.log(angoloInGradi);
-      store.tower.rotation = angoloInGradi;
-      
-}
-      // // Aggiorna l'angolo di puntamento della torretta
-      // this.angoloTorretta = angolo;
-    }, 1000 / 120);
-  }
-},
-mounted() {
-  this.aggiornaAngoloPuntamento();
-},
-
-props:{
-  
-}
+methods: {},
+props:{}
 }
 </script>
 
@@ -66,7 +32,7 @@ props:{
   // left: 300px; /* Posiziona al centro orizzontalmente */
 
   // top: 600px; /* Posiziona nella parte inferiore con uno spazio di 10px */
-  transform: translate(-50%,-50%); /* Centra orizzontalmente */
+  // transform: translate(-50%,-50%); /* Centra orizzontalmente */
   // transform: rotate();
 
   // clip-path: polygon(0% 0%, 0% 0%,
@@ -76,14 +42,16 @@ props:{
                     
   // ); 
 
-  overflow: visible;
-  background-color: rgb(13, 14, 12);
-  width: 80px;
-  height: 80px;
+  // overflow: visible;
+  background-color: rgba(13, 14, 12, 0.24);
+  width: 60px;
+  height: 60px;
+  margin-top: -25px;
+  margin-left: -25px;
 
   & .cannon{
-    background-color: rgb(41, 53, 34);
-    position: relative;
+    background-color: rgba(41, 53, 34, 0.308);
+    position: absolute;
     transform: translate(-50%,-50%);
     top: 0%;
     left: 50%;
