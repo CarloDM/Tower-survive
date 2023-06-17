@@ -2,7 +2,7 @@ import {reactive} from 'vue';
 export const store = reactive ({
 
   tower : {
-          cord : {x:300,y:520},
+          cord : {x:300,y:560},
           rotation : 0,
           aim: false,
           attak: 1},
@@ -13,7 +13,7 @@ export const store = reactive ({
     // health: 1000, alive: true,}
   ],
 
-  shotCounter:1,
+  shotCounter:0,
   bullets:[
     // {
     //   id: 0,
@@ -32,8 +32,25 @@ export const store = reactive ({
 
   autoShot: false,
   autoAim: false,
+  manualAim: false,
   kills: 0,
   money: 0,
   dead:0,
 
+
+  // utiliti
+  checkDivider : true,
+  userShoting : false,
+  mouse : [0,0],
+  // animation frame
+  lastTime : 0,
+  lastTimeBullet : 0,
+  lastTimeReset : 0,
+  intervalFrame : (1000 / 60), // Intervallo di tempo desiderato (in millisecondi)
+  intervalBulletFrame : (1000 / 60), // Intervallo di tempo desiderato (in millisecondi)
+  shotTimeCounter : 0,
+  enemyfreq: 0,
+  frameCount: 0,
+  collisionfreq: 0,
+  resetTime: 0,
 })

@@ -3,8 +3,196 @@
 import {store} from '../data/store';
 // import {} from './mathFunction.js';
 
-export {animazioneMovimentoVerticale,bulletShot,aggiornaAngoloPuntamento,closestSoldier,rand};
+export {animazioneMovimentoVerticale,bulletShot,aggiornaAngoloPuntamento,manualAim,closestSoldier,rand,update};
 // ------------------------------------  <-----
+// let lastTime = 0;
+// const intervalFrame = 1000; // Intervallo di tempo desiderato (in millisecondi)
+
+function update() {
+  const currentTime = performance.now();
+  const deltaTime = currentTime - store.lastTime;
+
+  // Esegui la logica solo se è trascorso l'intervallo di tempo desiderato
+  if (deltaTime >= store.intervalFrame) {
+    // Logica da eseguire
+    const torrettaX = store.tower.cord.x; /* Coordinata X della torretta */
+    const torrettaY = store.tower.cord.y;  /* Coordinata Y della torretta */
+    const oggettoX = store.mouse[0]; /* Coordinata X dell'oggetto nemico */
+    const oggettoY = store.mouse[1];/* Coordinata Y dell'oggetto nemico */
+
+    calcolaAngolo(torrettaX,torrettaY,oggettoX,oggettoY);
+    function calcolaAngolo(torrettaX, torrettaY, oggettoX, oggettoY) {
+    const deltaX = oggettoX - torrettaX;
+    const deltaY = torrettaY - oggettoY; // Inverti la differenza Y per il sistema di coordinate
+
+    let angoloInRadianti = Math.atan2(deltaY, deltaX);
+    let angoloInGradi = angoloInRadianti * (180 / Math.PI);
+
+    // Adatta l'angolo in base al sistema di coordinate desiderato
+    angoloInGradi = (450 - angoloInGradi) % 360;
+    // console.log(angoloInGradi);
+    store.tower.rotation = angoloInGradi;
+  }
+
+
+
+    // Aggiorna il tempo di riferimento all'istante attuale
+    console.log('FRamE tower', currentTime, store.lastTime,'perfrmance now:', performance.now());
+    store.lastTime = currentTime;
+  }
+
+  
+
+  // Richiedi un nuovo frame di animazione
+  requestAnimationFrame(BulletUpdate);
+  
+
+//     requestAnimationFrame(BulletUpdate(
+//       store.bullets.find(item => item['id'] === newShot.id),
+//       store.tower.rotation,
+//       store.bullets.find(item => item['id'] === newShot.id).velocity
+// ));
+}
+
+
+
+// // Avvia l'aggiornamento
+// requestAnimationFrame(update);
+
+
+
+// let lastTime = 0;
+// const interval = 1000; // Intervallo di tempo desiderato (in millisecondi)
+
+function BulletUpdate() {
+  
+  
+  const currentTime = performance.now();
+  const deltaTime = currentTime - store.lastTimeBullet ;
+  
+  
+  
+  
+  
+  // Esegui la logica solo se è trascorso l'intervallo di tempo desiderato
+  if (deltaTime >= store.intervalBulletFrame) {
+    // Logica da eseguire
+    newshot();
+    let bullet = store.bullets[store.shotCounter],
+    Rotation = store.tower.rotation,
+    velocity = store.bullets[store.shotCounter].velocity;
+    store.shotCounter ++;
+    let life = bullet.autonomy;
+    let count = 0;
+    let countStop = 0;
+    let explose = false;
+    let velocitaXY = {};
+    velocitaXY = calcolaVelocitaMovimento(Rotation, velocity);
+    
+
+      // Calcola la nuova coordinata Y in base alla velocità
+      bullet.cord.y += velocitaXY.y ;
+      bullet.cord.x += velocitaXY.x ;
+      // contatore dissipazione
+      life -=  -((velocitaXY.x + velocitaXY.y)) ;
+      // -------------frequenza dimezzata---------
+      store.checkDivider = store.checkDivider;
+      if(store.checkDivider){
+        verificaCollisioneProiettile(bullet, store.army);
+      }
+      // ----------------------------------------
+      // interruzione spostamento in caso di collisione o fine pixel massimi percorribii
+      if (bullet.stop || life < 1 ||life > bullet.autonomy * 2 ){
+
+        count ++;
+        
+        let explodeDalay = setTimeout(() => {
+          explose = true;
+          clearInterval(shot);
+
+          countStop ++;
+          // console.log('clear interval',count,countStop);
+          if(count === countStop ){
+            console.log('ultimo',count,countStop);
+            calcolaDannoEsplosione(bullet,store.army); 
+          }
+        }, bullet.timeout);
+      }else{
+        // console.log('nessuno stop')
+      }
+
+
+
+
+
+    // Aggiorna il tempo di riferimento all'istante attuale
+    store.lastTimeBullet = currentTime;
+    console.log('FRamE proiettile', currentTime, store.lastTimeBullet ,'perfrmance now:', performance.now());
+  }
+
+  // Richiedi un nuovo frame di animazione
+  requestAnimationFrame(update);
+  
+  // Avvia l'aggiornamento
+  // requestAnimationFrame(update);
+}
+
+function newshot(){
+  // store.shotCounter ++;
+  const nshot =
+  {
+  id: 0,
+  cord : {x:300,y:520},
+  timeout: 20,
+  radius: 30,
+  velocity: 10,
+  damage : 650,
+  damageRadius: 100,
+  explode: false,
+  stop:false,
+  autonomy: 440,
+  rady: false,
+  };
+  nshot.id = store.shotCounter;
+  store.bullets.push(nshot);
+  // return nshot;
+
+}
+
+
+
+function  manualAim() {
+  store.manualAim = !store.manualAim;
+  if(store.manualAim){
+
+    let upgradeAngle = setInterval(() => {
+      if(!store.manualAim){clearInterval(upgradeAngle)};
+      if(store.manualAim){
+      const torrettaX = store.tower.cord.x; /* Coordinata X della torretta */
+      const torrettaY = store.tower.cord.y;  /* Coordinata Y della torretta */
+      const oggettoX = store.mouse[0]; /* Coordinata X dell'oggetto nemico */
+      const oggettoY = store.mouse[1];/* Coordinata Y dell'oggetto nemico */
+
+      calcolaAngolo(torrettaX,torrettaY,oggettoX,oggettoY);
+      function calcolaAngolo(torrettaX, torrettaY, oggettoX, oggettoY) {
+      const deltaX = oggettoX - torrettaX;
+      const deltaY = torrettaY - oggettoY; // Inverti la differenza Y per il sistema di coordinate
+
+      let angoloInRadianti = Math.atan2(deltaY, deltaX);
+      let angoloInGradi = angoloInRadianti * (180 / Math.PI);
+
+      // Adatta l'angolo in base al sistema di coordinate desiderato
+      angoloInGradi = (450 - angoloInGradi) % 360;
+      // console.log(angoloInGradi);
+      store.tower.rotation = angoloInGradi;
+    }
+
+    }else{clearInterval(upgradeAngle);}
+    // // Aggiorna l'angolo di puntamento della torretta
+  }, 1000 / 60);
+}
+}
+
 function  animazioneMovimentoVerticale(enemy) {
   const altezzaCampoBattaglia = 480; // Altezza del campo di battaglia
 
@@ -59,7 +247,12 @@ function  bulletShot(bullet, Rotation, velocity) {
       bullet.cord.x += velocitaXY.x ;
       // contatore dissipazione
       life -=  -((velocitaXY.x + velocitaXY.y)) ;
-      verificaCollisioneProiettile(bullet, store.army);
+      // -------------frequenza dimezzata---------
+      store.checkDivider = store.checkDivider;
+      if(store.checkDivider){
+        verificaCollisioneProiettile(bullet, store.army);
+      }
+      // ----------------------------------------
       // interruzione spostamento in caso di collisione o fine pixel massimi percorribii
       if (bullet.stop || life < 1 ||life > bullet.autonomy * 2 ){
 
@@ -70,7 +263,7 @@ function  bulletShot(bullet, Rotation, velocity) {
           clearInterval(shot);
 
           countStop ++;
-          console.log('clear interval',count,countStop);
+          // console.log('clear interval',count,countStop);
           if(count === countStop ){
             console.log('ultimo',count,countStop);
             calcolaDannoEsplosione(bullet,store.army); 
@@ -80,8 +273,8 @@ function  bulletShot(bullet, Rotation, velocity) {
         // console.log('nessuno stop')
       }
 
-      }, 1000 / 60); // Esegui l'animazione a 60 frame al secondo (puoi regolare il valore)
-  }, 150);
+      }, 1000 / 30); // Esegui l'animazione a 60 frame al secondo (puoi regolare il valore)
+  }, 1);
 
 };
 
@@ -99,7 +292,7 @@ function calcolaVelocitaMovimento(angolo, velocita) {
 }
 
 function verificaCollisioneProiettile(bullet, nemici) {
-  let nemiciColpiti = [];
+  // let nemiciColpiti = [];
 
   console.log('verifica collisione')
 
@@ -110,7 +303,7 @@ function verificaCollisioneProiettile(bullet, nemici) {
     let distanza = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     // console.log(nemico.id, distanza,  bullet.radius );
     if (distanza <= bullet.radius) {
-      nemiciColpiti.push(nemico.id);
+      // nemiciColpiti.push(nemico.id);
       console.warn('colpito bersaglio id:', nemico.id);
       bullet.stop= true;
       bullet.rady=true;
@@ -148,6 +341,10 @@ function calcolaDannoEsplosione(bullet, enemys) {
 
 function rand(min, max) {
   return Math.random() * (max - min) + min;};
+
+
+  // ----------------------------AIM------------------------------------------------------------------------
+
 
   function  aggiornaAngoloPuntamento(id) {
     store.autoAim = !store.autoAim;
@@ -196,6 +393,9 @@ function rand(min, max) {
     }, 0);
   }else{console.log('array vuoto')};
   }
+// ----------------------------------------------------------------------------------------------
+
+
 
   function stopTower(){
     store.tower.aim = !store.tower.aim;

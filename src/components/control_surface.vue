@@ -1,20 +1,80 @@
 <script>
+import { GlobalEvents } from 'vue-global-events';
 import {store} from '../data/store';
-import {bulletShot,animazioneMovimentoVerticale,aggiornaAngoloPuntamento,closestSoldier,rand} from '../functions/gameLogic';
+import {bulletShot,animazioneMovimentoVerticale,aggiornaAngoloPuntamento, manualAim,closestSoldier,rand,} from '../functions/gameLogic';
+
+import {update,wor} from '../functions/animated_Logic';
+
+
 export default {
   name:'ControlSurface',
   data(){
     return{
       store,
       // proiettili: ref([])
+      intervalId: null,
     }
   },
-  components:{},
+  components:{GlobalEvents,},
   methods:{
+
+    tryWorker(){
+      wor();
+    },
+
+    updateControl(){
+      update();
+    },
+    
+    manualAim(){
+      manualAim();
+    },
+    
+    updateTarget(event) {
+      if(event.target.id === "battle"){
+        store.mouse = [event.layerX,event.layerY];
+        // console.log(store.mouse)
+        // console.log('mouse-x:',event.layerX,'mouse-y:',event.layerY,);
+        // console.log('mouse-event:',event.target.id);
+        
+      }
+    },
+
+    // handleKeyDown(event) { 
+    //     // Tasto Space premuto
+    //     if((event.keyCode === 32) && (!store.userShoting)){
+    //       store.userShoting = true;
+    //       this.intervalId = setInterval(() => {
+    //         this.newshot();
+    //       }, 500);
+    //     // console.log('donw', event.keyCode);
+    //   }
+    // },  
+    // handleKeyUp(event) {
+    //   if(event.keyCode === 32){
+    //     store.userShoting = false;
+    //     clearInterval(this.intervalId);
+    //     this.intervalId = null;
+    //     // console.log('up', event.keyCode);
+    //   }
+    //     // Tasto Space rilasciato
+    //   },
+
     animEnemy(){
       store.army.forEach(enemy => {
         animazioneMovimentoVerticale(enemy)
       });
+    },
+    enemyClean(){
+      let clean = setInterval(() => {
+        if(store.army.length > 0){
+          store.army = store.army.filter(soldier => soldier.alive);
+        }
+      }, 2000);
+      // this.autoShot();
+      // this.autoAim();
+      // this.autoAim();
+      // this.autoShot();
     },
     enemypush(numb){
       for (let index = 0; index < numb; index++) {
@@ -26,7 +86,7 @@ export default {
               newEnemy.id = store.enemyCounter;
   
               store.army.push(newEnemy);
-              animazioneMovimentoVerticale(store.army[store.army.length - 1])
+              // animazioneMovimentoVerticale(store.army[store.army.length - 1])
               ;
       }
     },
@@ -38,7 +98,7 @@ export default {
       cord : {x:300,y:520},
       timeout: 20,
       radius: 30,
-      velocity: 5,
+      velocity: 10,
       damage : 650,
       damageRadius: 100,
       explode: false,
@@ -65,36 +125,49 @@ export default {
         }, 200);
       }else{}
     },
+
     stopTower(){
       console.log(store.tower.aim);
     },
+
     autoAim(){
       aggiornaAngoloPuntamento(closestSoldier(store.army));
     },
+
 
     deleteArmy(){
       store.army = [];
     store.bullets = [];
     },
-
-
   },
   props:{},
   mounted(){
+    // this.enemyClean();
   }
+
+
 }
 </script>
 
 <template>
+        <!-- @keydown="handleKeyDown" 
+      @keyup.space="handleKeyUp" -->
+    <GlobalEvents
+      @mousemove="updateTarget"
+      />
   <div class="control-surface d-flex flex-wrap m-auto">
 
 
-  <button @click="newshot()" class="btn">spara</button>
+
+  <!-- <button @click="newshot()" class="btn">spara</button>
   <button @click="autoShot()" class="btn">mitra</button>
   <button @click="animEnemy()" class="btn">anim y</button>
   <button @click="enemypush(10)" class="btn">enemypush</button>
   <button @click="autoAim()" class="btn">auto aim</button>
-  <button @click="deleteArmy()" class="btn">clean array</button>
+  <button @click="manualAim()" class="btn">manual aim</button>
+  <button @click="deleteArmy()" class="btn">clean array</button> -->
+  <button @click="updateControl()" class="btn">update test</button>
+  <button @click="tryWorker()" class="btn">wor</button>
 
 
 

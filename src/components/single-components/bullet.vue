@@ -1,21 +1,144 @@
 <script>
+import {store} from '../../data/store';
 export default {
   name:'Bullet',
   components:{},
-  methods:{},
-  props:{
-    explosionRadius: Number,
-    triggerArea: Number,
-    explode: Boolean,
-    rady: Boolean,
+  data(){
+    return{
+      triggerArea :{ width:  `${20 * 1.5}px`},
+      explosionArea :{ width:  `${20 * 1.5}px`},
+      bulletExist: true,
+    }
   },
+  props:{
+    // explosionRadius: Number,
+    // triggerArea: Number,
+    // explode: Boolean,
+    // rady: Boolean,
+    id: Number,
+  },
+  methods:{
+    getTriggerArea(){
+      // console.warn('gettriggerarea');
+      const bullet = store.bullets.find(bullet => bullet.id === this.id);
+      if (!bullet) {
+
+      }else{
+      const radiusNow = {
+                width:  `${bullet.radius * 1.5}px`,
+              };
+              this.triggerArea = radiusNow;
+              // console.warn(bullet.radius);
+
+              // return radiusNow;
+    }
+  },
+    getExplosionArea(){
+      // console.warn('get explosion radius');
+      const bullet = store.bullets.find(bullet => bullet.id === this.id);
+      if (!bullet) {
+
+      }else{
+      const radiusNow = {
+                width:  `${bullet.damageRadius * 1.5}px`,
+              };
+              this.explosionArea = radiusNow;
+              // console.warn(bullet.damageRadius);
+
+              // return radiusNow;
+    }
+  },
+  selfKill(){
+    console.warn('set kill - 0.12 sec');
+    let timeoutA = setTimeout(() => {
+      this.beforeDestroy();
+    }, 100);
+    timeoutA;
+    let timeoutB = setTimeout(() => {
+      this.destroy();
+    }, 120);
+    timeoutB;
+  },
+  beforeDestroy() {
+    this.bulletExist = false;
+  },
+  destroy(){
+    // this.$off();
+    // this.$destroy();
+    if(this.$el.parentNode){
+      this.$el.parentNode.removeChild(this.$el);
+
+    }
+  }
+},
+
+  computed:{
+    // checkDie(){
+    //   const bullet = store.bullets.find(bullet => bullet.id === this.id);
+    //   if(!bullet){
+    //     let cip = bullet.cord.x
+    //     console.log('check', cip);
+    //   }else{
+    //     let cip = bullet.cord.x
+    //     console.log('check', cip);
+    //     return cip;
+    //   }
+    //   // store.bullets[id].life = 
+    // },
+    bulletCssUpgrade(){
+      if(this.bulletExist){
+      // console.log('css upgrade')
+      const bullet = store.bullets.find(bullet => bullet.id === this.id);
+            // Verifica se il proiettile è stato trovato nello store
+            if (!bullet) {
+            // Gestisci il caso in cui il proiettile non sia presente nello store
+            // return {};
+            }else{
+              const styleNow = {
+                left: `${bullet.cord.x}px`,
+                top: `${bullet.cord.y}px`,
+              };
+              return styleNow;
+            }
+          }else{console.warn('KILLING bul up')}
+      // Calcola le proprietà di stile in base alle coordinate e altre informazioni del proiettile
+    },
+    bulletRady(){
+      // console.log('bullet rady');
+      if(this.bulletExist){
+      const bullet = store.bullets.find(bullet => bullet.id === this.id);
+      if(bullet.rady){
+        return true;
+      }else{
+        return false;
+      }
+    }else{console.warn('KILLING bul rady')}
+    },
+    bulletExplode(){
+      // console.log('bullet explode', this.id);
+      if(this.bulletExist){
+      const bullet = store.bullets.find(bullet => bullet.id === this.id);
+      if(bullet.explode){
+        return true;
+      }else{
+        return false;
+      }
+    }else{console.warn('KILLING explode')}
+    },
+  },
+
+  mounted(){
+    this.getTriggerArea();
+    this.getExplosionArea();
+    // this.selfKill();
+  }
 }
 </script>
 
 <template>
-  <div class="bullet" :class="rady ? 'rady' : ''">
-    <div class="explosion" :class="explode ? 'active' : ''"  :style="{ width: explosionRadius * 1.5 + 'px' }"></div>
-    <div class="trigger-area"  :style="{ width: triggerArea * 1.5 + 'px' }"></div>
+  <div class="bullet" :class="bulletRady ? 'rady' : '' " :style=" bulletCssUpgrade">
+    <div class="explosion" :class="bulletExplode ? 'active' : ''"  :style="explosionArea"></div>
+    <div class="trigger-area"  :style="triggerArea"></div>
 
 
   </div>

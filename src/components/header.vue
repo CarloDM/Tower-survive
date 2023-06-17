@@ -30,6 +30,12 @@ export default {
     <li class="">soldi:
     {{ store.money }}
     </li>
+    <li class="">
+      <h5>FRAME</h5>
+      <!-- <P> {{ store.frameCount }}</P> -->
+      <!-- <P>SEC: {{ ((store.frameCount)  /12) }}</P> -->
+  
+    </li>
   </ul>
 
 </header>
