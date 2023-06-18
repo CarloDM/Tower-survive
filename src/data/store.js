@@ -53,4 +53,5 @@ export const store = reactive ({
   frameCount: 0,
   collisionfreq: 0,
   resetTime: 0,
+  armyBuffer:[],
 })

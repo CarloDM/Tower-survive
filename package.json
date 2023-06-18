@@ -16,9 +16,6 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.1.0",
     "sass": "^1.63.2",
-    "vite": "^4.3.9",
-    "vite-plugin-pwa": "^0.16.4",
-    "webpack": "^5.87.0",
-    "worker-loader": "^3.0.8"
+    "vite": "^4.3.9"
   }
 }

@@ -1,26 +1,12 @@
 
 // ------------------------------------- in out-
 import {store} from '../data/store';
+import {mouseStore} from '../data/mouseStore';
 // import {} from './mathFunction.js';
 
-export {update,wor};
-
-// main.js
-// import Worker from './workers/Worker';
-function wor(){
-  
-  const worker = new Worker('./workers/Worker');
-
-  worker.postMessage(10); // Invia dati al Worker
-  
-  worker.onmessage = function(event) {
-    const result = event.data;
-    console.log(result); // Stampa il risultato ricevuto dal Worker
-  };
-  // worker.postMessage(data);
-  // --------------
-}
-
+export {update,calculateRotation};
+import MyWorker from './workers/Worker?worker';
+import ExplosionWorker from './workers/ExplosionWorker?worker';
 
 
 // ANIMATION FRAME -------------------->
@@ -33,20 +19,20 @@ function update() {
   if (deltaTime >= store.intervalFrame) {
 
     // ON FRAME
-      calculateRotation();
+      // calculateRotation();
       if(store.army.length > 4 ){
         store.army = store.army.filter(soldier => soldier.alive);
       }
 
       
-      store.enemyfreq ++
-      if(store.enemyfreq % 20 === 0){
-        enemypush(2);
+      if(store.frameCount % 10 === 0){
+        enemypush(6);
       }
-      
-        store.army.forEach(soldier => {
-          animazioneMovimentoVerticale(soldier);
-        }); 
+        if(store.army.length > 0){
+          store.army.forEach(soldier => {
+            animazioneMovimentoVerticale(soldier);
+          }); 
+        }
 
       
       
@@ -54,10 +40,7 @@ function update() {
       //   store.army = [];
       // };
 
-
-
-      store.bulletLostCheck ++
-      if(store.bulletLostCheck  % 91 === 0){
+      if(store.frameCount % 4 === 0){
       store.bullets.forEach(bullet => {
         checkBullet(bullet, store.army);
       });
@@ -84,7 +67,7 @@ function update() {
       
       store.lastTime = currentTime;
     }
-    if(store.resetTime % 1800 === 0){
+    if(store.frameCount % 1800 === 0){
       requestAnimationFrame(resetArrays);
     }else{
       // Richiedi un nuovo frame di animazione
@@ -93,51 +76,26 @@ function update() {
 }
 
 
-function resetArrays(){
-  store.frameCount ++;
-  const currentTime = performance.now();
-  const deltaTime = currentTime - store.lastTimeReset;
-  if (deltaTime >= store.intervalFrame) {
-  store.resetTime = 0,
-  store.shotTimeCounter =  0;
-  store.enemyfreq =  0;
-  store.frameCount = 0;
-  store.collisionfreq =  0;
-  store.army = [];
-  store.bullets = [];
-  store.tower.rotation = 0;
-  console.warn('RESET MEMORY');
-  console.warn('RESET MEMORY');
-  console.warn('RESET MEMORY');
-  console.warn('RESET MEMORY');
-  console.warn('RESET MEMORY');
-  console.warn('RESET MEMORY');
-  store.resetTime ++
-  store.lastTimeReset = currentTime;
-}
-requestAnimationFrame(update);
-}
-
 function BulletUpdate() {
-  store.frameCount ++;
+
   const currentTime = performance.now();
   const deltaTime = currentTime - store.lastTimeBullet ;
   
   // Esegui la logica solo se è trascorso l'intervallo di tempo desiderato
   if (deltaTime >= store.intervalBulletFrame) {
 
-    calculateRotation();
+    // calculateRotation();
     // Logica da eseguire
-    store.shotTimeCounter ++
-    if((store.shotTimeCounter % 6) === 0 ){
+
+    if((store.frameCount % 4) === 0 ){
       newshot();
     }
 
-    if((store.shotTimeCounter % 600) === 0 ){
+    if((store.frameCount % 600) === 0 ){
       store.bullets = [];
     }
 
-    if(store.bullets.length > 0){
+    if(store.bullets){
       store.bullets.forEach(bullet => {
         bulletComputation(bullet,store.army);
       });
@@ -150,6 +108,27 @@ function BulletUpdate() {
   }
     // Richiedi un nuovo frame di animazione
     requestAnimationFrame(update);
+}
+
+
+function resetArrays(){
+
+  const currentTime = performance.now();
+  const deltaTime = currentTime - store.lastTimeReset;
+  if (deltaTime >= store.intervalFrame) {
+  store.resetTime = 0,
+  store.shotTimeCounter =  0;
+  store.enemyfreq =  0;
+  store.frameCount = 0;
+  store.collisionfreq =  0;
+  store.army = [];
+  store.bullets = [];
+  store.tower.rotation = 0;
+  console.warn('RESET MEMORY');
+  store.resetTime ++
+  store.lastTimeReset = currentTime;
+}
+requestAnimationFrame(update);
 }
 // ANIMATION FRAME --------------------<-------
 
@@ -167,13 +146,13 @@ function enemypush(numb){
           ;
   }}
 function checkBullet(bullet,army){
-    bullet.count;
+    // bullet.count;
   // let count = 0;
-    bullet.countStop;
+    // bullet.countStop;
   // let countStop = 0;
         // ----------------------------------------
     // interruzione spostamento in caso di collisione o fine pixel massimi percorribii
-    if (bullet.stop || bullet.autonomy < 1 || bullet.autonomy > bullet.autonomy * 2 ){
+    if (bullet.stop || bullet.autonomy < 1 || bullet.autonomy > bullet.autonomy  ){
 
       bullet.countStop ++;
       
@@ -189,7 +168,7 @@ function checkBullet(bullet,army){
 
           // console.log('ultimo',bullet.count,bullet.countStop);
 
-          calcolaDannoEsplosione(bullet, army); 
+          // calcolaDannoEsplosione(bullet, army); 
         // }
       }, bullet.timeout);
     }
@@ -207,12 +186,13 @@ function bulletComputation(bullet, army) {
       bullet.cord.y += bullet.velXY.y ;
       bullet.cord.x += bullet.velXY.x ;
       // contatore dissipazione
-      bullet.autonomy -=  -((bullet.velXY.x + bullet.velXY.y)) ;
-      store.collisionfreq ++
+      bullet.autonomy -= (( Math.abs(bullet.velXY.x) + Math.abs(bullet.velXY.y))) ;
+
+      // store.collisionfreq ++
       if(store.enemyfreq % 2 === 0){
         verificaCollisioneProiettile(bullet, army);
       }
-
+      console.warn('bullet computation', bullet.id)
 }
 function verificaCollisioneProiettile(bullet, nemici) {
   // let nemiciColpiti = [];
@@ -230,6 +210,7 @@ function verificaCollisioneProiettile(bullet, nemici) {
 
     return distanza <= raggioEsplosione;
   });
+
   if(armyBuffer.length > 0){
     for (const nemico of armyBuffer)  {
       if(nemico.alive){
@@ -254,43 +235,56 @@ function verificaCollisioneProiettile(bullet, nemici) {
 }
 
 function calcolaDannoEsplosione(bullet, enemys) {
-  const centroX = bullet.cord.x;
-  const centroY = bullet.cord.y;
-  const raggioEsplosione = bullet.damageRadius;
+  // const centroX = bullet.cord.x;
+  // const centroY = bullet.cord.y;
+  // const raggioEsplosione = bullet.damageRadius;
 
-  let armyBuffer = enemys.filter((enemy)=>{
-    const distanzaX = Math.abs(centroX - enemy.cord.x);
-    const distanzaY = Math.abs(centroY - enemy.cord.y);
-    const distanza = Math.sqrt(distanzaX * distanzaX + distanzaY * distanzaY);
-    return distanza <= raggioEsplosione;
+  // let armyBuffer = enemys.filter((enemy)=>{
+  //   const distanzaX = Math.abs(centroX - enemy.cord.x);
+  //   const distanzaY = Math.abs(centroY - enemy.cord.y);
+  //   const distanza = Math.sqrt(distanzaX * distanzaX + distanzaY * distanzaY);
+  //   return distanza <= raggioEsplosione;
+  // });
+  // ------ send to worker ---------
+  const explWorker = new ExplosionWorker();
+
+  let 
+  noProxyArmy = JSON.parse(JSON.stringify(enemys)),
+  noProxyBullet = JSON.parse(JSON.stringify(bullet));
+  // console.log( 'tradotto ', noProxyBullet);
+
+  explWorker.postMessage([noProxyBullet,noProxyArmy]);
+
+
+  // armyBuffer.forEach((nemico) => {
+  //   const distanzaX = Math.abs(centroX - nemico.cord.x);
+  //   const distanzaY = Math.abs(centroY - nemico.cord.y);
+  //   const distanza = Math.sqrt(distanzaX * distanzaX + distanzaY * distanzaY);
+  //   if (distanza <= raggioEsplosione) {
+  //     if(nemico.health > 0){
+  //     const dannoInflitto = bullet.damage * (1 - distanza / raggioEsplosione);
+  //     nemico.health -= dannoInflitto;
+  //     console.log('colpito id', nemico.id, parseInt(nemico.health) , 'danno inflitto', parseInt(dannoInflitto));
+  //   }}
+  // });
+  // let armyBuffer = [];
+  explWorker.addEventListener("message", function(event) {
+    store.army = event.data;
+    console.log('army modificato',store.army);
+    // // Sovrascrivi gli enemy originali nell'array army con gli enemy modificati presenti in enemyBuffer
+    //     armyBuffer.forEach((modifiedEnemy) => {
+    //     const index = enemys.findIndex((enemy) => enemy.id === modifiedEnemy.id);
+    //     if (index !== -1) {
+    //       enemys[index] = { ...modifiedEnemy };
+    //     }
+    //     });
   });
-
-  armyBuffer.forEach((nemico) => {
-    const distanzaX = Math.abs(centroX - nemico.cord.x);
-    const distanzaY = Math.abs(centroY - nemico.cord.y);
-    const distanza = Math.sqrt(distanzaX * distanzaX + distanzaY * distanzaY);
-    if (distanza <= raggioEsplosione) {
-      if(nemico.health > 0){
-      const dannoInflitto = bullet.damage * (1 - distanza / raggioEsplosione);
-      nemico.health -= dannoInflitto;
-      console.log('colpito id', nemico.id, parseInt(nemico.health) , 'danno inflitto', parseInt(dannoInflitto));
-    }}
-
-  });
-  enemys.forEach((enemy) => {
-    const index = store.army.indexOf(enemy);
-    if (index !== -1) {
-      store.army[index] = enemy;
-    }
-  });
-
   bullet.explode = true;
   let endExplosion = setTimeout(() => {
   bullet.explode = false;
   // delete store.bullets.shift();
   store.bullets = store.bullets.filter(item => item.id !== bullet.id);
   // bullet.$destroy(); // Distruggi il componente proiettile
-  
   }, 200);
 }
 
@@ -301,10 +295,10 @@ function newshot(){
   id: 0,
   cord : {x:300,y:560},
   timeout: 1,
-  radius: 80,
-  velocity:13,
+  radius: 60,
+  velocity:18,
   damage : 20000,
-  damageRadius: 160,
+  damageRadius: 80,
   explode: false,
   stop:false,
   autonomy: 400,
@@ -327,20 +321,30 @@ function calculateRotation() {
   // const torrettaY = store.tower.cord.y;  /* Coordinata Y della torretta */
   // const oggettoX = store.mouse[0]; /* Coordinata X dell'oggetto nemico */
   // const oggettoY = store.mouse[1];/* Coordinata Y dell'oggetto nemico */
+  const worker = new MyWorker()
+  let upgrade = setInterval(() => {
+      worker.postMessage([store.tower.cord.x, store.tower.cord.y, mouseStore.mouse[0], mouseStore.mouse[1]]);
+  }, 10);
+  upgrade;
 
-  calcolaAngolo(store.tower.cord.x,store.tower.cord.y,store.mouse[0],store.mouse[1]);
-  function calcolaAngolo(torrettaX, torrettaY, oggettoX, oggettoY) {
-  const deltaX = oggettoX - torrettaX;
-  const deltaY = torrettaY - oggettoY; // Inverti la differenza Y per il sistema di coordinate
+  worker.addEventListener("message", function(event) {
+	// console.log(event.data);
+  store.tower.rotation = event.data;
+});
 
-  let angoloInRadianti = Math.atan2(deltaY, deltaX);
-  let angoloInGradi = angoloInRadianti * (180 / Math.PI);
+//   calcolaAngolo(store.tower.cord.x,store.tower.cord.y,store.mouse[0],store.mouse[1]);
+//   function calcolaAngolo(torrettaX, torrettaY, oggettoX, oggettoY) {
+//   const deltaX = oggettoX - torrettaX;
+//   const deltaY = torrettaY - oggettoY; // Inverti la differenza Y per il sistema di coordinate
 
-  // Adatta l'angolo in base al sistema di coordinate desiderato
-  angoloInGradi = (450 - angoloInGradi) % 360;
-  // console.log(angoloInGradi);
-  store.tower.rotation = angoloInGradi;
-}
+//   let angoloInRadianti = Math.atan2(deltaY, deltaX);
+//   let angoloInGradi = angoloInRadianti * (180 / Math.PI);
+
+//   // Adatta l'angolo in base al sistema di coordinate desiderato
+//   angoloInGradi = (450 - angoloInGradi) % 360;
+//   // console.log(angoloInGradi);
+  // store.tower.rotation = angoloInGradi;
+// }
 }
 
 function  animazioneMovimentoVerticale(enemy) {

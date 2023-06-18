@@ -128,8 +128,8 @@ export default {
   },
 
   mounted(){
-    this.getTriggerArea();
-    this.getExplosionArea();
+    // this.getTriggerArea();
+    // this.getExplosionArea();
     // this.selfKill();
   }
 }

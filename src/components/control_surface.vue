@@ -1,16 +1,18 @@
 <script>
 import { GlobalEvents } from 'vue-global-events';
 import {store} from '../data/store';
+import {mouseStore} from '../data/mouseStore';
 import {bulletShot,animazioneMovimentoVerticale,aggiornaAngoloPuntamento, manualAim,closestSoldier,rand,} from '../functions/gameLogic';
 
-import {update,wor} from '../functions/animated_Logic';
-
+import {update,calculateRotation} from '../functions/animated_Logic';
+// import MyWorker from '../functions/workers/Worker?worker';
 
 export default {
   name:'ControlSurface',
   data(){
     return{
       store,
+      mouseStore,
       // proiettili: ref([])
       intervalId: null,
     }
@@ -19,7 +21,7 @@ export default {
   methods:{
 
     tryWorker(){
-      wor();
+        calculateRotation();
     },
 
     updateControl(){
@@ -32,11 +34,9 @@ export default {
     
     updateTarget(event) {
       if(event.target.id === "battle"){
-        store.mouse = [event.layerX,event.layerY];
-        // console.log(store.mouse)
-        // console.log('mouse-x:',event.layerX,'mouse-y:',event.layerY,);
-        // console.log('mouse-event:',event.target.id);
-        
+        mouseStore.mouse = [event.layerX,event.layerY];
+        // console.log(mouseStore.mouse[0],  event.layerX, mouseStore.mouse[1],  event.layerY )
+        console.log( event.layerX,  event.layerY )
       }
     },
 

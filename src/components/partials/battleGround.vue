@@ -4,7 +4,7 @@ import {store} from '../../data/store'
 import Tower from '../single-components/tower.vue';
 import Enemy from '../single-components/enemy.vue';
 import Bullet from '../single-components/bullet.vue';
-import {bulletShot} from '../../functions/gameLogic';
+// import {bulletShot} from '../../functions/gameLogic';
 export default {
   name:'BattleGrond',
   data(){
@@ -41,7 +41,9 @@ export default {
     
     />
 
-    <Bullet v-for="bullet, id in store.bullets" :key="id"
+    <Bullet
+    v-if="(store.bullets.length > 0)"
+    v-for="bullet, id in store.bullets" :key="id"
     class="bullet-container" 
     :id="bullet.id"
     
