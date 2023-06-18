@@ -166,8 +166,8 @@ export default {
   <button @click="autoAim()" class="btn">auto aim</button>
   <button @click="manualAim()" class="btn">manual aim</button>
   <button @click="deleteArmy()" class="btn">clean array</button> -->
-  <button @click="updateControl()" class="btn">update test</button>
-  <button @click="tryWorker()" class="btn">wor</button>
+  <button @click="updateControl()" class="">update test</button>
+  <button @click="tryWorker()" class="">active mouse aim</button>
 
 
 

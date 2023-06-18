@@ -25,8 +25,8 @@ function update() {
       }
 
       
-      if(store.frameCount % 10 === 0){
-        enemypush(6);
+      if(store.frameCount % 28 === 0){
+        enemypush(2);
       }
         if(store.army.length > 0){
           store.army.forEach(soldier => {
@@ -87,7 +87,7 @@ function BulletUpdate() {
     // calculateRotation();
     // Logica da eseguire
 
-    if((store.frameCount % 4) === 0 ){
+    if((store.frameCount % 10) === 0 ){
       newshot();
     }
 
@@ -137,7 +137,7 @@ function enemypush(numb){
     store.enemyCounter ++;
     const newEnemy =
           {cord : {x:150,y:0}, id:0,
-          health: 5000, alive: true,};
+          health: 100000, alive: true,};
           newEnemy.cord = {x:rand(50,550),y:rand(-160, -50)};
           newEnemy.id = store.enemyCounter;
 
@@ -223,7 +223,9 @@ function verificaCollisioneProiettile(bullet, nemici) {
         console.warn('colpito bersaglio id:', nemico.id);
         bullet.stop= true;
         bullet.rady=true;
-        calcolaDannoEsplosione(bullet,nemici);
+        if(store.frameCount % 2 === 0){
+          calcolaDannoEsplosione(bullet,nemici);
+        }
         break;
         // return true; 
       }}
@@ -295,9 +297,9 @@ function newshot(){
   id: 0,
   cord : {x:300,y:560},
   timeout: 1,
-  radius: 60,
-  velocity:18,
-  damage : 20000,
+  radius: 40,
+  velocity:20,
+  damage : 40000,
   damageRadius: 80,
   explode: false,
   stop:false,
@@ -324,7 +326,7 @@ function calculateRotation() {
   const worker = new MyWorker()
   let upgrade = setInterval(() => {
       worker.postMessage([store.tower.cord.x, store.tower.cord.y, mouseStore.mouse[0], mouseStore.mouse[1]]);
-  }, 10);
+  }, 20);
   upgrade;
 
   worker.addEventListener("message", function(event) {
@@ -351,7 +353,7 @@ function  animazioneMovimentoVerticale(enemy) {
   if(enemy.alive){
   const altezzaCampoBattaglia = 520; // Altezza del campo di battaglia
 
-    const velocitaMovimento =  3; // Velocità di movimento in pixel per frame (puoi regolare   il valore)
+    const velocitaMovimento =  1.0; // Velocità di movimento in pixel per frame (puoi regolare   il valore)
 
       // let interval = setInterval(() => {
       // Calcola la nuova coordinata Y in base alla velocità
