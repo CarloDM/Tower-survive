@@ -24,8 +24,10 @@ props:{}
             }"
     > 
     <div class="cannon visible">
-      
     </div>
+    <div class="laser visible">
+    </div>
+
     <!-- <LifeBar  /> -->
     
     
@@ -50,6 +52,17 @@ props:{}
     left: 50%;
     width: 15px;
     height: 75px;
+    z-index: 999;
+  }
+  & .laser{
+    background-color: rgba(212, 91, 21, 0.438);
+    box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.466);
+    position: absolute;
+    transform: translate(-50%,-120%);
+    top: 0%;
+    left: 50%;
+    width: 1px;
+    height: 400px;
     z-index: 999;
   }
 }
