@@ -24,11 +24,12 @@ export default {
 
   .life-bar{
     position: absolute;
-    transform: translate(0,0%);
-    bottom: -10px;
-    width: 60px;
-    height: 8px;
+    transform: translate(-20%, 0%);
+    bottom: -5px;
+    width: 50px;
+    height: 4px;
     border: 1px solid black;
+    opacity: 0.5;
     & .health{
       background-color: rgb(9, 255, 0);
       height: 100%;
