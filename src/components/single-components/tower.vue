@@ -1,48 +1,41 @@
 <script>
 import {store} from '../../data/store';
+import LifeBar from '../single-components/lifeBar.vue'
 export default {
 name: 'Tower',
 data() {
   return {
     store,
-    angoloTorretta: 0, // Angolo di puntamento corrente della torretta
+
   };
 },
 methods: {},
+components : {LifeBar,},
 props:{}
 }
 </script>
 
 <template>
-  <div class="tower visible" 
+  <div 
+  class="tower visible" 
   :style="{ transform: `rotate(${store.tower.rotation}deg)`,
-            left: store.tower.cord.x + 'px',
-            top: store.tower.cord.y + 'px', 
-          }"> 
-
-          <div class="cannon visible"></div>
+              left: store.tower.cord.x + 'px',
+              top: store.tower.cord.y + 'px', 
+            }"
+    > 
+    <div class="cannon visible">
+      
+    </div>
+    <!-- <LifeBar  /> -->
+    
+    
   </div>
-  
 </template>
 
 
 <style lang="scss" scoped>
 .tower{
   position: absolute;
-  // left: 300px; /* Posiziona al centro orizzontalmente */
-
-  // top: 600px; /* Posiziona nella parte inferiore con uno spazio di 10px */
-  // transform: translate(-50%,-50%); /* Centra orizzontalmente */
-  // transform: rotate();
-
-  // clip-path: polygon(0% 0%, 0% 0%,
-  //                   0% 100%,
-  //                   100% 100%,
-  //                   100% 0%,
-                    
-  // ); 
-
-  // overflow: visible;
   background-color: rgba(13, 14, 12, 0.24);
   width: 60px;
   height: 60px;

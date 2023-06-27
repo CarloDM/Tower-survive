@@ -1,10 +1,9 @@
 <script>
-// import { ref } from 'vue';
 import {store} from '../../data/store'
 import Tower from '../single-components/tower.vue';
 import Enemy from '../single-components/enemy.vue';
 import Bullet from '../single-components/bullet.vue';
-// import {bulletShot} from '../../functions/gameLogic';
+
 export default {
   name:'BattleGrond',
   data(){
@@ -14,8 +13,13 @@ export default {
     }
   },
   components:{Tower,Enemy,Bullet},
-  methods:{
-
+  methods:{},
+  computed:{
+    getHealth(index){
+      console.log(index);
+      let h = store.army[index].health ;
+      return h;
+    }
   },
   props:{},
   mounted(){
@@ -30,13 +34,14 @@ export default {
 
 <template>
   <div id="battle" class="battle-ground">battle
-    <Tower />
 
+    <Tower />
+    
     <Enemy class=""
 
-    v-for="enemy, index in store.army" :key="index"
+    v-for="(enemy, index) in store.army" :key="index"
     :id="index"
-    :health="parseInt(enemy.health) "
+    :health="Math.trunc(enemy.health)"
     :alive="enemy.alive"
     
     />

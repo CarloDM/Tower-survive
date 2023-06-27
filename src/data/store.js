@@ -41,7 +41,7 @@ export const store = reactive ({
   // utiliti
   checkDivider : true,
   userShoting : false,
-  mouse : [0,0],
+
   // animation frame
   lastTime : 0,
   lastTimeBullet : 0,

@@ -1,13 +1,10 @@
-
 // ------------------------------------- in out-
 import {store} from '../data/store';
 import {mouseStore} from '../data/mouseStore';
 // import {} from './mathFunction.js';
-
 export {update,calculateRotation};
 import MyWorker from './workers/Worker?worker';
 import ExplosionWorker from './workers/ExplosionWorker?worker';
-
 
 // ANIMATION FRAME -------------------->
 function update() {
@@ -25,7 +22,7 @@ function update() {
       }
 
       
-      if(store.frameCount % 28 === 0){
+      if(store.frameCount % 40 === 0){
         enemypush(2);
       }
         if(store.army.length > 0){
@@ -34,38 +31,13 @@ function update() {
           }); 
         }
 
-      
-      
-      // if(store.enemyfreq % 500 === 0){
-      //   store.army = [];
-      // };
-
       if(store.frameCount % 4 === 0){
       store.bullets.forEach(bullet => {
         checkBullet(bullet, store.army);
       });
     }
     store.resetTime ++
-    // if(store.resetTime % 1001 === 0){
-    //   requestAnimationFrame(resetArrays);
-    // }else{
-    // }
-    
-    // if(store.resetTime % 1000 === 0){
-      //   store.shotCounter = 0,
-      //   store.enemyCounter = 0,
-      //   store.resetTime = 0;
-      //   store.shotTimeCounter =  0;
-      //   store.enemyfreq =  0;
-      //   store.frameCount = 0;
-      //   store.collisionfreq =  0;
-      //   store.army = [];
-      //   store.bullets = [];
-      // }
-      // Aggiorna il tempo di riferimento all'istante attuale
-      // console.log(store.frameCount,'FRamE tower', currentTime, store.lastTime,'perfrmance now:', performance.now());
-      
-      store.lastTime = currentTime;
+    store.lastTime = currentTime;
     }
     if(store.frameCount % 1800 === 0){
       requestAnimationFrame(resetArrays);
@@ -74,7 +46,6 @@ function update() {
       requestAnimationFrame(BulletUpdate);
     }
 }
-
 
 function BulletUpdate() {
 
@@ -110,7 +81,6 @@ function BulletUpdate() {
     requestAnimationFrame(update);
 }
 
-
 function resetArrays(){
 
   const currentTime = performance.now();
@@ -137,14 +107,16 @@ function enemypush(numb){
     store.enemyCounter ++;
     const newEnemy =
           {cord : {x:150,y:0}, id:0,
-          health: 100000, alive: true,};
-          newEnemy.cord = {x:rand(50,550),y:rand(-160, -50)};
+          health: 500, alive: true, speed: 1,};
+          newEnemy.cord = {x:rand(50,550), y:rand(-160, -50)};
+          newEnemy.speed = rand(0.4, 1.7);
           newEnemy.id = store.enemyCounter;
 
           store.army.push(newEnemy);
           // animazioneMovimentoVerticale(store.army[store.army.length - 1])
           ;
   }}
+
 function checkBullet(bullet,army){
     // bullet.count;
   // let count = 0;
@@ -176,6 +148,10 @@ function checkBullet(bullet,army){
 
 function bulletComputation(bullet, army) {
 
+    if(!bullet.explode){
+
+
+
     if(!bullet.isDirected){
         bullet.velXY = calcolaVelocitaMovimento(store.tower.rotation, bullet.velocity);
         bullet.isDirected = true;
@@ -188,16 +164,14 @@ function bulletComputation(bullet, army) {
       // contatore dissipazione
       bullet.autonomy -= (( Math.abs(bullet.velXY.x) + Math.abs(bullet.velXY.y))) ;
 
-      // store.collisionfreq ++
       if(store.enemyfreq % 2 === 0){
         verificaCollisioneProiettile(bullet, army);
       }
-      console.warn('bullet computation', bullet.id)
+      // console.warn('bullet computation', bullet.id);
+    }
 }
-function verificaCollisioneProiettile(bullet, nemici) {
-  // let nemiciColpiti = [];
 
-  // console.log('verifica collisione')
+function verificaCollisioneProiettile(bullet, nemici) {
 
   const centroX = bullet.cord.x;
   const centroY = bullet.cord.y;
@@ -230,23 +204,13 @@ function verificaCollisioneProiettile(bullet, nemici) {
         // return true; 
       }}
     }
-
   }
 
 
 }
 
 function calcolaDannoEsplosione(bullet, enemys) {
-  // const centroX = bullet.cord.x;
-  // const centroY = bullet.cord.y;
-  // const raggioEsplosione = bullet.damageRadius;
 
-  // let armyBuffer = enemys.filter((enemy)=>{
-  //   const distanzaX = Math.abs(centroX - enemy.cord.x);
-  //   const distanzaY = Math.abs(centroY - enemy.cord.y);
-  //   const distanza = Math.sqrt(distanzaX * distanzaX + distanzaY * distanzaY);
-  //   return distanza <= raggioEsplosione;
-  // });
   // ------ send to worker ---------
   const explWorker = new ExplosionWorker();
 
@@ -257,33 +221,14 @@ function calcolaDannoEsplosione(bullet, enemys) {
 
   explWorker.postMessage([noProxyBullet,noProxyArmy]);
 
-
-  // armyBuffer.forEach((nemico) => {
-  //   const distanzaX = Math.abs(centroX - nemico.cord.x);
-  //   const distanzaY = Math.abs(centroY - nemico.cord.y);
-  //   const distanza = Math.sqrt(distanzaX * distanzaX + distanzaY * distanzaY);
-  //   if (distanza <= raggioEsplosione) {
-  //     if(nemico.health > 0){
-  //     const dannoInflitto = bullet.damage * (1 - distanza / raggioEsplosione);
-  //     nemico.health -= dannoInflitto;
-  //     console.log('colpito id', nemico.id, parseInt(nemico.health) , 'danno inflitto', parseInt(dannoInflitto));
-  //   }}
-  // });
-  // let armyBuffer = [];
   explWorker.addEventListener("message", function(event) {
     store.army = event.data;
-    console.log('army modificato',store.army);
-    // // Sovrascrivi gli enemy originali nell'array army con gli enemy modificati presenti in enemyBuffer
-    //     armyBuffer.forEach((modifiedEnemy) => {
-    //     const index = enemys.findIndex((enemy) => enemy.id === modifiedEnemy.id);
-    //     if (index !== -1) {
-    //       enemys[index] = { ...modifiedEnemy };
-    //     }
-    //     });
+    console.log('army modificato', store.army);
   });
+  
   bullet.explode = true;
   let endExplosion = setTimeout(() => {
-  bullet.explode = false;
+  // bullet.explode = false;
   // delete store.bullets.shift();
   store.bullets = store.bullets.filter(item => item.id !== bullet.id);
   // bullet.$destroy(); // Distruggi il componente proiettile
@@ -296,10 +241,10 @@ function newshot(){
   {
   id: 0,
   cord : {x:300,y:560},
-  timeout: 1,
-  radius: 40,
-  velocity:20,
-  damage : 40000,
+  timeout: 200,
+  radius: 30,
+  velocity:15,
+  damage : 400,
   damageRadius: 80,
   explode: false,
   stop:false,
@@ -353,7 +298,7 @@ function  animazioneMovimentoVerticale(enemy) {
   if(enemy.alive){
   const altezzaCampoBattaglia = 520; // Altezza del campo di battaglia
 
-    const velocitaMovimento =  1.0; // Velocità di movimento in pixel per frame (puoi regolare   il valore)
+    const velocitaMovimento =  enemy.speed; // Velocità di movimento in pixel per frame (puoi regolare   il valore)
 
       // let interval = setInterval(() => {
       // Calcola la nuova coordinata Y in base alla velocità

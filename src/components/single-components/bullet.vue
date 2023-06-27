@@ -33,7 +33,8 @@ export default {
               // return radiusNow;
     }
   },
-    getExplosionArea(){
+
+  getExplosionArea(){
       // console.warn('get explosion radius');
       const bullet = store.bullets.find(bullet => bullet.id === this.id);
       if (!bullet) {
@@ -44,19 +45,20 @@ export default {
               };
               this.explosionArea = radiusNow;
               // console.warn(bullet.damageRadius);
-
+              // return radiusNow;
               // return radiusNow;
     }
   },
+
   selfKill(){
     console.warn('set kill - 0.12 sec');
     let timeoutA = setTimeout(() => {
       this.beforeDestroy();
-    }, 100);
+    }, 5000);
     timeoutA;
     let timeoutB = setTimeout(() => {
       this.destroy();
-    }, 120);
+    }, 5100);
     timeoutB;
   },
   beforeDestroy() {
@@ -67,12 +69,12 @@ export default {
     // this.$destroy();
     if(this.$el.parentNode){
       this.$el.parentNode.removeChild(this.$el);
-
     }
   }
 },
 
   computed:{
+
     // checkDie(){
     //   const bullet = store.bullets.find(bullet => bullet.id === this.id);
     //   if(!bullet){
@@ -85,24 +87,26 @@ export default {
     //   }
     //   // store.bullets[id].life = 
     // },
+
     bulletCssUpgrade(){
       if(this.bulletExist){
       // console.log('css upgrade')
       const bullet = store.bullets.find(bullet => bullet.id === this.id);
-            // Verifica se il proiettile è stato trovato nello store
-            if (!bullet) {
-            // Gestisci il caso in cui il proiettile non sia presente nello store
-            // return {};
-            }else{
-              const styleNow = {
-                left: `${bullet.cord.x}px`,
-                top: `${bullet.cord.y}px`,
-              };
-              return styleNow;
-            }
-          }else{console.warn('KILLING bul up')}
+        // Verifica se il proiettile è stato trovato nello store
+        if (!bullet) {
+        // Gestisci il caso in cui il proiettile non sia presente nello store
+        // return {};
+        }else{
+          const styleNow = {
+            left: `${bullet.cord.x}px`,
+            top: `${bullet.cord.y}px`,
+          };
+          return styleNow;
+        }
+        }else{console.warn('KILLING bul up')}
       // Calcola le proprietà di stile in base alle coordinate e altre informazioni del proiettile
     },
+
     bulletRady(){
       // console.log('bullet rady');
       if(this.bulletExist){
@@ -112,8 +116,9 @@ export default {
       }else{
         return false;
       }
-    }else{console.warn('KILLING bul rady')}
+    }else{console.warn('KILLING bullet rady')}
     },
+
     bulletExplode(){
       // console.log('bullet explode', this.id);
       if(this.bulletExist){
@@ -130,16 +135,22 @@ export default {
   mounted(){
     // this.getTriggerArea();
     // this.getExplosionArea();
-    // this.selfKill();
+    this.selfKill();
   }
 }
 </script>
 
 <template>
-  <div class="bullet" :class="bulletRady ? 'rady' : '' " :style=" bulletCssUpgrade">
-    <div class="explosion" :class="bulletExplode ? 'active' : ''"  :style="explosionArea"></div>
-    <div class="trigger-area"  :style="triggerArea"></div>
+  <div class="bullet" :class="bulletRady ? 'rady' : '' "  
+      :style="bulletCssUpgrade">
 
+        <div 
+          class="explosion" 
+          :class="bulletExplode ? 'active' : ''"  
+          :style="explosionArea">
+        </div>
+        
+      <div class="trigger-area"  :style="triggerArea"></div>
 
   </div>
 </template>
@@ -182,7 +193,6 @@ export default {
     rgba(36, 33, 33, 0.658));
     opacity: 1;
   }
-
   & .trigger-area{
     position: absolute;
     aspect-ratio: 1/1;

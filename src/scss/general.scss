@@ -38,10 +38,16 @@ header{
   width: 100%;
   height: 100%;
   background-color: rgb(151, 142, 132);
-  cursor: pointer;
+  cursor: crosshair;
 }
 
 .bullet-container{
   position: absolute;
   overflow: visible;
 }
+
+// .life-bar{
+//   width: 80px;
+//   height: 8px;
+//   border: 1px solid black;
+// }

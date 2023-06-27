@@ -1,4 +1,5 @@
 <script>
+import { computed } from 'vue';
 import {store} from '../data/store';
 export default {
   name: 'Header',
@@ -6,7 +7,19 @@ export default {
     return{
       store,
     }
-  }
+  },
+
+  computed : {
+    getFrame(){
+      const frm = store.frameCount;
+      return frm;
+    },
+    getkills(){
+      const kills = store.kills;
+      return kills;
+    },
+
+  },
   
 }
 </script>
@@ -22,7 +35,7 @@ export default {
     {{ store.enemyCounter }}
     </li>
     <li class="">uccisioni:
-    {{ store.kills }}
+    {{ getkills }}
     </li>
     <li class="">soldati in vita:
     {{  store.enemyCounter -  store.dead - store.kills }}
@@ -31,8 +44,8 @@ export default {
     {{ store.money }}
     </li>
     <li class="">
-      <h5>FRAME</h5>
-      <!-- <P> {{ store.frameCount }}</P> -->
+      <!-- <h5>FRAME</h5> -->
+      <!-- <P> {{ getFrame }}</P> -->
       <!-- <P>SEC: {{ ((store.frameCount)  /12) }}</P> -->
   
     </li>

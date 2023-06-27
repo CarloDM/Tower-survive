@@ -5,7 +5,8 @@ import {mouseStore} from '../data/mouseStore';
 import {bulletShot,animazioneMovimentoVerticale,aggiornaAngoloPuntamento, manualAim,closestSoldier,rand,} from '../functions/gameLogic';
 
 import {update,calculateRotation} from '../functions/animated_Logic';
-// import MyWorker from '../functions/workers/Worker?worker';
+
+
 
 export default {
   name:'ControlSurface',
@@ -36,7 +37,7 @@ export default {
       if(event.target.id === "battle"){
         mouseStore.mouse = [event.layerX,event.layerY];
         // console.log(mouseStore.mouse[0],  event.layerX, mouseStore.mouse[1],  event.layerY )
-        console.log( event.layerX,  event.layerY )
+        // console.log( event.layerX,  event.layerY )
       }
     },
 
@@ -133,7 +134,6 @@ export default {
     autoAim(){
       aggiornaAngoloPuntamento(closestSoldier(store.army));
     },
-
 
     deleteArmy(){
       store.army = [];
