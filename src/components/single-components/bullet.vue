@@ -135,7 +135,7 @@ export default {
   mounted(){
     // this.getTriggerArea();
     // this.getExplosionArea();
-    this.selfKill();
+    // this.selfKill();
   }
 }
 </script>

@@ -55,7 +55,7 @@ function BulletUpdate() {
   if (deltaTime >= store.intervalBulletFrame) {
 
     // frequenza spara proiettile
-    if((store.frameCount % 8) === 0 ){
+    if((store.frameCount % 14) === 0 ){
       newshot();
     }
 
@@ -107,14 +107,13 @@ function enemypush(numb){
     const newEnemy =
           {cord : {x:150,y:0}, id:0,
           health: 500, alive: true, speed: 1,};
+          
           newEnemy.cord = {x:rand(50,550), y:rand(-40, 0)};
           newEnemy.speed = rand(0.4, 1.7);
           newEnemy.id = store.enemyCounter;
-
           store.army.push(newEnemy);
-          // animazioneMovimentoVerticale(store.army[store.army.length - 1])
-          ;
-  }}
+  }
+}
 
 function checkBullet(bullet,army){
     // bullet.count;
@@ -149,23 +148,21 @@ function bulletComputation(bullet, army) {
 
     if(!bullet.explode){
 
-
-
-    if(!bullet.isDirected){
-        bullet.velXY = calcolaVelocitaMovimento(store.tower.rotation, bullet.velocity);
-        bullet.isDirected = true;
-        store.shotCounter ++;
-    }
-
-      // Calcola la nuova coordinata Y in base alla velocità
-      bullet.cord.y += bullet.velXY.y ;
-      bullet.cord.x += bullet.velXY.x ;
-      // contatore dissipazione
-      bullet.autonomy -= (( Math.abs(bullet.velXY.x) + Math.abs(bullet.velXY.y))) ;
-
-      if(store.enemyfreq % 2 === 0){
-        verificaCollisioneProiettile(bullet, army);
+      if(!bullet.isDirected){
+          bullet.velXY = calcolaVelocitaMovimento(store.tower.rotation, bullet.velocity);
+          bullet.isDirected = true;
+          store.shotCounter ++;
       }
+
+        // Calcola la nuova coordinata Y in base alla velocità
+        bullet.cord.y += bullet.velXY.y ;
+        bullet.cord.x += bullet.velXY.x ;
+        // contatore dissipazione
+        bullet.autonomy -= (( Math.abs(bullet.velXY.x) + Math.abs(bullet.velXY.y))) ;
+
+        if(store.enemyfreq % 2 === 0){
+          verificaCollisioneProiettile(bullet, army);
+        }
       // console.warn('bullet computation', bullet.id);
     }
 }
@@ -190,17 +187,16 @@ function verificaCollisioneProiettile(bullet, nemici) {
       let deltaX = nemico.cord.x - bullet.cord.x;
       let deltaY = nemico.cord.y - bullet.cord.y;
       let distanza = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-      // console.log(nemico.id, distanza,  bullet.radius );
+
       if (distanza <= bullet.radius) {
-        // nemiciColpiti.push(nemico.id);
         console.warn('colpito bersaglio id:', nemico.id);
         bullet.stop= true;
         bullet.rady=true;
+
         if(store.frameCount % 2 === 0){
           calcolaDannoEsplosione(bullet,nemici);
         }
         break;
-        // return true; 
       }}
     }
   }
@@ -235,14 +231,13 @@ function calcolaDannoEsplosione(bullet, enemys) {
 }
 
 function newshot(){
-  // store.shotCounter ++;
   const nshot =
   {
   id: 0,
   cord : calcolaCordinataPartenzaProiettile(),
   timeout: 200,
   radius: 30,
-  velocity: 15,
+  velocity: 30,
   damage : 400,
   damageRadius: 80,
   explode: false,
@@ -258,8 +253,6 @@ function newshot(){
   };
   nshot.id = store.shotCounter;
   store.bullets.push(nshot);
-  // return nshot;
-
 }
 
 function calculateRotation() {
@@ -296,29 +289,18 @@ function calculateRotation() {
 
 function  animazioneMovimentoVerticale(enemy) {
   if(enemy.alive){
-  const altezzaCampoBattaglia = 520; // Altezza del campo di battaglia
+  const altezzaCampoBattaglia = 800; // Altezza del campo di battaglia
 
     const velocitaMovimento =  enemy.speed; // Velocità di movimento in pixel per frame (puoi regolare   il valore)
 
-      // let interval = setInterval(() => {
-      // Calcola la nuova coordinata Y in base alla velocità
       enemy.cord.y += velocitaMovimento;
-      // enemy.cord.x += 0 ;
-      // console.log(store.enemy.cord.y)
-
 
         if (enemy.health < 1) {
-          console.warn('die', enemy.id)
-          // clearInterval(interval);
+          // console.warn('die', enemy.id),
           enemy.alive= false;
           store.kills ++;
-          // stopTower();
-          // stopTower();
-          // let soldierIsDying = setTimeout(() => {
-          //   store.army = store.army.filter(item => item.id !== enemy.id);
-          //   }, 500);
+
         }else if(enemy.cord.y > altezzaCampoBattaglia){
-          // clearInterval(interval);
           enemy.alive= false;
           store.dead++;
         }
@@ -330,10 +312,7 @@ function calcolaVelocitaMovimento(angolo, velocita) {
   const angoloRad = (angolo - 90) * (Math.PI / 180); // Conversione in radianti
   const x = Math.cos(angoloRad) * velocita;
   const y = Math.sin(angoloRad) * velocita;
-  return {
-    x,
-    y
-  };
+  return {x,y};
 }
 
 function calcolaCordinataPartenzaProiettile() {

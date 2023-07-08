@@ -47,7 +47,6 @@ export default {
 
 
     <Bullet
-    v-if="(store.bullets.length > 0)"
     v-for="bullet, id in store.bullets" :key="id"
     class="bullet-container" 
     :id="bullet.id"
