@@ -22,7 +22,7 @@ function update() {
       }
 
       // push enemy
-      if(store.frameCount % 40 === 0){
+      if(store.frameCount % 20 === 0){
         enemypush(2);
       }
 
@@ -107,41 +107,12 @@ function enemypush(numb){
     const newEnemy =
           {cord : {x:150,y:0}, id:0,
           health: 500, alive: true, speed: 1,};
-          
+
           newEnemy.cord = {x:rand(50,550), y:rand(-40, 0)};
           newEnemy.speed = rand(0.4, 1.7);
           newEnemy.id = store.enemyCounter;
           store.army.push(newEnemy);
   }
-}
-
-function checkBullet(bullet,army){
-    // bullet.count;
-  // let count = 0;
-    // bullet.countStop;
-  // let countStop = 0;
-        // ----------------------------------------
-    // interruzione spostamento in caso di collisione o fine pixel massimi percorribii
-    if (bullet.stop || bullet.autonomy < 1 ){
-
-      bullet.countStop ++;
-      
-      bullet.cord.x = bullet.cord.x;
-      bullet.cord.y = bullet.cord.y;
-      let explodeDalay = setTimeout(() => {
-        bullet.explose = true;
-        // clearInterval(shot);
-
-        // bullet.countStop ++;
-        // console.log('clear interval',count,countStop);
-        // if(bullet.count === bullet.countStop ){
-
-          // console.log('ultimo',bullet.count,bullet.countStop);
-
-          // calcolaDannoEsplosione(bullet, army); 
-        // }
-      }, bullet.timeout);
-    }
 }
 
 function bulletComputation(bullet, army) {
