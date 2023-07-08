@@ -17,9 +17,7 @@ export default {
     ControlSurface,
     
   },
-  methods:{
-
-    },
+  methods:{},
   
 }
 </script>

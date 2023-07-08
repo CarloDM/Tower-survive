@@ -3,10 +3,11 @@ self.addEventListener("message", function(event) {
   const centroX = event.data[0].cord.x;
   const centroY = event.data[0].cord.y;
   const raggioEsplosione = event.data[0].damageRadius;
+  const damage = event.data[0].damage;
   let army = event.data[1];
 
 
-  let armyBuffer = event.data[1].filter((enemy)=>{
+  let armyBuffer = army.filter((enemy)=>{
     const distanzaX = Math.abs(centroX - enemy.cord.x);
     const distanzaY = Math.abs(centroY - enemy.cord.y);
     const distanza = Math.sqrt(distanzaX * distanzaX + distanzaY * distanzaY);
@@ -19,9 +20,10 @@ self.addEventListener("message", function(event) {
     const distanza = Math.sqrt(distanzaX * distanzaX + distanzaY * distanzaY);
     if (distanza <= raggioEsplosione) {
       if(nemico.health > 0){
-      const dannoInflitto = event.data[0].damage * (1 - distanza / raggioEsplosione);
-      nemico.health -= dannoInflitto;
-      console.log('colpito id', nemico.id, 'salute:', Math.trunc(nemico.health) , 'danno inflitto', Math.trunc(-dannoInflitto));
+        nemico.cord.y -= 10;
+        const dannoInflitto = damage * (1 - distanza / raggioEsplosione);
+        nemico.health -= dannoInflitto;
+        console.log('colpito id', nemico.id, 'salute:', Math.trunc(nemico.health) , 'danno inflitto', Math.trunc(-dannoInflitto));
     }}
   });
       // Sovrascrivi gli enemy originali nell'array army con gli enemy modificati presenti in enemyBuffer
@@ -32,7 +34,32 @@ self.addEventListener("message", function(event) {
         }
         });
 
+        army.forEach((enemy) => {
+          animazioneMovimentoVerticale(enemy);
+        }),
+
+
   // console.log(armyBuffer); 
   self.postMessage(army);
 
 });
+
+function  animazioneMovimentoVerticale(enemy) {
+  if(enemy.alive){
+  const altezzaCampoBattaglia = 800; // Altezza del campo di battaglia
+
+    const velocitaMovimento =  enemy.speed; // Velocità di movimento in pixel per frame (puoi regolare   il valore)
+
+      enemy.cord.y += velocitaMovimento;
+
+        // if (enemy.health < 1) {
+        //   // console.warn('die', enemy.id),
+        //   enemy.alive= false;
+        //   store.kills ++;
+
+        // }else if(enemy.cord.y > altezzaCampoBattaglia){
+        //   enemy.alive= false;
+        //   store.dead++;
+        // }
+  }
+};

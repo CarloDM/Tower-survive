@@ -23,6 +23,7 @@ header{
 }
 
 .main{
+
   width: 800px;
   height: 900px;
   padding:0;
@@ -40,6 +41,11 @@ header{
   background-color: rgb(151, 142, 132);
   cursor: crosshair;
 }
+
+.battle-ground * {
+  pointer-events: none;
+}
+
 
 .bullet-container{
   position: absolute;

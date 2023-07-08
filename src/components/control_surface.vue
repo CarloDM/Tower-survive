@@ -22,11 +22,16 @@ export default {
   components:{GlobalEvents,},
   methods:{
 
+    stopUpdateControl(){
+      store.animation = false;
+    },
+
     tryWorker(){
         calculateRotation();
     },
 
     updateControl(){
+      store.animation = true;
       update();
     },
     
@@ -35,11 +40,13 @@ export default {
     },
     
     updateTarget(event) {
-      if(event.target.id === "battle"){
-        mouseStore.mouse = [event.layerX,event.layerY];
-        // console.log(mouseStore.mouse[0],  event.layerX, mouseStore.mouse[1],  event.layerY )
-      }
-      // console.log( event.layerX,  event.layerY );
+      mouseStore.mouse = [event.layerX,event.layerY];
+      // console.log(event);
+      // if(event.target.id === "battle"){
+      //   mouseStore.mouse = [event.layerX,event.layerY];
+      //   // console.log(mouseStore.mouse[0],  event.layerX, mouseStore.mouse[1],  event.layerY );
+      //   console.log(event.target.id);
+      // }
     },
 
     // handleKeyDown(event) { 
@@ -168,6 +175,7 @@ export default {
   <button @click="manualAim()" class="btn">manual aim</button>
   <button @click="deleteArmy()" class="btn">clean array</button> -->
   <button @click="updateControl()" class="">update test</button>
+  <button @click="stopUpdateControl()" class="">stop test</button>
   <button @click="tryWorker()" class="">active mouse aim</button>
 
 

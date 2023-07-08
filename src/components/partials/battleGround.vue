@@ -14,13 +14,7 @@ export default {
   },
   components:{Tower,Enemy,Bullet},
   methods:{},
-  computed:{
-    getHealth(index){
-      console.log(index);
-      let h = store.army[index].health ;
-      return h;
-    }
-  },
+  computed:{},
   props:{},
   mounted(){
     let delay = setTimeout(() => {
@@ -50,6 +44,8 @@ export default {
     v-for="bullet, id in store.bullets" :key="id"
     class="bullet-container" 
     :id="bullet.id"
+    :explode="bullet.explode"
+
     />
 
     <Tower />

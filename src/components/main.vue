@@ -1,15 +1,18 @@
 <script>
-import BattleGrond from './partials/battleGround.vue'
+import BattleGrond from './partials/battleGround.vue';
+
 export default {
   name:'Main',
   components:{BattleGrond},
-  methods:{},
+  methods:{
+
+  },
   props:{},
 }
 </script>
 
 <template>
-  <main class="d-flex justify-content-center align-item-center debug ">
+  <main  id="main" class="d-flex justify-content-center align-item-center debug ">
 
     <BattleGrond />
 

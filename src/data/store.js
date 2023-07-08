@@ -30,6 +30,8 @@ export const store = reactive ({
     //   }
   ],
 
+  bulletsDmgRadius: 100,
+
   autoShot: false,
   autoAim: false,
   manualAim: false,
@@ -43,6 +45,7 @@ export const store = reactive ({
   userShoting : false,
 
   // animation frame
+  animation: false,
   lastTime : 0,
   lastTimeBullet : 0,
   lastTimeReset : 0,

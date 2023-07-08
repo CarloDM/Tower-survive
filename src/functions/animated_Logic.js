@@ -17,12 +17,14 @@ function update() {
 
     // ON FRAME
       // pulisci army enemy
-      if(store.army.length > 4 ){
+      if(store.frameCount % 100 === 0 ){
         store.army = store.army.filter(soldier => soldier.alive);
+        store.bullets = store.bullets.filter(bullet => !bullet.explode );
+        
       }
 
       // push enemy
-      if(store.frameCount % 20 === 0){
+      if(store.frameCount % 5 === 0){
         enemypush(2);
       }
 
@@ -40,7 +42,7 @@ function update() {
 
     if(store.frameCount % 2000 === 0){
       requestAnimationFrame(resetArrays);
-    }else{
+    }else if (store.animation){
       // Richiedi un nuovo frame di animazione
       requestAnimationFrame(BulletUpdate);
     }
@@ -55,7 +57,7 @@ function BulletUpdate() {
   if (deltaTime >= store.intervalBulletFrame) {
 
     // frequenza spara proiettile
-    if((store.frameCount % 14) === 0 ){
+    if((store.frameCount % 4) === 0 ){
       newshot();
     }
 
@@ -200,9 +202,9 @@ function newshot(){
   cord : calcolaCordinataPartenzaProiettile(),
   // timeout: 200,
   radius: 30,
-  velocity: 30,
-  damage : 400,
-  damageRadius: 200,
+  velocity: 25,
+  damage : 10,
+  damageRadius: store.bulletsDmgRadius,
   explode: false,
   stop:false,
   autonomy: 700,
