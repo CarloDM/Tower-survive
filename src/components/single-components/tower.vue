@@ -16,51 +16,54 @@ props:{}
 </script>
 
 <template>
+
   <div 
   class="tower visible" 
-  :style="{ transform: `rotate(${store.tower.rotation}deg)`,
+  :style="{ transform: `rotate(${store.tower.rotation}deg)`, 
               left: store.tower.cord.x + 'px',
-              top: store.tower.cord.y + 'px', 
-            }"
-    > 
-    <div class="cannon visible">
-    </div>
-    <div class="laser visible">
-    </div>
+              top: store.tower.cord.y + 'px',}"
+  > 
+
+    <div class="cannon visible"></div>
+
+    <!-- <div class="laser visible"></div> -->
 
     <!-- <LifeBar  /> -->
     
-    
   </div>
-</template>
 
+</template>
 
 <style lang="scss" scoped>
 .tower{
   position: absolute;
-  background-color: rgba(13, 14, 12, 0.24);
-  width: 60px;
-  height: 60px;
-  margin-top: -25px;
-  margin-left: -25px;
+  background-image: url("/src/assets/texture/Cannon-Body-250px.png");
+  background-size: cover;
+  // background-color: rgba(13, 14, 12, 0.24);
+  width: 120px;
+  height: 120px;
+  margin-top: -60px;
+  margin-left: -60px;
 
   & .cannon{
-    background-color: rgba(41, 53, 34, 0.308);
     position: absolute;
-    transform: translate(-50%,-50%);
+    background-image: url("/src/assets/texture/Cannon-cane-70x300px.png");
+    background-size: cover;
+    // background-color: rgba(13, 14, 12, 0.24);
+    transform: translate(-49%,-44%);
     top: 0%;
     left: 50%;
-    width: 15px;
-    height: 75px;
+    width: 35px;
+    height: 150px;
     z-index: 999;
   }
   & .laser{
     background-color: rgba(212, 91, 21, 0.438);
     box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.466);
     position: absolute;
-    transform: translate(-50%,-120%);
+    transform: translate(-60%,-120%);
     top: 0%;
-    left: 50%;
+    left: 49.55%;
     width: 1px;
     height: 400px;
     z-index: 999;

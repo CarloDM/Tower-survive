@@ -2,8 +2,9 @@
 import { GlobalEvents } from 'vue-global-events';
 import {store} from '../data/store';
 import {mouseStore} from '../data/mouseStore';
+// vecchia logica a set interval
 import {bulletShot,animazioneMovimentoVerticale,aggiornaAngoloPuntamento, manualAim,closestSoldier,rand,} from '../functions/gameLogic';
-
+// nuova logica a animated frame
 import {update,calculateRotation} from '../functions/animated_Logic';
 
 
@@ -37,8 +38,8 @@ export default {
       if(event.target.id === "battle"){
         mouseStore.mouse = [event.layerX,event.layerY];
         // console.log(mouseStore.mouse[0],  event.layerX, mouseStore.mouse[1],  event.layerY )
-        // console.log( event.layerX,  event.layerY )
       }
+      // console.log( event.layerX,  event.layerY );
     },
 
     // handleKeyDown(event) { 

@@ -46,8 +46,8 @@ export const store = reactive ({
   lastTime : 0,
   lastTimeBullet : 0,
   lastTimeReset : 0,
-  intervalFrame : (1000 / 60), // Intervallo di tempo desiderato (in millisecondi)
-  intervalBulletFrame : (1000 / 60), // Intervallo di tempo desiderato (in millisecondi)
+  intervalFrame : (1000 / 60), // Intervallo di tempo  (in millisecondi)
+  intervalBulletFrame : (1000 / 60), // Intervallo di tempo  (in millisecondi)
   shotTimeCounter : 0,
   enemyfreq: 0,
   frameCount: 0,

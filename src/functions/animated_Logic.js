@@ -12,34 +12,33 @@ function update() {
   const currentTime = performance.now();
   const deltaTime = currentTime - store.lastTime;
 
-  // Esegui la logica solo se è trascorso l'intervallo di tempo desiderato
+  // Esegui la logica solo se è trascorso l'intervallo di tempo desiderato ------
   if (deltaTime >= store.intervalFrame) {
 
     // ON FRAME
-      // calculateRotation();
+      // pulisci army enemy
       if(store.army.length > 4 ){
         store.army = store.army.filter(soldier => soldier.alive);
       }
 
-      
+      // push enemy
       if(store.frameCount % 40 === 0){
         enemypush(2);
       }
-        if(store.army.length > 0){
-          store.army.forEach(soldier => {
-            animazioneMovimentoVerticale(soldier);
-          }); 
-        }
 
-      if(store.frameCount % 4 === 0){
-      store.bullets.forEach(bullet => {
-        checkBullet(bullet, store.army);
-      });
-    }
+      // aggiorna cordinate enemy
+      if(store.army.length > 0){
+        store.army.forEach(soldier => {
+          animazioneMovimentoVerticale(soldier);
+        }); 
+      }
+
     store.resetTime ++
     store.lastTime = currentTime;
     }
-    if(store.frameCount % 1800 === 0){
+    // ----------------------------------------------------------------------------
+
+    if(store.frameCount % 2000 === 0){
       requestAnimationFrame(resetArrays);
     }else{
       // Richiedi un nuovo frame di animazione
@@ -55,17 +54,17 @@ function BulletUpdate() {
   // Esegui la logica solo se è trascorso l'intervallo di tempo desiderato
   if (deltaTime >= store.intervalBulletFrame) {
 
-    // calculateRotation();
-    // Logica da eseguire
-
-    if((store.frameCount % 10) === 0 ){
+    // frequenza spara proiettile
+    if((store.frameCount % 8) === 0 ){
       newshot();
     }
 
-    if((store.frameCount % 600) === 0 ){
-      store.bullets = [];
-    }
-
+    // reset array proiettile OBSOLETO
+    // if((store.frameCount % 600) === 0 ){
+    //   store.bullets = [];
+    // }
+  
+    // 
     if(store.bullets){
       store.bullets.forEach(bullet => {
         bulletComputation(bullet,store.army);
@@ -108,7 +107,7 @@ function enemypush(numb){
     const newEnemy =
           {cord : {x:150,y:0}, id:0,
           health: 500, alive: true, speed: 1,};
-          newEnemy.cord = {x:rand(50,550), y:rand(-160, -50)};
+          newEnemy.cord = {x:rand(50,550), y:rand(-40, 0)};
           newEnemy.speed = rand(0.4, 1.7);
           newEnemy.id = store.enemyCounter;
 
@@ -124,7 +123,7 @@ function checkBullet(bullet,army){
   // let countStop = 0;
         // ----------------------------------------
     // interruzione spostamento in caso di collisione o fine pixel massimi percorribii
-    if (bullet.stop || bullet.autonomy < 1 || bullet.autonomy > bullet.autonomy  ){
+    if (bullet.stop || bullet.autonomy < 1 ){
 
       bullet.countStop ++;
       
@@ -240,10 +239,10 @@ function newshot(){
   const nshot =
   {
   id: 0,
-  cord : {x:300,y:560},
+  cord : calcolaCordinataPartenzaProiettile(),
   timeout: 200,
   radius: 30,
-  velocity:15,
+  velocity: 15,
   damage : 400,
   damageRadius: 80,
   explode: false,
@@ -277,6 +276,7 @@ function calculateRotation() {
   worker.addEventListener("message", function(event) {
 	// console.log(event.data);
   store.tower.rotation = event.data;
+  console.log('rotazione gradi',store.tower.rotation )
 });
 
 //   calcolaAngolo(store.tower.cord.x,store.tower.cord.y,store.mouse[0],store.mouse[1]);
@@ -336,6 +336,23 @@ function calcolaVelocitaMovimento(angolo, velocita) {
   };
 }
 
-function rand(min, max) {
-  return Math.random() * (max - min) + min;};
+function calcolaCordinataPartenzaProiettile() {
+
+  const angoloRotazione = store.tower.rotation; // Angolo di rotazione della torretta (in gradi)
+  const raggio = 100; // Raggio dal centro di rotazione al punto di partenza del proiettile
+
+  // Calcolo delle coordinate di partenza del proiettile
+  const radian = (angoloRotazione - 90) * (Math.PI / 180); // Conversione dell'angolo in radianti
+  const xPartenza = store.tower.cord.x + raggio * Math.cos(radian);
+  const yPartenza = store.tower.cord.y + raggio * Math.sin(radian);
+
+  return { x: xPartenza, y: yPartenza };
+}
+
+
+
+
+  function rand(min, max) {
+    return Math.random() * (max - min) + min;};
+  
 

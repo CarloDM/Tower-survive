@@ -35,16 +35,16 @@ export default {
 <template>
   <div id="battle" class="battle-ground">battle
 
-    <Tower />
+
     
     <Enemy class=""
-
     v-for="(enemy, index) in store.army" :key="index"
     :id="index"
     :health="Math.trunc(enemy.health)"
     :alive="enemy.alive"
-    
     />
+
+
 
     <Bullet
     v-if="(store.bullets.length > 0)"
@@ -53,6 +53,8 @@ export default {
     :id="bullet.id"
     
     />
+
+    <Tower />
 
 
 
