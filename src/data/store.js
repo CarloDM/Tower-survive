@@ -2,7 +2,7 @@ import {reactive} from 'vue';
 export const store = reactive ({
 
   tower : {
-          cord : {x:300,y:560},
+          cord : {x:300,y:860},
           rotation : 0,
           aim: false,
           attak: 1},
