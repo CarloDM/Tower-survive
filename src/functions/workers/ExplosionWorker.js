@@ -21,7 +21,7 @@ self.addEventListener("message", function(event) {
       if(nemico.health > 0){
       const dannoInflitto = event.data[0].damage * (1 - distanza / raggioEsplosione);
       nemico.health -= dannoInflitto;
-      console.log('colpito id', nemico.id, parseInt(nemico.health) , 'danno inflitto', parseInt(dannoInflitto));
+      console.log('colpito id', nemico.id, 'salute:', Math.trunc(nemico.health) , 'danno inflitto', Math.trunc(-dannoInflitto));
     }}
   });
       // Sovrascrivi gli enemy originali nell'array army con gli enemy modificati presenti in enemyBuffer
