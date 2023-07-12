@@ -30,7 +30,7 @@ export const store = reactive ({
     //   }
   ],
 
-  bulletsDmgRadius: 100,
+  bulletsDmgRadius: 50,
 
   autoShot: false,
   autoAim: false,

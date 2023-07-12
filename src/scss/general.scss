@@ -38,8 +38,13 @@ header{
   position: relative;
   width: 100%;
   height: 100%;
+  background-image: url("/src/assets/texture/1bg_top_z1.jpg");
   background-color: rgb(151, 142, 132);
+  background-position:40%;
+  // background-repeat: round;
+  background-size:contain;
   cursor: crosshair;
+  overflow: hidden;
 }
 
 .battle-ground * {

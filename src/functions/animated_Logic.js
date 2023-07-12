@@ -16,16 +16,16 @@ function update() {
   if (deltaTime >= store.intervalFrame) {
 
     // ON FRAME
-      // pulisci army enemy
-      if(store.frameCount % 100 === 0 ){
+      // pulisci army enemy & bullets
+      if(store.frameCount % 200 === 0 ){
         store.army = store.army.filter(soldier => soldier.alive);
         store.bullets = store.bullets.filter(bullet => !bullet.explode );
         
       }
 
       // push enemy
-      if(store.frameCount % 5 === 0){
-        enemypush(2);
+      if(store.frameCount % 10 === 0){
+        enemypush(1);
       }
 
       // aggiorna cordinate enemy
@@ -200,21 +200,16 @@ function newshot(){
   {
   id: 0,
   cord : calcolaCordinataPartenzaProiettile(),
-  // timeout: 200,
-  radius: 30,
-  velocity: 25,
-  damage : 10,
-  damageRadius: store.bulletsDmgRadius,
-  explode: false,
-  stop:false,
-  autonomy: 700,
-  rady: false,
-  count : 0,
-  countStop : 0,
   isDirected: false,
+  velocity: 25,
   velXY: 0,
-  life: 0,
-  
+  autonomy: 700,
+  radius: 30,
+  damage : 500,
+  damageRadius: store.bulletsDmgRadius,
+  rady: false,
+  explode: false,
+  erasable: false,
   };
   nshot.id = store.shotCounter;
   store.bullets.push(nshot);

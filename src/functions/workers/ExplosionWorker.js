@@ -4,6 +4,7 @@ self.addEventListener("message", function(event) {
   const centroY = event.data[0].cord.y;
   const raggioEsplosione = event.data[0].damageRadius;
   const damage = event.data[0].damage;
+  const autonomy = event.data[0].autonomy;
   let army = event.data[1];
 
 
@@ -22,7 +23,7 @@ self.addEventListener("message", function(event) {
       if(nemico.health > 0){
         nemico.cord.y -= 10;
         const dannoInflitto = damage * (1 - distanza / raggioEsplosione);
-        nemico.health -= dannoInflitto;
+        nemico.health -= dannoInflitto + (autonomy / 2) ;
         console.log('colpito id', nemico.id, 'salute:', Math.trunc(nemico.health) , 'danno inflitto', Math.trunc(-dannoInflitto));
     }}
   });

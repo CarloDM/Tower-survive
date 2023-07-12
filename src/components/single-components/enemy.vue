@@ -56,7 +56,9 @@ mounted(){
   font-size: 0.7rem;
 
   &.dead{
-    opacity: 0.1;
+    opacity: 0.7;
+    background-color: rgb(180, 47, 47);
+    border: 2px solid white;
     z-index: 0;
   }
 }

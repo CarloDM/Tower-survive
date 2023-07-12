@@ -150,6 +150,6 @@ export default {
     aspect-ratio: 1/1;
     transform: translate(-50%,-50%);
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.096);
+    background-color: rgba(219, 151, 48, 0.192);
   }
 </style>
