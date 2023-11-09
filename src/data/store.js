@@ -5,56 +5,58 @@ export const store = reactive ({
           cord : {x:300,y:860},
           rotation : 0,
           aim: false,
-          attak: 1},
-  
-  enemyCounter: 0,
-  army : [
-    // {cord : {x:150,y:20}, id:0,
-    // health: 1000, alive: true,}
-  ],
+          },
 
-  shotCounter:0,
-  bullets:[
-    // {
-    //   id: 0,
-    //   cord : {x:300,y:520},
-    //   timeout: 50,
-    //   radius: 100,
-    //   velocity: 10,
-    //   damage : 80,
-    //   damageRadius: 98,
-    //   explode: false,
-    //   stop:false,
-    //   autonomy: 650,
-    //   rady: false,
-    //   }
-  ],
+// enemy
+// army: [ {cord : {x:150,y:20}, id:0,health: 1000, alive: true}, ecc...  ]
+  army : [],
+  enemyNumber: 1, // n nemici
+  enemyFrequency: 50, // ogni n  framerequest
 
+// bullets ---------------------
+/** EXEMPL
+    bullets:[
+      {id: 0, velocity:     store.bulletsVelocity,
+      damageRadius: store.bulletsDmgRadius,
+      damage :      store.bulletsDamage,
+      cord : calcolaCordinataPartenzaProiettile(),
+      isDirected: false,
+      velXY: 0,
+      autonomy: 900,
+      radius: 30, //activation radius
+      rady: false,
+      explode: false,
+      erasable: false,
+      }
+    ]
+ */
+  bullets:[],
+  bulletsFrequency: 15,
+  bulletsVelocity: 15,
   bulletsDmgRadius: 50,
+  bulletsDamage: 100,
 
+// counter -----------
+  enemyCounter: 0,
+  shotCounter:0,
   autoShot: false,
   autoAim: false,
   manualAim: false,
   kills: 0,
-  money: 0,
   dead:0,
 
-
-  // utiliti
+ // utiliti
   checkDivider : true,
   userShoting : false,
 
-  // animation frame
+// animation frame
+  frameCount: 0,
   animation: false,
   lastTime : 0,
   lastTimeBullet : 0,
   lastTimeReset : 0,
   intervalFrame : (1000 / 60), // Intervallo di tempo  (in millisecondi)
   intervalBulletFrame : (1000 / 60), // Intervallo di tempo  (in millisecondi)
-  shotTimeCounter : 0,
-  enemyfreq: 0,
-  frameCount: 0,
-  collisionfreq: 0,
   resetTime: 0,
   armyBuffer:[],
 })

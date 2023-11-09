@@ -6,11 +6,10 @@ name: 'Tower',
 data() {
   return {
     store,
-
   };
 },
 methods: {},
-components : {LifeBar,},
+components: {LifeBar,},
 props:{}
 }
 </script>

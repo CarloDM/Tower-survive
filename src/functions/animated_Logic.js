@@ -3,7 +3,7 @@ import {store} from '../data/store';
 import {mouseStore} from '../data/mouseStore';
 // import {} from './mathFunction.js';
 export {update,calculateRotation};
-import MyWorker from './workers/Worker?worker';
+import TowerWorker from './workers/TowerWorker?worker';
 import ExplosionWorker from './workers/ExplosionWorker?worker';
 
 // ANIMATION FRAME -------------------->
@@ -17,15 +17,15 @@ function update() {
 
     // ON FRAME
       // pulisci army enemy & bullets
-      if(store.frameCount % 200 === 0 ){
+      if(store.frameCount % 250 === 0 ){
         store.army = store.army.filter(soldier => soldier.alive);
         store.bullets = store.bullets.filter(bullet => !bullet.explode );
-        
+        console.warn('clean arrays');
       }
 
       // push enemy
-      if(store.frameCount % 10 === 0){
-        enemypush(1);
+      if((store.frameCount % store.enemyFrequency) === 0){
+        enemypush(store.enemyNumber);
       }
 
       // aggiorna cordinate enemy
@@ -40,7 +40,7 @@ function update() {
     }
     // ----------------------------------------------------------------------------
 
-    if(store.frameCount % 2000 === 0){
+    if(store.frameCount % 500 === 0){
       requestAnimationFrame(resetArrays);
     }else if (store.animation){
       // Richiedi un nuovo frame di animazione
@@ -57,20 +57,17 @@ function BulletUpdate() {
   if (deltaTime >= store.intervalBulletFrame) {
 
     // frequenza spara proiettile
-    if((store.frameCount % 4) === 0 ){
+    if((store.frameCount % store.bulletsFrequency) === 0 ){
       newshot();
     }
 
     if(store.bullets){
       store.bullets.forEach(bullet => {
-        bulletComputation(bullet,store.army);
+        bulletComputation(bullet, store.army);
       });
     }
     store.resetTime ++
-    // Aggiorna il tempo di riferimento all'istante attuale
     store.lastTimeBullet = currentTime;
-
-    // console.log(store.frameCount,'FRamE proiettile', currentTime, store.lastTimeBullet ,'perfrmance now:', performance.now());
   }
     // Richiedi un nuovo frame di animazione
     requestAnimationFrame(update);
@@ -83,13 +80,8 @@ function resetArrays(){
   if (deltaTime >= store.intervalFrame) {
   store.resetTime = 0,
   store.shotTimeCounter =  0;
-  store.enemyfreq =  0;
   store.frameCount = 0;
-  store.collisionfreq =  0;
-  store.army = [];
-  store.bullets = [];
-  store.tower.rotation = 0;
-  console.warn('RESET MEMORY');
+  console.warn('RESET COUNTER');
   store.resetTime ++
   store.lastTimeReset = currentTime;
 }
@@ -100,14 +92,16 @@ requestAnimationFrame(update);
 function enemypush(numb){
   for (let index = 0; index < numb; index++) {
     store.enemyCounter ++;
-    const newEnemy =
-          {cord : {x:150,y:0}, id:0,
-          health: 500, alive: true, speed: 1,};
 
-          newEnemy.cord = {x:rand(50,550), y:rand(-40, 0)};
-          newEnemy.speed = rand(0.4, 1.7);
-          newEnemy.id = store.enemyCounter;
-          store.army.push(newEnemy);
+    const newEnemy ={ 
+      id:store.enemyCounter,
+      health: 500, 
+      cord : {x:rand(50,550), y:rand(-40, 0)},
+      speed: rand(0.4, 1.7),
+      alive: true, 
+    };
+
+    store.army.push(newEnemy);
   }
 }
 
@@ -131,7 +125,7 @@ function bulletComputation(bullet, army) {
           calcolaDannoEsplosione(bullet, army);
       };
 
-      if(store.enemyfreq % 2 === 0){
+      if(store.frameCount % 2 === 0){
           verificaCollisioneProiettile(bullet, army);
       };
     };
@@ -162,7 +156,7 @@ function verificaCollisioneProiettile(bullet, army) {
         let distanza = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
         if (distanza <= bullet.radius) {
-          console.log('colpito nemico id:', nemico.id);
+          //  enemy colpito
 
           if(store.frameCount % 2 === 0){
             calcolaDannoEsplosione(bullet,army);
@@ -182,31 +176,28 @@ function calcolaDannoEsplosione(bullet, enemys) {
   const 
   noProxyArmy = JSON.parse(JSON.stringify(enemys)),
   noProxyBullet = JSON.parse(JSON.stringify(bullet));
-  // console.log( 'tradotto ', noProxyBullet);
 
   explWorker.postMessage([noProxyBullet,noProxyArmy]);
 
   explWorker.addEventListener("message", function(event) {
     store.army = event.data;
-    console.log('explosion worker done', store.army);
   });
-  
-  bullet.explode = true;
 
+  bullet.explode = true;
 }
 
 function newshot(){
   const nshot =
   {
   id: 0,
+  velocity:     store.bulletsVelocity,
+  damageRadius: store.bulletsDmgRadius,
+  damage :      store.bulletsDamage,
   cord : calcolaCordinataPartenzaProiettile(),
   isDirected: false,
-  velocity: 25,
   velXY: 0,
-  autonomy: 700,
-  radius: 30,
-  damage : 500,
-  damageRadius: store.bulletsDmgRadius,
+  autonomy: 900,
+  radius: 30, //activation radius
   rady: false,
   explode: false,
   erasable: false,
@@ -217,7 +208,7 @@ function newshot(){
 
 function calculateRotation() {
 
-  const worker = new MyWorker()
+  const worker = new TowerWorker()
   let upgrade = setInterval(() => {
       worker.postMessage([store.tower.cord.x, store.tower.cord.y, mouseStore.mouse[0], mouseStore.mouse[1]]);
   }, 40);
@@ -270,10 +261,7 @@ function calcolaCordinataPartenzaProiettile() {
   return { x: xPartenza, y: yPartenza };
 }
 
-
-
-
-  function rand(min, max) {
-    return Math.random() * (max - min) + min;};
+function rand(min, max) {
+  return Math.random() * (max - min) + min;};
   
 

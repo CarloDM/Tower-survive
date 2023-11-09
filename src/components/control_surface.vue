@@ -2,12 +2,8 @@
 import { GlobalEvents } from 'vue-global-events';
 import {store} from '../data/store';
 import {mouseStore} from '../data/mouseStore';
-// vecchia logica a set interval
-import {bulletShot,animazioneMovimentoVerticale,aggiornaAngoloPuntamento, manualAim,closestSoldier,rand,} from '../functions/gameLogic';
-// nuova logica a animated frame
+
 import {update,calculateRotation} from '../functions/animated_Logic';
-
-
 
 export default {
   name:'ControlSurface',
@@ -15,172 +11,43 @@ export default {
     return{
       store,
       mouseStore,
-      // proiettili: ref([])
-      intervalId: null,
     }
   },
+
   components:{GlobalEvents,},
+  
   methods:{
-
-    stopUpdateControl(){
-      store.animation = false;
-    },
-
-    tryWorker(){
-        calculateRotation();
-    },
-
-    updateControl(){
+    
+    startBattle(){
       store.animation = true;
       update();
     },
-    
-    manualAim(){
-      manualAim();
+    stopBattle(){
+      store.animation = false;
     },
-    
-    updateTarget(event) {
+    activeMouseAim(){
+        calculateRotation();
+    },
+    updateMousePosition(event) {
       mouseStore.mouse = [event.layerX,event.layerY];
-      // console.log(event);
-      // if(event.target.id === "battle"){
-      //   mouseStore.mouse = [event.layerX,event.layerY];
-      //   // console.log(mouseStore.mouse[0],  event.layerX, mouseStore.mouse[1],  event.layerY );
-      //   console.log(event.target.id);
-      // }
-    },
-
-    // handleKeyDown(event) { 
-    //     // Tasto Space premuto
-    //     if((event.keyCode === 32) && (!store.userShoting)){
-    //       store.userShoting = true;
-    //       this.intervalId = setInterval(() => {
-    //         this.newshot();
-    //       }, 500);
-    //     // console.log('donw', event.keyCode);
-    //   }
-    // },  
-    // handleKeyUp(event) {
-    //   if(event.keyCode === 32){
-    //     store.userShoting = false;
-    //     clearInterval(this.intervalId);
-    //     this.intervalId = null;
-    //     // console.log('up', event.keyCode);
-    //   }
-    //     // Tasto Space rilasciato
-    //   },
-
-    animEnemy(){
-      store.army.forEach(enemy => {
-        animazioneMovimentoVerticale(enemy)
-      });
-    },
-    enemyClean(){
-      let clean = setInterval(() => {
-        if(store.army.length > 0){
-          store.army = store.army.filter(soldier => soldier.alive);
-        }
-      }, 2000);
-      // this.autoShot();
-      // this.autoAim();
-      // this.autoAim();
-      // this.autoShot();
-    },
-    enemypush(numb){
-      for (let index = 0; index < numb; index++) {
-        store.enemyCounter ++;
-        const newEnemy =
-              {cord : {x:150,y:0}, id:0,
-              health: 1000, alive: true,};
-              newEnemy.cord = {x:rand(50,550),y:rand(-160, -50)};
-              newEnemy.id = store.enemyCounter;
-  
-              store.army.push(newEnemy);
-              // animazioneMovimentoVerticale(store.army[store.army.length - 1])
-              ;
-      }
-    },
-    newshot(){
-      store.shotCounter ++;
-      const nshot =
-      {
-      id: 0,
-      cord : {x:300,y:520},
-      timeout: 20,
-      radius: 30,
-      velocity: 10,
-      damage : 650,
-      damageRadius: 100,
-      explode: false,
-      stop:false,
-      autonomy: 440,
-      rady: false,
-      }
-      nshot.id = store.shotCounter;
-      store.bullets.push(nshot);
-      bulletShot(
-        store.bullets.find(item => item['id'] === nshot.id),
-        store.tower.rotation,
-        store.bullets.find(item => item['id'] === nshot.id).velocity
-        )
-    },
-    autoShot(){
-      store.autoShot = !store.autoShot;
-      if(store.autoShot){
-        const mitra = setInterval(() => {
-          this.newshot();
-          if(!store.autoShot){
-            clearInterval(mitra);
-          }
-        }, 200);
-      }else{}
-    },
-
-    stopTower(){
-      console.log(store.tower.aim);
-    },
-
-    autoAim(){
-      aggiornaAngoloPuntamento(closestSoldier(store.army));
-    },
-
-    deleteArmy(){
-      store.army = [];
-    store.bullets = [];
     },
   },
-  props:{},
-  mounted(){
-    // this.enemyClean();
-  }
 
+  mounted(){}
 
 }
 </script>
 
 <template>
-        <!-- @keydown="handleKeyDown" 
-      @keyup.space="handleKeyUp" -->
+
     <GlobalEvents
-      @mousemove="updateTarget"
+      @mousemove="updateMousePosition"
       />
   <div class="control-surface d-flex flex-wrap m-auto">
 
-
-
-  <!-- <button @click="newshot()" class="btn">spara</button>
-  <button @click="autoShot()" class="btn">mitra</button>
-  <button @click="animEnemy()" class="btn">anim y</button>
-  <button @click="enemypush(10)" class="btn">enemypush</button>
-  <button @click="autoAim()" class="btn">auto aim</button>
-  <button @click="manualAim()" class="btn">manual aim</button>
-  <button @click="deleteArmy()" class="btn">clean array</button> -->
-  <button @click="updateControl()" class="">update test</button>
-  <button @click="stopUpdateControl()" class="">stop test</button>
-  <button @click="tryWorker()" class="">active mouse aim</button>
-
-
-
-
+  <button @click="startBattle()" class="">update test</button>
+  <button @click="stopBattle()" class="">stop test</button>
+  <button @click="activeMouseAim()" class="">active mouse aim</button>
 
   </div>
 </template>

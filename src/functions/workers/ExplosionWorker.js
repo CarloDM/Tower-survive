@@ -24,7 +24,7 @@ self.addEventListener("message", function(event) {
         nemico.cord.y -= 10;
         const dannoInflitto = damage * (1 - distanza / raggioEsplosione);
         nemico.health -= dannoInflitto + (autonomy / 2) ;
-        console.log('colpito id', nemico.id, 'salute:', Math.trunc(nemico.health) , 'danno inflitto', Math.trunc(-dannoInflitto));
+        // console.log('colpito id', nemico.id, 'salute:', Math.trunc(nemico.health) , 'danno inflitto', Math.trunc(-dannoInflitto));
     }}
   });
       // Sovrascrivi gli enemy originali nell'array army con gli enemy modificati presenti in enemyBuffer
@@ -35,12 +35,10 @@ self.addEventListener("message", function(event) {
         }
         });
 
-        army.forEach((enemy) => {
-          animazioneMovimentoVerticale(enemy);
-        }),
+      army.forEach((enemy) => {
+        animazioneMovimentoVerticale(enemy);
+      }),
 
-
-  // console.log(armyBuffer); 
   self.postMessage(army);
 
 });
@@ -48,19 +46,7 @@ self.addEventListener("message", function(event) {
 function  animazioneMovimentoVerticale(enemy) {
   if(enemy.alive){
   const altezzaCampoBattaglia = 800; // Altezza del campo di battaglia
-
-    const velocitaMovimento =  enemy.speed; // Velocità di movimento in pixel per frame (puoi regolare   il valore)
-
-      enemy.cord.y += velocitaMovimento;
-
-        // if (enemy.health < 1) {
-        //   // console.warn('die', enemy.id),
-        //   enemy.alive= false;
-        //   store.kills ++;
-
-        // }else if(enemy.cord.y > altezzaCampoBattaglia){
-        //   enemy.alive= false;
-        //   store.dead++;
-        // }
+    const velocitaMovimento =  enemy.speed; // Velocità di movimento in pixel
+    enemy.cord.y += enemy.speed  ;
   }
 };

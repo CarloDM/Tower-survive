@@ -1,6 +1,5 @@
 <script>
 import {store} from '../../data/store';
-import {animazioneMovimentoVerticale} from '../../functions/gameLogic';
 import LifeBar from '../single-components/lifeBar.vue';
 export default {
 name: 'Enemy',
@@ -15,17 +14,6 @@ props:{
   alive: Boolean,
 },
 components: {LifeBar},
-methods: {},
-computed:{
-  // updateHealt(){
-  //   // console.log('enemy',this.id, this.health)
-  //   const  health = store.army[id].health
-  //   return health
-  // },
-},
-mounted(){
-  // animazioneMovimentoVerticale(store.army[0]);
-},
 }
 </script>
 

@@ -9,7 +9,6 @@ export default {
   data(){
     return{
       store,
-      // proiettili: ref([])
     }
   },
   components:{Tower,Enemy,Bullet},
@@ -18,7 +17,6 @@ export default {
   props:{},
   mounted(){
     let delay = setTimeout(() => {
-      // bulletShot(store.bullet, store.tower.rotation, store.bullet.velocity) ; 
       console.log('ciao stai per iniziare una versione di prova in sviluppo')  
     }, 100);
 
@@ -29,8 +27,6 @@ export default {
 <template>
   <div id="battle" class="battle-ground">battle
 
-
-    
     <Enemy class=""
     v-for="(enemy, index) in store.army" :key="index"
     :id="index"
@@ -38,22 +34,16 @@ export default {
     :alive="enemy.alive"
     />
 
-
-
     <Bullet
     v-for="bullet, id in store.bullets" :key="id"
     class="bullet-container" 
     :id="bullet.id"
     :explode="bullet.explode"
-
+    :bullett="bullet"
     />
 
     <Tower />
 
-
-
   </div>
 
 </template>
-
-<style lang="scss" scoped></style>

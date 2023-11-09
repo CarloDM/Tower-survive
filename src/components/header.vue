@@ -40,9 +40,6 @@ export default {
     <li class="">soldati in vita:
     {{  store.enemyCounter -  store.dead - store.kills }}
     </li>
-    <li class="">soldi:
-    {{ store.money }}
-    </li>
     <li class="">
       <!-- <h5>FRAME</h5> -->
       <!-- <P> {{ getFrame }}</P> -->
