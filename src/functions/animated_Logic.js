@@ -34,8 +34,6 @@ function update() {
           animazioneMovimentoVerticale(soldier);
         }); 
       }
-
-    store.resetTime ++
     store.lastTime = currentTime;
     }
     // ----------------------------------------------------------------------------
@@ -66,7 +64,6 @@ function BulletUpdate() {
         bulletComputation(bullet, store.army);
       });
     }
-    store.resetTime ++
     store.lastTimeBullet = currentTime;
   }
     // Richiedi un nuovo frame di animazione
@@ -78,11 +75,9 @@ function resetArrays(){
   const currentTime = performance.now();
   const deltaTime = currentTime - store.lastTimeReset;
   if (deltaTime >= store.intervalFrame) {
-  store.resetTime = 0,
   store.shotTimeCounter =  0;
   store.frameCount = 0;
   console.warn('RESET COUNTER');
-  store.resetTime ++
   store.lastTimeReset = currentTime;
 }
 requestAnimationFrame(update);
@@ -262,6 +257,7 @@ function calcolaCordinataPartenzaProiettile() {
 }
 
 function rand(min, max) {
-  return Math.random() * (max - min) + min;};
+  return Math.random() * (max - min) + min;
+};
   
 

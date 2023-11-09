@@ -57,6 +57,7 @@ export const store = reactive ({
   lastTimeReset : 0,
   intervalFrame : (1000 / 60), // Intervallo di tempo  (in millisecondi)
   intervalBulletFrame : (1000 / 60), // Intervallo di tempo  (in millisecondi)
-  resetTime: 0,
   armyBuffer:[],
 })
+
+// waves
