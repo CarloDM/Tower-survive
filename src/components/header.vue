@@ -28,6 +28,7 @@ export default {
 <header class="right_bar p-3 d-inline-block">
   <h5>Game Info:</h5>
   <ul>
+    
     <li class="">proiettili sparati:
     {{ store.shotCounter }}
     </li>
@@ -40,10 +41,8 @@ export default {
     <li class="">soldati in vita:
     {{  store.enemyCounter -  store.dead - store.kills }}
     </li>
-    <li class="">
-      <!-- <h5>FRAME</h5> -->
-      <!-- <P> {{ getFrame }}</P> -->
-      <!-- <P>SEC: {{ ((store.frameCount)  /12) }}</P> -->
+    <li class=""> vita
+      {{ store.user.health }}
   
     </li>
   </ul>

@@ -15,6 +15,7 @@ export default {
   <main  id="main" class="d-flex justify-content-center align-item-center debug ">
 
     <BattleGrond />
+    
 
   </main>
 </template>

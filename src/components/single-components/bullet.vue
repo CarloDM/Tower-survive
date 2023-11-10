@@ -17,12 +17,18 @@ export default {
 
   <div 
   class="bullet" 
-  :class="this.bullett.rady ? 'rady' : '' "  
+  :class="{
+    'rady' : this.bullett.rady,
+    'critical' : this.bullett.critical,
+    }"  
   :style="{left: `${this.bullett.cord.x}px`,top: `${this.bullett.cord.y}px`}"
   >
 
       <div v-if="this.bullett.explode"
-        class="explosion" 
+        class="explosion"
+        :class="{
+        'critical' : this.bullett.critical,
+        }"  
         :style="{width: `${this.bullett.damageRadius * 1.7}px`}"
         >
       </div>
@@ -44,7 +50,9 @@ export default {
   transform: translate(-50%,-50%);
   background-color: black;
   border-radius: 50%;
-
+  &.critical{
+    background-color: rgb(198, 198, 220) ;
+  }
   &.rady{
     background-color: rgb(236, 117, 70);
   }
@@ -66,6 +74,10 @@ export default {
     animation-name: dissolve ;
     animation-duration: 1s ;
     animation-timing-function: ease-in-out;
+    &.critical{
+      background-color: rgb(219, 68, 48);     
+      opacity: 1;
+    }
 }
 
 @keyframes dissolve {

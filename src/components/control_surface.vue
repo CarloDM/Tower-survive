@@ -19,6 +19,12 @@ export default {
   methods:{
     
     startBattle(){
+      store.wavesCount ++;
+      store.kills = 0;
+      store.dead = 0;
+      store.enemyCounter = 0;
+      store.army= [];
+      store.bullets = [];
       store.animation = true;
       update();
     },
@@ -31,6 +37,32 @@ export default {
     updateMousePosition(event) {
       mouseStore.mouse = [event.layerX,event.layerY];
     },
+    upGradeUser(key){
+      switch (key) {
+        case 'rateOfFire':
+          console.log('rateOfFire max 13')
+          store.user.rateOfFire += 1;
+          break;
+        case 'bulletsVelocity':
+          console.log('bulletsVelocity max 8')
+          store.user.bulletsVelocity += 2;
+          break;
+        case 'explosionRadius':
+          console.log('explosionRadius max 50')
+          store.user.explosionRadius += 10;
+          store.activationRadius += 2;
+          break;
+        case 'damage':
+          console.log('damage max 360')
+          store.user.damage += 40;
+          break;
+        case 'fortune':
+          console.log('fortune max 10')
+          store.user.fortune += 1;
+          break;
+
+      }
+    }
   },
 
   mounted(){}
@@ -45,9 +77,18 @@ export default {
       />
   <div class="control-surface d-flex flex-wrap m-auto">
 
-  <button @click="startBattle()" class="">update test</button>
+  <button @click="startBattle()" class="">startBattle</button>
   <button @click="stopBattle()" class="">stop test</button>
   <button @click="activeMouseAim()" class="">active mouse aim</button>
+
+  <div v-if="!store.animation" >
+    <button v-for="(butt,key) in store.user" :key="key" 
+    @click="upGradeUser(key)"
+    >
+    {{ butt }} {{ key }}
+    </button>
+    
+  </div>
 
   </div>
 </template>

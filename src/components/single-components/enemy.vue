@@ -22,7 +22,8 @@ components: {LifeBar},
 
     <p>{{ health }}</p>
 
-    <LifeBar :health="health" />
+    <LifeBar 
+    :health="health" />
   </div> 
 
 </template>
@@ -32,9 +33,6 @@ components: {LifeBar},
 .enemy{
   position: absolute;
   z-index: 999;
-  // left: calc( (600px) - 40px);  /* Posiziona al centro orizzontalmente */
-  // bottom: calc( (600px) - 40px); /* Posiziona nella parte inferiore con uno spazio di 10px */
-  // transform: translate(-50%,-50%); /* Centra orizzontalmente */
   background-color: rgb(61, 70, 80);
   width: 30px;
   aspect-ratio: 1/1;
@@ -47,6 +45,7 @@ components: {LifeBar},
     opacity: 0.7;
     background-color: rgb(180, 47, 47);
     border: 2px solid white;
+    opacity: 0.25;
     z-index: 0;
   }
 }

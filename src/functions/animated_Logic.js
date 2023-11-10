@@ -4,10 +4,13 @@ import {mouseStore} from '../data/mouseStore';
 // import {} from './mathFunction.js';
 export {update,calculateRotation};
 import TowerWorker from './workers/TowerWorker?worker';
+const worker = new TowerWorker();
 import ExplosionWorker from './workers/ExplosionWorker?worker';
+const explWorker = new ExplosionWorker();
 
 // ANIMATION FRAME -------------------->
 function update() {
+  if(store.animation){
   store.frameCount ++;
   const currentTime = performance.now();
   const deltaTime = currentTime - store.lastTime;
@@ -17,24 +20,29 @@ function update() {
 
     // ON FRAME
       // pulisci army enemy & bullets
-      if(store.frameCount % 250 === 0 ){
-        store.army = store.army.filter(soldier => soldier.alive);
-        store.bullets = store.bullets.filter(bullet => !bullet.explode );
-        console.warn('clean arrays');
-      }
+      // if(store.frameCount % 250 === 0 ){
+      //   store.army = store.army.filter(soldier => soldier.alive);
+      //   store.bullets = store.bullets.filter(bullet => !bullet.explode );
+      //   console.warn('clean arrays');
+      // }
 
       // push enemy
-      if((store.frameCount % store.enemyFrequency) === 0){
-        enemypush(store.enemyNumber);
+      if((store.frameCount % store.enemyFrequency(store.wavesCount) === 0 
+          && store.waves[store.wavesCount].enemies > store.enemyCounter)){
+        enemypush(store.enemyNumber(store.wavesCount));
       }
-
       // aggiorna cordinate enemy
       if(store.army.length > 0){
         store.army.forEach(soldier => {
           animazioneMovimentoVerticale(soldier);
         }); 
       }
-    store.lastTime = currentTime;
+      if(store.dead + store.kills === store.waves[store.wavesCount].enemies){
+        console.log('ondata terminata');
+        store.animation = false;
+      };
+      console.log(store.dead, store.kills, store.enemyCounter, 'waves', store.wavesCount +1)
+      store.lastTime = currentTime;
     }
     // ----------------------------------------------------------------------------
 
@@ -44,6 +52,7 @@ function update() {
       // Richiedi un nuovo frame di animazione
       requestAnimationFrame(BulletUpdate);
     }
+}
 }
 
 function BulletUpdate() {
@@ -55,7 +64,7 @@ function BulletUpdate() {
   if (deltaTime >= store.intervalBulletFrame) {
 
     // frequenza spara proiettile
-    if((store.frameCount % store.bulletsFrequency) === 0 ){
+    if((store.frameCount % store.bulletsFrequency()) === 0 ){
       newshot();
     }
 
@@ -75,7 +84,6 @@ function resetArrays(){
   const currentTime = performance.now();
   const deltaTime = currentTime - store.lastTimeReset;
   if (deltaTime >= store.intervalFrame) {
-  store.shotTimeCounter =  0;
   store.frameCount = 0;
   console.warn('RESET COUNTER');
   store.lastTimeReset = currentTime;
@@ -90,9 +98,9 @@ function enemypush(numb){
 
     const newEnemy ={ 
       id:store.enemyCounter,
-      health: 500, 
-      cord : {x:rand(50,550), y:rand(-40, 0)},
-      speed: rand(0.4, 1.7),
+      cord : {x:rand(20,580), y:rand(-40, 0)},
+      health:rand(store.waves[store.wavesCount].minMaxhealt[0],store.waves[store.wavesCount].minMaxhealt[1]), 
+      speed: rand(store.waves[store.wavesCount].minMaxSpeed[0],store.waves[store.wavesCount].minMaxSpeed[1]),
       alive: true, 
     };
 
@@ -118,6 +126,7 @@ function bulletComputation(bullet, army) {
           bullet.stop= true;
           bullet.rady=true;
           calcolaDannoEsplosione(bullet, army);
+          bullet.explode = true;
       };
 
       if(store.frameCount % 2 === 0){
@@ -163,47 +172,57 @@ function verificaCollisioneProiettile(bullet, army) {
   }
 }
 
-function calcolaDannoEsplosione(bullet, enemys) {
 
+function calcolaDannoEsplosione(bullet, enemys) {
+  // console.log('CALCOLO DANNO INVOCATO');
   // ------ send to worker ---------
-  const explWorker = new ExplosionWorker();
+  // const explWorker = new ExplosionWorker();
 
   const 
   noProxyArmy = JSON.parse(JSON.stringify(enemys)),
   noProxyBullet = JSON.parse(JSON.stringify(bullet));
 
+  // console.log('NO PROXY MESSAGE',noProxyBullet,noProxyArmy, 'ENEMYES', enemys );
+
   explWorker.postMessage([noProxyBullet,noProxyArmy]);
 
   explWorker.addEventListener("message", function(event) {
     store.army = event.data;
+    // console.log('CALCOLO DANNO MESSAGGIO RICEVUTO');
   });
 
   bullet.explode = true;
+  // console.log('CALCOLO DANNO FINE');
 }
 
 function newshot(){
+  const critical = probabilistcEngine(store.user.fortune);
   const nshot =
   {
-  id: 0,
-  velocity:     store.bulletsVelocity,
-  damageRadius: store.bulletsDmgRadius,
-  damage :      store.bulletsDamage,
+  id: store.shotCounter,
+  velocity:     store.bulletsVelocity(),
+  damageRadius: store.bulletsDmgRadius() * critical ,
+  damage :      store.bulletsDamage() * critical,
   cord : calcolaCordinataPartenzaProiettile(),
   isDirected: false,
   velXY: 0,
   autonomy: 900,
-  radius: 30, //activation radius
+  radius: store.activationRadius, //activation radius
   rady: false,
   explode: false,
   erasable: false,
+  critical:false,
   };
-  nshot.id = store.shotCounter;
+  if(critical > 1){
+    // nshot.damageRadius = nshot.damageRadius * 1.3,
+    nshot.critical = true;
+  }
   store.bullets.push(nshot);
 }
 
 function calculateRotation() {
 
-  const worker = new TowerWorker()
+
   let upgrade = setInterval(() => {
       worker.postMessage([store.tower.cord.x, store.tower.cord.y, mouseStore.mouse[0], mouseStore.mouse[1]]);
   }, 40);
@@ -217,22 +236,23 @@ function calculateRotation() {
 
 function  animazioneMovimentoVerticale(enemy) {
   if(enemy.alive){
-  const altezzaCampoBattaglia = 800; // Altezza del campo di battaglia
-
-    const velocitaMovimento =  enemy.speed; // Velocità di movimento in pixel per frame (puoi regolare   il valore)
-
-      enemy.cord.y += velocitaMovimento;
-
-        if (enemy.health < 1) {
-          // console.warn('die', enemy.id),
-          enemy.alive= false;
-          store.kills ++;
-
-        }else if(enemy.cord.y > altezzaCampoBattaglia){
-          enemy.alive= false;
-          store.dead++;
-        }
+    const altezzaCampoBattaglia = 800; // Altezza del campo di battaglia
+      if (enemy.health <= 0) {
+        // console.warn('die', enemy.id),
+        store.kills ++;
+        enemy.alive= false;
+        console.warn('kill', store.kills)
+      
+      }else if(enemy.cord.y > altezzaCampoBattaglia){
+        store.user.health -= enemy.health / 4 ;
+        store.dead ++;
+        enemy.alive= false;
       }
+
+
+      const velocitaMovimento =  enemy.speed; // Velocità di movimento in pixel per frame (puoi     regolare   il valore)
+      enemy.cord.y += velocitaMovimento;
+  }
 };
 
  // Calcolo della velocità di movimento del proiettile
@@ -259,5 +279,18 @@ function calcolaCordinataPartenzaProiettile() {
 function rand(min, max) {
   return Math.random() * (max - min) + min;
 };
-  
 
+
+//  probabilistic engine 2: da 0 a point 1       probabilità in percentuale di colpi critici
+//                          da point 1 a point 2 probabilità in percentuale di colpi dimezzati
+//                          da point 2 a 100%    restante probabilità di colpi pieni
+function probabilistcEngine(fortune){
+  const i =  Math.floor(Math.random() * 100 + 1);
+  
+  if(i <= fortune){
+    console.warn('CRITICO!')
+    return 4;
+  }else{
+    return 1
+  }
+}

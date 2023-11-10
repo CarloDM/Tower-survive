@@ -1,5 +1,6 @@
 
 self.addEventListener("message", function(event) {
+  // console.log('WORKER DANNO IN');
   const centroX = event.data[0].cord.x;
   const centroY = event.data[0].cord.y;
   const raggioEsplosione = event.data[0].damageRadius;
@@ -23,7 +24,7 @@ self.addEventListener("message", function(event) {
       if(nemico.health > 0){
         nemico.cord.y -= 10;
         const dannoInflitto = damage * (1 - distanza / raggioEsplosione);
-        nemico.health -= dannoInflitto + (autonomy / 2) ;
+        nemico.health -= dannoInflitto + (autonomy / 3) ;
         // console.log('colpito id', nemico.id, 'salute:', Math.trunc(nemico.health) , 'danno inflitto', Math.trunc(-dannoInflitto));
     }}
   });
@@ -40,7 +41,7 @@ self.addEventListener("message", function(event) {
       }),
 
   self.postMessage(army);
-
+  // console.log('WORKER DANNO OUT');
 });
 
 function  animazioneMovimentoVerticale(enemy) {

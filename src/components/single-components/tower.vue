@@ -27,7 +27,9 @@ props:{}
 
     <!-- <div class="laser visible"></div> -->
 
-    <!-- <LifeBar  /> -->
+    <!-- fare una lifebar specifica per l utente -->
+    <!-- <LifeBar
+    :health="store.user.healt"  /> -->
     
   </div>
 

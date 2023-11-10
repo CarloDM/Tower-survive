@@ -1,13 +1,17 @@
 <script>
 export default {
   name:'LifeBar',
+  data(){
+    return{
+      initialHealth: 0,
+    }
+  },
   props:{
     health: Number,
   },
-  components:{},
-  methods:{},
-  computed: {
-  },
+  mounted(){
+    this.initialHealth = this.health;
+  }
 }
 
 </script>
@@ -15,7 +19,7 @@ export default {
 <template>
   <div class="life-bar">
 
-    <div class="health" :style="{ width: ((health / 500) * 100) + '%' }" ></div>
+    <div class="health" :style="{ width: ((health / this.initialHealth) * 100) + '%' }" ></div>
 
   </div>
 </template>
