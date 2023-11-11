@@ -42,7 +42,7 @@ export default {
     {{  store.enemyCounter -  store.dead - store.kills }}
     </li>
     <li class=""> vita
-      {{ store.user.health }}
+      {{ store.userHealth }}
   
     </li>
   </ul>

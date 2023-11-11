@@ -14,32 +14,24 @@ export const store = reactive ({
   enemyFrequency: function(waveNumber){return this.waves[waveNumber].frequency;}, // ogni n  framerequest
 // waves
 waves:[
-  {enemies:5, frequency:12, enemyNumber:1, minMaxSpeed:[0.9,1.5],minMaxhealt:[250,400]}, //1
-  {enemies:5, frequency:24, enemyNumber:1, minMaxSpeed:[0.9,1.8],minMaxhealt:[350,500]}, //2
-  // {enemies:8, frequency:24, enemyNumber:1, minMaxSpeed:[1,2.5],  minMaxhealt:[400,500]}, //3
-  {enemies:12, frequency:44, enemyNumber:2, minMaxSpeed:[1,1.8],  minMaxhealt:[400,600]}, //4 
-  {enemies:15, frequency:42, enemyNumber:2, minMaxSpeed:[1,2],    minMaxhealt:[400,650]}, //5 meno nemici
-  // {enemies:20, frequency:82, enemyNumber:3, minMaxSpeed:[1,3],    minMaxhealt:[400,660]}, //6 meno nemici
-  {enemies:25, frequency:80, enemyNumber:3, minMaxSpeed:[1.4,2.0],minMaxhealt:[400,680]}, //7 meno nemici
-  {enemies:30, frequency:78, enemyNumber:3, minMaxSpeed:[1.0,2.2],minMaxhealt:[500,680]}, //8 
-  // {enemies:35, frequency:76, enemyNumber:3, minMaxSpeed:[1.2,2.4],minMaxhealt:[500,680]}, //9
-  {enemies:60, frequency:24, enemyNumber:1, minMaxSpeed:[0.8,2.6],minMaxhealt:[500,700]}, //10
+  // {enemies:5,   frequency:12,  enemyNumber:1,  minMaxSpeed:[0.9,1.5], minMaxhealt:[250,400]},    //1
+  // {enemies:5,   frequency:24,  enemyNumber:1,  minMaxSpeed:[0.9,1.8], minMaxhealt:[350,500]},    //2
+  // {enemies:12,  frequency:44,  enemyNumber:2,  minMaxSpeed:[1,1.8],   minMaxhealt:[400,600]},    //3 
+  // {enemies:15,  frequency:42,  enemyNumber:2,  minMaxSpeed:[1,2],     minMaxhealt:[400,650]},    //4 
+  // {enemies:25,  frequency:80,  enemyNumber:3,  minMaxSpeed:[1.4,2.0], minMaxhealt:[400,680]},    //5 
 
-  {enemies:70, frequency:48, enemyNumber:2, minMaxSpeed:[0.8,2.6],minMaxhealt:[500,700]}, //11
-  // {enemies:70, frequency:44, enemyNumber:2, minMaxSpeed:[1,2.6],  minMaxhealt:[500,800]}, //12 
-  {enemies:70, frequency:42, enemyNumber:2, minMaxSpeed:[0.6,2.8],minMaxhealt:[580,840]}, //13 
+  // {enemies:30,  frequency:78,  enemyNumber:3,  minMaxSpeed:[1.0,2.2], minMaxhealt:[500,680]},    //6 
+  // {enemies:60,  frequency:24,  enemyNumber:1,  minMaxSpeed:[0.5,2.6], minMaxhealt:[500,750]},    //7
 
-  // {enemies:70, frequency:78, enemyNumber:3, minMaxSpeed:[0.8,3],  minMaxhealt:[650,940]}, //14 
-  // {enemies:70, frequency:74, enemyNumber:3, minMaxSpeed:[1,3],    minMaxhealt:[750,1100]}, //15 
-  {enemies:70, frequency:70, enemyNumber:3, minMaxSpeed:[1,3.2],  minMaxhealt:[850,1250]}, //16 more 
+  // {enemies:70,  frequency:48,  enemyNumber:2,  minMaxSpeed:[0.8,2.6], minMaxhealt:[500,800]},    //8
+  // {enemies:70,  frequency:42,  enemyNumber:2,  minMaxSpeed:[0.6,2.8], minMaxhealt:[580,940]},    //9 
+  // {enemies:70,  frequency:70,  enemyNumber:3,  minMaxSpeed:[1,3.2],   minMaxhealt:[850,1000]},   //10  
+  // {enemies:70,  frequency:20,  enemyNumber:1,  minMaxSpeed:[1,3],     minMaxhealt:[900,1200]},   //11 
+  // {enemies:90,  frequency:12,  enemyNumber:1,  minMaxSpeed:[1,3.5],   minMaxhealt:[1000,1500]},  //12
+  // {enemies:110, frequency:10,  enemyNumber:1,  minMaxSpeed:[1,4],     minMaxhealt:[1200,2000]},  //13
 
-  {enemies:70, frequency:20, enemyNumber:1, minMaxSpeed:[1,3],    minMaxhealt:[900,1250]}, //17 more
-  // {enemies:85, frequency:16, enemyNumber:1, minMaxSpeed:[1,3],    minMaxhealt:[1000,1240]}, //18
-  {enemies:90, frequency:12, enemyNumber:1, minMaxSpeed:[1,3.5],    minMaxhealt:[1000,1500]}, //19
-  {enemies:110,frequency:10, enemyNumber:1, minMaxSpeed:[1,4],   minMaxhealt:[1200,2000]}, //20
-
-  {enemies:100,frequency:300, enemyNumber:20, minMaxSpeed:[1.2,1.5],   minMaxhealt:[8000,11000]}, //21
-  {enemies:180,frequency:24, enemyNumber:1, minMaxSpeed:[8,16],   minMaxhealt:[900,1400]}, //22
+  {enemies:140, frequency:320, enemyNumber:20, minMaxSpeed:[0.6,1.8], minMaxhealt:[7000,9000]}, //14
+  {enemies:180, frequency:24,  enemyNumber:1,  minMaxSpeed:[8,12],    minMaxhealt:[900,1500]},   //15
 ],
 // bullets ---------------------
 /** EXEMPL
@@ -70,10 +62,28 @@ user:{
   explosionRadius: 0,
   damage:0,
   fortune:1,
-  health:10000,
 },
+  userHealth: 2400,
   activationRadius: 30,
-  
+// SPECIAL EVENT
+
+boosting:false,
+
+specialBoost: {
+  bulletsFrequency :{  
+      rateOfFire : 16,
+      bulletsVelocity: 14,
+  } ,
+  allCritical :{
+      fortune: 70,
+  },
+  superShot :{
+      damage: 3000,
+      bulletsVelocity: 20,
+  } 
+},
+
+
 // counter -----------
   wavesCount: - 1,
   enemyCounter: 0,

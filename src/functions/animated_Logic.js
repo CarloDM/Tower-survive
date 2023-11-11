@@ -41,17 +41,45 @@ function update() {
         console.log('ondata terminata');
         store.animation = false;
       };
-      console.log(store.dead, store.kills, store.enemyCounter, 'waves', store.wavesCount +1)
+
+
+      // console.log(store.dead, store.kills, store.enemyCounter, 'waves', store.wavesCount +1);
       store.lastTime = currentTime;
     }
     // ----------------------------------------------------------------------------
 
-    if(store.frameCount % 500 === 0){
-      requestAnimationFrame(resetArrays);
-    }else if (store.animation){
+
+    if(store.frameCount % (24 * 3)  === 0 && store.userHealth < 7500 && !store.boosting){
+      console.warn('try boost')
+      store.boosting = true;
+
+      if(store.userHealth <= 2500){
+        console.warn(' inside 2500');
+        probabilisticBoostEngine(9.5,8000,2000);
+      }else{
+
+        if(store.userHealth <= 5000){
+          console.warn('inside 5000');
+          probabilisticBoostEngine(5,5000,3000);
+        }else{
+
+          if(store.userHealth <= 7500){
+            console.warn('inside 7500');
+            probabilisticBoostEngine(3,4000,6000);
+
+          }
+        }
+      }
+    }
+
+
+    // if(store.frameCount % 500 === 0){
+    //   requestAnimationFrame(resetArrays);
+    // }else if (store.animation){
+
       // Richiedi un nuovo frame di animazione
       requestAnimationFrame(BulletUpdate);
-    }
+    // }
 }
 }
 
@@ -99,8 +127,8 @@ function enemypush(numb){
     const newEnemy ={ 
       id:store.enemyCounter,
       cord : {x:rand(20,580), y:rand(-40, 0)},
-      health:rand(store.waves[store.wavesCount].minMaxhealt[0],store.waves[store.wavesCount].minMaxhealt[1]), 
-      speed: rand(store.waves[store.wavesCount].minMaxSpeed[0],store.waves[store.wavesCount].minMaxSpeed[1]),
+      health:randDecimal(store.waves[store.wavesCount].minMaxhealt[0],store.waves[store.wavesCount].minMaxhealt[1]), 
+      speed: randDecimal(store.waves[store.wavesCount].minMaxSpeed[0],store.waves[store.wavesCount].minMaxSpeed[1]),
       alive: true, 
     };
 
@@ -222,7 +250,6 @@ function newshot(){
 
 function calculateRotation() {
 
-
   let upgrade = setInterval(() => {
       worker.postMessage([store.tower.cord.x, store.tower.cord.y, mouseStore.mouse[0], mouseStore.mouse[1]]);
   }, 40);
@@ -241,10 +268,10 @@ function  animazioneMovimentoVerticale(enemy) {
         // console.warn('die', enemy.id),
         store.kills ++;
         enemy.alive= false;
-        console.warn('kill', store.kills)
+        // console.warn('kill', store.kills)
       
       }else if(enemy.cord.y > altezzaCampoBattaglia){
-        store.user.health -= enemy.health / 4 ;
+        store.userHealth -= enemy.health / 4 ;
         store.dead ++;
         enemy.alive= false;
       }
@@ -277,7 +304,11 @@ function calcolaCordinataPartenzaProiettile() {
 }
 
 function rand(min, max) {
-  return Math.random() * (max - min) + min;
+  return Math.floor(Math.random() * (max - min) + min);
+};
+function randDecimal(min, max) {
+  const number =(Math.random() * (max - min) + min).toFixed(1);
+  return parseFloat(number);
 };
 
 
@@ -288,9 +319,70 @@ function probabilistcEngine(fortune){
   const i =  Math.floor(Math.random() * 100 + 1);
   
   if(i <= fortune){
-    console.warn('CRITICO!')
+    // console.warn('CRITICO!')
     return 4;
   }else{
     return 1
   }
+}
+
+// motore assegnazione boost probabilistico
+// luckMultiplier: moltiplica la fortuna quindi la probabilità di positivo
+// boostDuration: durata del potenziamento
+// boostGate:     riapertura della possibilità d invocare un boost
+
+function  probabilisticBoostEngine(luckMultiplier, boostDuration, boostGate){
+  if(probabilistcEngine(store.user.fortune * luckMultiplier) === 4){
+
+    const userOriginalState = JSON.parse(JSON.stringify(store.user));
+    const choice = rand(1,5);
+    console.warn(choice);
+    switch (choice) {
+
+      case 1:
+        console.warn(' bulletsFrequency');
+        store.user.rateOfFire = store.specialBoost.bulletsFrequency.rateOfFire;
+        store.user.bulletsVelocity = store.specialBoost.bulletsFrequency.bulletsVelocity;
+        setTimeout(() => {
+          store.user = userOriginalState;
+          console.warn('cloose boost', userOriginalState);
+              setTimeout(() => {store.boosting = false;console.log('switch boost')}, boostGate);
+        }, boostDuration);
+        break;
+
+      case 2:
+        console.warn('allCritical');
+        store.user.fortune = store.specialBoost.allCritical.fortune;
+        setTimeout(() => {
+          store.user = userOriginalState;
+          console.warn('cloose boost', store.user );
+              setTimeout(() => {store.boosting = false;console.log('switch boost')}, boostGate);
+        }, boostDuration);
+        break;
+
+      case 3:
+        console.warn(' superShot');
+        store.user.damage = store.specialBoost.superShot.damage;
+        store.user.bulletsVelocity = store.specialBoost.superShot.bulletsVelocity;
+        setTimeout(() => {
+          store.user = userOriginalState;
+          console.warn('cloose boost', store.user);
+              setTimeout(() => {store.boosting = false;console.log('switch boost')}, boostGate);
+        }, boostDuration);
+        break;
+
+      case 4:
+        console.warn(' healt + 20%');
+        store.userHealth += 2000 ;
+        setTimeout(() => {
+          console.warn('cloose boost', store.userHealth);
+              setTimeout(() => {store.boosting = false;console.log('switch boost')}, boostGate);
+        }, boostDuration);
+        break;
+
+        default: store.boosting = false;
+
+    }
+
+  }else{store.boosting = false;}
 }

@@ -48,7 +48,7 @@ export default {
           store.user.bulletsVelocity += 2;
           break;
         case 'explosionRadius':
-          console.log('explosionRadius max 50')
+          console.log('explosionRadius max 40')
           store.user.explosionRadius += 10;
           store.activationRadius += 2;
           break;
