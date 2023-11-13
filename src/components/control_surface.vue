@@ -2,7 +2,7 @@
 import { GlobalEvents } from 'vue-global-events';
 import {store} from '../data/store';
 import {mouseStore} from '../data/mouseStore';
-
+import {sayWhichwave} from '../functions/audio';
 import {update,calculateRotation} from '../functions/animated_Logic';
 
 export default {
@@ -20,13 +20,16 @@ export default {
     
     startBattle(){
       store.wavesCount ++;
+      sayWhichwave(store.wavesCount + 1);
       store.kills = 0;
       store.dead = 0;
       store.enemyCounter = 0;
       store.army= [];
       store.bullets = [];
       store.animation = true;
-      update();
+      setTimeout(() => {
+        update();
+      }, 1000);
     },
     stopBattle(){
       store.animation = false;

@@ -36,15 +36,17 @@ export default {
     {{ store.enemyCounter }}
     </li>
     <li class="">uccisioni:
-    {{ getkills }}
+    {{ store.kills }}
+    </li>
+    <li class=""> dead:
+      {{ store.dead }}
     </li>
     <li class="">soldati in vita:
     {{  store.enemyCounter -  store.dead - store.kills }}
     </li>
     <li class=""> vita
-      {{ store.userHealth }}
-  
-    </li>
+      {{ store.userHealth.toFixed(0) }}
+    </li> .pasrse
   </ul>
 
 </header>

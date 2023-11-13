@@ -1,12 +1,16 @@
 // ------------------------------------- in out-
 import {store} from '../data/store';
 import {mouseStore} from '../data/mouseStore';
+import {sayWhichBoost, foleyShot} from './audio';
 // import {} from './mathFunction.js';
 export {update,calculateRotation};
+
 import TowerWorker from './workers/TowerWorker?worker';
-const worker = new TowerWorker();
 import ExplosionWorker from './workers/ExplosionWorker?worker';
+const worker = new TowerWorker();
 const explWorker = new ExplosionWorker();
+
+
 
 // ANIMATION FRAME -------------------->
 function update() {
@@ -25,6 +29,10 @@ function update() {
       //   store.bullets = store.bullets.filter(bullet => !bullet.explode );
       //   console.warn('clean arrays');
       // }
+      if(store.dead + store.kills === store.waves[store.wavesCount].enemies){
+        console.log('ondata terminata', store.dead + store.kills , store.enemyCounter);
+        store.animation = false;
+      };
 
       // push enemy
       if((store.frameCount % store.enemyFrequency(store.wavesCount) === 0 
@@ -37,10 +45,6 @@ function update() {
           animazioneMovimentoVerticale(soldier);
         }); 
       }
-      if(store.dead + store.kills === store.waves[store.wavesCount].enemies){
-        console.log('ondata terminata');
-        store.animation = false;
-      };
 
 
       // console.log(store.dead, store.kills, store.enemyCounter, 'waves', store.wavesCount +1);
@@ -49,13 +53,13 @@ function update() {
     // ----------------------------------------------------------------------------
 
 
-    if(store.frameCount % (24 * 3)  === 0 && store.userHealth < 7500 && !store.boosting){
+    if(store.frameCount % 60 === 0 && store.userHealth <= 7500 && !store.boosting){
       console.warn('try boost')
       store.boosting = true;
 
-      if(store.userHealth <= 2500){
-        console.warn(' inside 2500');
-        probabilisticBoostEngine(9.5,8000,2000);
+      if(store.userHealth <= 3000){
+        console.warn(' inside 3000');
+        probabilisticBoostEngine(9.5,8000,1000);
       }else{
 
         if(store.userHealth <= 5000){
@@ -63,7 +67,7 @@ function update() {
           probabilisticBoostEngine(5,5000,3000);
         }else{
 
-          if(store.userHealth <= 7500){
+          if(store.userHealth <= 8000){
             console.warn('inside 7500');
             probabilisticBoostEngine(3,4000,6000);
 
@@ -246,6 +250,7 @@ function newshot(){
     nshot.critical = true;
   }
   store.bullets.push(nshot);
+  foleyShot(nshot.critical);
 }
 
 function calculateRotation() {
@@ -266,14 +271,18 @@ function  animazioneMovimentoVerticale(enemy) {
     const altezzaCampoBattaglia = 800; // Altezza del campo di battaglia
       if (enemy.health <= 0) {
         // console.warn('die', enemy.id),
-        store.kills ++;
         enemy.alive= false;
+        store.kills ++;
         // console.warn('kill', store.kills)
       
       }else if(enemy.cord.y > altezzaCampoBattaglia){
         store.userHealth -= enemy.health / 4 ;
-        store.dead ++;
         enemy.alive= false;
+        store.dead ++;
+        console.log('dead', enemy.health / 4 )
+        if(store.userHealth < (-1400)){
+          store.userHealth = (-1400);
+        }
       }
 
 
@@ -312,7 +321,7 @@ function randDecimal(min, max) {
 };
 
 
-//  probabilistic engine 2: da 0 a point 1       probabilità in percentuale di colpi critici
+//  probabilistic engine: da 0 a point 1  probabilità in percentuale di colpi critici
 //                          da point 1 a point 2 probabilità in percentuale di colpi dimezzati
 //                          da point 2 a 100%    restante probabilità di colpi pieni
 function probabilistcEngine(fortune){
@@ -326,11 +335,11 @@ function probabilistcEngine(fortune){
   }
 }
 
+
 // motore assegnazione boost probabilistico
 // luckMultiplier: moltiplica la fortuna quindi la probabilità di positivo
 // boostDuration: durata del potenziamento
 // boostGate:     riapertura della possibilità d invocare un boost
-
 function  probabilisticBoostEngine(luckMultiplier, boostDuration, boostGate){
   if(probabilistcEngine(store.user.fortune * luckMultiplier) === 4){
 
@@ -341,6 +350,7 @@ function  probabilisticBoostEngine(luckMultiplier, boostDuration, boostGate){
 
       case 1:
         console.warn(' bulletsFrequency');
+        sayWhichBoost(choice);
         store.user.rateOfFire = store.specialBoost.bulletsFrequency.rateOfFire;
         store.user.bulletsVelocity = store.specialBoost.bulletsFrequency.bulletsVelocity;
         setTimeout(() => {
@@ -352,6 +362,7 @@ function  probabilisticBoostEngine(luckMultiplier, boostDuration, boostGate){
 
       case 2:
         console.warn('allCritical');
+        sayWhichBoost(choice);
         store.user.fortune = store.specialBoost.allCritical.fortune;
         setTimeout(() => {
           store.user = userOriginalState;
@@ -362,10 +373,13 @@ function  probabilisticBoostEngine(luckMultiplier, boostDuration, boostGate){
 
       case 3:
         console.warn(' superShot');
+        sayWhichBoost(choice);
         store.user.damage = store.specialBoost.superShot.damage;
         store.user.bulletsVelocity = store.specialBoost.superShot.bulletsVelocity;
+        store.activationRadius = store.specialBoost.superShot.activationRadius;
         setTimeout(() => {
           store.user = userOriginalState;
+          store.activationRadius = 30;
           console.warn('cloose boost', store.user);
               setTimeout(() => {store.boosting = false;console.log('switch boost')}, boostGate);
         }, boostDuration);
@@ -373,6 +387,7 @@ function  probabilisticBoostEngine(luckMultiplier, boostDuration, boostGate){
 
       case 4:
         console.warn(' healt + 20%');
+        sayWhichBoost(choice);
         store.userHealth += 2000 ;
         setTimeout(() => {
           console.warn('cloose boost', store.userHealth);
