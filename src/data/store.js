@@ -13,7 +13,7 @@ export const store = reactive ({
 
 
   tower : {
-          cord : {x:300,y:860},
+          cord : {x:300,y:880},
           rotation : 0,
           aim: false,
           },

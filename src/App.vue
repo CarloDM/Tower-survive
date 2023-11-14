@@ -31,7 +31,7 @@ export default {
     <Header class="" />
     
 </div>
-<ControlSurface />
+<!-- <ControlSurface /> -->
 
 
 </div>

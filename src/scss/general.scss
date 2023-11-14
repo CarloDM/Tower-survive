@@ -1,7 +1,14 @@
 .debug{
   background-color:rgba(156, 21, 21, 0.253);
-  border: 1px solid black;
+  // border: 1px solid black;
 }
+
+*{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
 body{
   background-color: black;
   overflow: hidden;
@@ -16,19 +23,16 @@ body{
   width: 800px;
 }
 
-// header{
-
-// }
-
 .main{
-
-  width: 800px;
+  width: 600px;
   height: 900px;
   padding:0;
 }
 
 .control-surface{
-  width: 750px;
+  display: flex;
+  flex-direction: column;
+  width: 140px;
   background-color: rgb(46, 42, 42);
 }
 
@@ -39,10 +43,10 @@ body{
   background-image: url("/src/assets/texture/1bg_top_z1.jpg");
   background-color: rgb(151, 142, 132);
   background-position:40%;
-  // background-repeat: round;
+  background-repeat: round;
   background-size:contain;
   cursor: crosshair;
-  overflow: hidden;
+  // overflow: hidden;
 }
 
 .battle-ground * {

@@ -3,6 +3,7 @@ import {store} from '../../data/store'
 import Tower from '../single-components/tower.vue';
 import Enemy from '../single-components/enemy.vue';
 import Bullet from '../single-components/bullet.vue';
+import Base from '../partials/base.vue';
 
 export default {
   name:'BattleGrond',
@@ -11,7 +12,7 @@ export default {
       store,
     }
   },
-  components:{Tower,Enemy,Bullet},
+  components:{Enemy,Bullet,Tower,Base},
   methods:{},
   computed:{},
   props:{},
@@ -42,7 +43,9 @@ export default {
     :bullett="bullet"
     />
 
+    <Base/>
     <Tower />
+
 
   </div>
 

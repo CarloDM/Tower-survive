@@ -302,7 +302,7 @@ function calcolaVelocitaMovimento(angolo, velocita) {
 function calcolaCordinataPartenzaProiettile() {
 
   const angoloRotazione = store.tower.rotation; // Angolo di rotazione della torretta (in gradi)
-  const raggio = 100; // Raggio dal centro di rotazione al punto di partenza del proiettile
+  const raggio = 80; // Raggio dal centro di rotazione al punto di partenza del proiettile
 
   // Calcolo delle coordinate di partenza del proiettile
   const radian = (angoloRotazione - 90) * (Math.PI / 180); // Conversione dell'angolo in radianti

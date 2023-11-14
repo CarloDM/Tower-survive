@@ -74,32 +74,35 @@ export default {
 </script>
 
 <template>
+<GlobalEvents
+  @mousemove="updateMousePosition"
+/>
 
-    <GlobalEvents
-      @mousemove="updateMousePosition"
-      />
+
   <div class="control-surface d-flex flex-wrap m-auto">
 
-  <button @click="startBattle()" class="">startBattle</button>
-  <button @click="stopBattle()" class="">stop test</button>
-  <button @click="activeMouseAim()" class="">active mouse aim</button>
+      <button @click="startBattle()" class="">startBattle</button>
+      <button @click="stopBattle()" class="">stop test</button>
+      <button @click="activeMouseAim()" class="">active mouse aim</button>
 
-  <div v-if="!store.animation" >
-    <button v-for="(butt,key) in store.user" :key="key" 
-    @click="upGradeUser(key)"
-    >
-    {{ butt }} {{ key }}
-    </button>
-    
-  </div>
+      <div v-if="!store.animation" 
+      class="control-surface ">
+
+          <button v-for="(butt,key) in store.user" :key="key" 
+          @click="upGradeUser(key)"
+          class="my_btn"
+          >
+          {{ butt }} {{ key }}
+          </button>
+
+    </div>
 
   </div>
 </template>
 
 <style lang="scss" scoped>
-.btn{
-  width: 100px;
-  height: 40px;
-  background-color: rgb(192, 192, 192);
+.my_btn{
+  padding: 5px;
+  background-color: rgba(221, 255, 199, 0.795);
 }
 </style>

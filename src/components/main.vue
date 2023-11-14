@@ -12,7 +12,7 @@ export default {
 </script>
 
 <template>
-  <main  id="main" class="d-flex justify-content-center align-item-center debug ">
+  <main  id="main" class="d-flex justify-content-center align-item-center  ">
 
     <BattleGrond />
     

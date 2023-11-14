@@ -1,6 +1,6 @@
 <script>
-import { computed } from 'vue';
 import {store} from '../data/store';
+import ControlSurface from './control_surface.vue';
 export default {
   name: 'Header',
   data(){
@@ -8,6 +8,7 @@ export default {
       store,
     }
   },
+  components:{ControlSurface},
 
   computed : {
     getFrame(){
@@ -46,8 +47,10 @@ export default {
     </li>
     <li class=""> vita
       {{ store.userHealth.toFixed(0) }}
-    </li> .pasrse
+    </li> 
   </ul>
+
+  <ControlSurface/>
 
 </header>
 </template>
@@ -56,7 +59,7 @@ export default {
 <style lang="scss" scoped>
 
   .right_bar{
-    width: 180px;
+    // width: 180px;
     font-size: 0.9rem;
     background-color: grey;
     & ul{
