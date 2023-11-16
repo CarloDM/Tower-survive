@@ -44,10 +44,10 @@ export default {
 
             <div class="info ">
               <ul v-if="store.wavesCount > -1" class="">
-                <li>Kills:     {{ store.kills }}/{{ store.enemyCounter }}                 </li>
-                <li>Shots:     {{ store.shotCounter }}                                      </li>
+                <li>Kills:     {{ store.kills }}/{{ store.enemyCounter }}                       </li>
+                <li>Shots:     {{ store.shotCounter }}                                          </li>
                 <li>Precision: {{ ((store.shotGoals / store.shotCounter) * 100).toFixed(1) }}%  </li>
-                <li>Healt:     {{ ((store.userHealth /10000) *100).toFixed(1) }}%           </li>
+                <li>Health:     {{ ((store.userHealth /10000) *100).toFixed(1) }}%               </li>
               </ul>
             </div>
 

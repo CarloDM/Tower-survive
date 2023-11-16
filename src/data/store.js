@@ -1,4 +1,3 @@
-import { Modal } from 'bootstrap';
 import {reactive} from 'vue';
 export const store = reactive ({
 
@@ -9,10 +8,10 @@ export const store = reactive ({
 // capire cache
 
   tower : {
-          cord : {x:300,y:880},
-          rotation : 0,
-          aim: false,
-          },
+    cord : {x:300,y:880},
+    rotation : 0,
+    aim: false,
+  },
 
 // enemy
 // army: [ {cord : {x:150,y:20}, id:0,health: 1000, alive: true}, ecc...  ]
@@ -103,8 +102,9 @@ specialBoost: {
 
  // utility
   autoShot: false,
-  checkDivider : true,
-  userShoting : false,
+
+  // checkDivider : true,
+  // userShoting : false,
 
 // animation frame
   frameCount: 0,

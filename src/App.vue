@@ -32,7 +32,6 @@ export default {
 
     <StartWavesModal/>
     <Main />
-    <!-- <Header/> -->
     
   </div>
 </div>

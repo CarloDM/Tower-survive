@@ -1,7 +1,7 @@
 // ------------------------------------- in out-
 import {store} from '../data/store';
 import {mouseStore} from '../data/mouseStore';
-import {sayWhichBoost, foleyShot} from './audio';
+import {sayWhichBoost, foleyShot, foleyExplosion, voxAssistantImpact,voxAssistantRejoices,voxAssistantRage, voxAssistantDanger} from './audio';
 import {saveLastUserStatus} from './game_Menagment';
 // import {} from './mathFunction.js';
 export {update,calculateRotation,stopRotation};
@@ -31,6 +31,7 @@ function update() {
         if(store.dead + store.kills >= store.waves[store.wavesCount].enemies){
           console.log('ondata terminata', store.dead + store.kills , store.enemyCounter,  store.waves[store.wavesCount].enemies);
           stopRotation();
+          if(store.autoShot){voxAssistantRejoices();}
           store.autoShot = false;
           // aspettare che boost termini
           if(!store.boosting){
@@ -55,9 +56,9 @@ function update() {
 
       // Boost
       if(store.frameCount % 60 === 0 && store.userHealth <= 7500 && !store.boosting){
-      console.warn('try boost')
+      console.warn('try boost'); voxAssistantDanger();
       store.boosting = true;
-
+      
       if(store.userHealth <= 3000){
         console.warn(' inside 3000');
         probabilisticBoostEngine(9.5,8000,1000);
@@ -186,6 +187,7 @@ function verificaCollisioneProiettile(bullet, army) {
 
           if(store.frameCount % 2 === 0){
             store.shotGoals ++;
+            foleyExplosion();
             calcolaDannoEsplosione(bullet,army);
           }
           break;
@@ -209,6 +211,7 @@ function calcolaDannoEsplosione(bullet, enemys) {
 
   explWorker.addEventListener("message", function(event) {
     store.army = event.data;
+
   });
 
   bullet.explode = true;
@@ -264,6 +267,7 @@ function  animazioneMovimentoVerticale(enemy) {
         store.kills ++;
       
       }else if(enemy.cord.y > altezzaCampoBattaglia){
+        voxAssistantImpact();
         store.userHealth -= enemy.health / 4 ;
         enemy.alive= false;
         store.dead ++;
@@ -332,45 +336,39 @@ function  probabilisticBoostEngine(luckMultiplier, boostDuration, boostGate){
     switch (choice) {
 
       case 1:
-        console.warn(' bulletsFrequency');
-        sayWhichBoost(choice);
+        sayWhichBoost(choice); setTimeout(()=> {voxAssistantRage();},600);
+
         store.user.rateOfFire = store.specialBoost.bulletsFrequency.rateOfFire;
         store.user.bulletsVelocity = store.specialBoost.bulletsFrequency.bulletsVelocity;
         setTimeout(() => {
           store.user = userOriginalState;
-          console.warn('cloose boost', userOriginalState);
               setTimeout(() => {store.boosting = false;console.log('switch boost')}, boostGate);
         }, boostDuration);
         break;
 
       case 2:
-        console.warn('allCritical');
-        sayWhichBoost(choice);
+        sayWhichBoost(choice); setTimeout(()=> {voxAssistantRage();},600);
         store.user.fortune = store.specialBoost.allCritical.fortune;
         setTimeout(() => {
           store.user = userOriginalState;
-          console.warn('cloose boost', store.user );
               setTimeout(() => {store.boosting = false;console.log('switch boost')}, boostGate);
         }, boostDuration);
         break;
 
       case 3:
-        console.warn(' superShot');
-        sayWhichBoost(choice);
+        sayWhichBoost(choice); setTimeout(()=> {voxAssistantRage();},600);
         store.user.damage = store.specialBoost.superShot.damage;
         store.user.bulletsVelocity = store.specialBoost.superShot.bulletsVelocity;
         store.activationRadius = store.specialBoost.superShot.activationRadius;
         setTimeout(() => {
           store.user = userOriginalState;
           store.activationRadius = 30;
-          console.warn('cloose boost', store.user);
               setTimeout(() => {store.boosting = false;console.log('switch boost')}, boostGate);
         }, boostDuration);
         break;
 
       case 4:
-        console.warn(' healt + 20%');
-        sayWhichBoost(choice);
+        sayWhichBoost(choice); setTimeout(()=> {voxAssistantRage();},600);
         store.userHealth += 2000 ;
         setTimeout(() => {
           console.warn('cloose boost', store.userHealth);

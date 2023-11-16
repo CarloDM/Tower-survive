@@ -41,7 +41,7 @@ export default {
 <template>
   <div id="battle" class="battle-ground">
     <!-- debug -->
-    <!-- <button @click="finishLevel">finishLevel</button> -->
+    <button @click="finishLevel">finishLevel</button>
 
     <Enemy class=""
     v-for="(enemy, index) in store.army" :key="index"
