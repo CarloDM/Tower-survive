@@ -1,19 +1,29 @@
 <script>
+import {mouseStore} from '../data/mouseStore'
+import { GlobalEvents } from 'vue-global-events';
 import BattleGrond from './partials/battleGround.vue';
 
 export default {
   name:'Main',
-  components:{BattleGrond},
-  methods:{
-
+  data(){
+    return{
+      mouseStore,
+    }
   },
-  props:{},
+  components:{GlobalEvents,BattleGrond},
+  methods:{
+    updateMousePosition(event) {
+      mouseStore.mouse = [event.layerX,event.layerY];
+    },
+  },
 }
 </script>
 
 <template>
-  <main  id="main" class="d-flex justify-content-center align-item-center  ">
+  <main  id="main" class="main d-flex justify-content-center align-item-center  ">
 
+    <GlobalEvents
+    @mousemove="updateMousePosition"/>
     <BattleGrond />
     
 

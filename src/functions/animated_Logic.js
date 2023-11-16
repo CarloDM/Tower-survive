@@ -2,8 +2,9 @@
 import {store} from '../data/store';
 import {mouseStore} from '../data/mouseStore';
 import {sayWhichBoost, foleyShot} from './audio';
+import {saveLastUserStatus} from './game_Menagment';
 // import {} from './mathFunction.js';
-export {update,calculateRotation};
+export {update,calculateRotation,stopRotation};
 
 import TowerWorker from './workers/TowerWorker?worker';
 import ExplosionWorker from './workers/ExplosionWorker?worker';
@@ -15,45 +16,45 @@ const explWorker = new ExplosionWorker();
 // ANIMATION FRAME -------------------->
 function update() {
   if(store.animation){
-  store.frameCount ++;
-  const currentTime = performance.now();
-  const deltaTime = currentTime - store.lastTime;
-
-  // Esegui la logica solo se è trascorso l'intervallo di tempo desiderato ------
-  if (deltaTime >= store.intervalFrame) {
-
-    // ON FRAME
-      // pulisci army enemy & bullets
-      // if(store.frameCount % 250 === 0 ){
-      //   store.army = store.army.filter(soldier => soldier.alive);
-      //   store.bullets = store.bullets.filter(bullet => !bullet.explode );
-      //   console.warn('clean arrays');
-      // }
-      if(store.dead + store.kills === store.waves[store.wavesCount].enemies){
-        console.log('ondata terminata', store.dead + store.kills , store.enemyCounter);
-        store.animation = false;
+    store.frameCount ++;
+    const currentTime = performance.now();
+    const deltaTime = currentTime - store.lastTime;
+    // Esegui la logica solo se è trascorso l'intervallo di tempo desiderato ------
+    if (deltaTime >= store.intervalFrame) {
+        // aggiorna cordinate enemy
+        if(store.army.length > 0){
+          store.army.forEach(soldier => {
+            animazioneMovimentoVerticale(soldier);
+          }); 
+        };
+        // controlla se ondata è terminata
+        if(store.dead + store.kills >= store.waves[store.wavesCount].enemies){
+          console.log('ondata terminata', store.dead + store.kills , store.enemyCounter,  store.waves[store.wavesCount].enemies);
+          stopRotation();
+          store.autoShot = false;
+          // aspettare che boost termini
+          if(!store.boosting){
+              if(store.userHealth<= 0){store.gameStatus.alive = false;}
+              store.gameStatus.lastWave = store.wavesCount;
+              store.animation = false;
+              store.gameStatus.onMatch = false;
+              store.army = [];
+              store.bullets = [];
+              if(store.wavesCount < 13){
+                store.gameStatus.upgradeAvailable = 3;
+              }
+          }
+        };
+        // push enemy
+        if((store.frameCount % store.enemyFrequency(store.wavesCount) === 0 
+            && store.waves[store.wavesCount].enemies > store.enemyCounter)){
+          enemypush(store.enemyNumber(store.wavesCount));
+        }
+        store.lastTime = currentTime;
       };
 
-      // push enemy
-      if((store.frameCount % store.enemyFrequency(store.wavesCount) === 0 
-          && store.waves[store.wavesCount].enemies > store.enemyCounter)){
-        enemypush(store.enemyNumber(store.wavesCount));
-      }
-      // aggiorna cordinate enemy
-      if(store.army.length > 0){
-        store.army.forEach(soldier => {
-          animazioneMovimentoVerticale(soldier);
-        }); 
-      }
-
-
-      // console.log(store.dead, store.kills, store.enemyCounter, 'waves', store.wavesCount +1);
-      store.lastTime = currentTime;
-    }
-    // ----------------------------------------------------------------------------
-
-
-    if(store.frameCount % 60 === 0 && store.userHealth <= 7500 && !store.boosting){
+      // Boost
+      if(store.frameCount % 60 === 0 && store.userHealth <= 7500 && !store.boosting){
       console.warn('try boost')
       store.boosting = true;
 
@@ -74,17 +75,11 @@ function update() {
           }
         }
       }
-    }
+      };
 
-
-    // if(store.frameCount % 500 === 0){
-    //   requestAnimationFrame(resetArrays);
-    // }else if (store.animation){
-
-      // Richiedi un nuovo frame di animazione
-      requestAnimationFrame(BulletUpdate);
-    // }
-}
+    // Richiedi un nuovo frame di animazione
+    requestAnimationFrame(BulletUpdate);
+  }
 }
 
 function BulletUpdate() {
@@ -96,7 +91,7 @@ function BulletUpdate() {
   if (deltaTime >= store.intervalBulletFrame) {
 
     // frequenza spara proiettile
-    if((store.frameCount % store.bulletsFrequency()) === 0 ){
+    if((store.frameCount % store.bulletsFrequency()) === 0 && store.autoShot ){
       newshot();
     }
 
@@ -155,10 +150,7 @@ function bulletComputation(bullet, army) {
       // ridurre contatore autonomia proiettile
       bullet.autonomy -= (( Math.abs(bullet.velXY.x) + Math.abs(bullet.velXY.y)));
       if(bullet.autonomy < 1 ){ //se ha finito l autonomia si ferma e si calcola l esplosione
-          bullet.stop= true;
-          bullet.rady=true;
-          calcolaDannoEsplosione(bullet, army);
-          bullet.explode = true;
+        calcolaDannoEsplosione(bullet, army);
       };
 
       if(store.frameCount % 2 === 0){
@@ -182,8 +174,7 @@ function verificaCollisioneProiettile(bullet, army) {
   });
 
   if(armyBuffer.length > 0){
-    bullet.stop= true;
-    bullet.rady= true;
+
     
     for (const nemico of armyBuffer){
         if(nemico.alive){
@@ -192,9 +183,9 @@ function verificaCollisioneProiettile(bullet, army) {
         let distanza = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
         if (distanza <= bullet.radius) {
-          //  enemy colpito
 
           if(store.frameCount % 2 === 0){
+            store.shotGoals ++;
             calcolaDannoEsplosione(bullet,army);
           }
           break;
@@ -206,25 +197,21 @@ function verificaCollisioneProiettile(bullet, army) {
 
 
 function calcolaDannoEsplosione(bullet, enemys) {
-  // console.log('CALCOLO DANNO INVOCATO');
-  // ------ send to worker ---------
-  // const explWorker = new ExplosionWorker();
+
+  bullet.stop= true;
+  bullet.rady= true;
 
   const 
   noProxyArmy = JSON.parse(JSON.stringify(enemys)),
   noProxyBullet = JSON.parse(JSON.stringify(bullet));
 
-  // console.log('NO PROXY MESSAGE',noProxyBullet,noProxyArmy, 'ENEMYES', enemys );
-
   explWorker.postMessage([noProxyBullet,noProxyArmy]);
 
   explWorker.addEventListener("message", function(event) {
     store.army = event.data;
-    // console.log('CALCOLO DANNO MESSAGGIO RICEVUTO');
   });
 
   bullet.explode = true;
-  // console.log('CALCOLO DANNO FINE');
 }
 
 function newshot(){
@@ -253,41 +240,40 @@ function newshot(){
   foleyShot(nshot.critical);
 }
 
+let upgradeAim ;
 function calculateRotation() {
 
-  let upgrade = setInterval(() => {
+  upgradeAim = setInterval(() => {
       worker.postMessage([store.tower.cord.x, store.tower.cord.y, mouseStore.mouse[0], mouseStore.mouse[1]]);
   }, 40);
-  upgrade;
-
+  upgradeAim;
   worker.addEventListener("message", function(event) {
   store.tower.rotation = event.data;
-});
+})
+};
 
-}
+function stopRotation(){
+  clearInterval(upgradeAim);
+};
 
 function  animazioneMovimentoVerticale(enemy) {
   if(enemy.alive){
     const altezzaCampoBattaglia = 800; // Altezza del campo di battaglia
       if (enemy.health <= 0) {
-        // console.warn('die', enemy.id),
         enemy.alive= false;
         store.kills ++;
-        // console.warn('kill', store.kills)
       
       }else if(enemy.cord.y > altezzaCampoBattaglia){
         store.userHealth -= enemy.health / 4 ;
         enemy.alive= false;
         store.dead ++;
-        console.log('dead', enemy.health / 4 )
+
         if(store.userHealth < (-1400)){
           store.userHealth = (-1400);
         }
-      }
-
-
-      const velocitaMovimento =  enemy.speed; // Velocità di movimento in pixel per frame (puoi     regolare   il valore)
-      enemy.cord.y += velocitaMovimento;
+      };
+       // Velocità di movimento in pixel per frame (puoi     regolare   il valore)
+      enemy.cord.y += enemy.speed;
   }
 };
 
@@ -315,15 +301,13 @@ function calcolaCordinataPartenzaProiettile() {
 function rand(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
+
 function randDecimal(min, max) {
   const number =(Math.random() * (max - min) + min).toFixed(1);
   return parseFloat(number);
 };
 
-
-//  probabilistic engine: da 0 a point 1  probabilità in percentuale di colpi critici
-//                          da point 1 a point 2 probabilità in percentuale di colpi dimezzati
-//                          da point 2 a 100%    restante probabilità di colpi pieni
+//  probabilistic engine: da 0 a {fortune}  probabilità in percentuale di colpi critici
 function probabilistcEngine(fortune){
   const i =  Math.floor(Math.random() * 100 + 1);
   
@@ -335,17 +319,16 @@ function probabilistcEngine(fortune){
   }
 }
 
-
 // motore assegnazione boost probabilistico
-// luckMultiplier: moltiplica la fortuna quindi la probabilità di positivo
-// boostDuration: durata del potenziamento
-// boostGate:     riapertura della possibilità d invocare un boost
+// luckMultiplier: moltiplica la fortuna quindi la probabilità di innesco del boost
+// boostDuration: durata del boost
+// boostGate:     riapertura della condizione che permette, se possibile, di provare ad invocare un boost
 function  probabilisticBoostEngine(luckMultiplier, boostDuration, boostGate){
   if(probabilistcEngine(store.user.fortune * luckMultiplier) === 4){
 
     const userOriginalState = JSON.parse(JSON.stringify(store.user));
     const choice = rand(1,5);
-    console.warn(choice);
+
     switch (choice) {
 
       case 1:

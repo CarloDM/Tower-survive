@@ -13,7 +13,20 @@ export default {
     }
   },
   components:{Enemy,Bullet,Tower,Base},
-  methods:{},
+  methods:{
+    // debug
+    finishLevel(){
+      store.autoShot = false;
+      store.gameStatus.lastWave = store.wavesCount;
+      store.animation = false;
+      store.gameStatus.onMatch = false;
+      store.army = [];
+      store.bullets = [];
+      if(store.wavesCount < 13){
+        store.gameStatus.upgradeAvailable = 3;
+      }
+    }
+  },
   computed:{},
   props:{},
   mounted(){
@@ -26,13 +39,16 @@ export default {
 </script>
 
 <template>
-  <div id="battle" class="battle-ground">battle
+  <div id="battle" class="battle-ground">
+    <!-- debug -->
+    <!-- <button @click="finishLevel">finishLevel</button> -->
 
     <Enemy class=""
     v-for="(enemy, index) in store.army" :key="index"
     :id="index"
     :health="Math.trunc(enemy.health)"
     :alive="enemy.alive"
+    :enemy="enemy"
     />
 
     <Bullet
@@ -50,3 +66,11 @@ export default {
   </div>
 
 </template>
+
+<style lang="scss" scoped>
+button {
+  cursor: pointer;
+  z-index: 999;
+  pointer-events: all;
+}
+</style>

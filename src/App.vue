@@ -4,6 +4,7 @@ import {store} from './data/store';
 import Header from './components/header.vue';
 import Main from './components/main.vue';
 import ControlSurface from './components/control_surface.vue';
+import StartWavesModal from './components/partials/startWavesModal.vue';
 export default {
   name: 'App',
   data(){
@@ -15,6 +16,7 @@ export default {
     Header,
     Main,
     ControlSurface,
+    StartWavesModal,
     
   },
   methods:{},
@@ -27,13 +29,12 @@ export default {
 <div class="main-wrapper container-fluid"  >
   <div class="d-flex  flex-row justify-content-around main_container m-auto debug"
     >
-    <Main class="main d-inline-block"  />
-    <Header class="" />
+
+    <StartWavesModal/>
+    <Main />
+    <!-- <Header/> -->
     
-</div>
-<!-- <ControlSurface /> -->
-
-
+  </div>
 </div>
 </template>
 

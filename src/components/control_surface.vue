@@ -1,9 +1,8 @@
 <script>
-import { GlobalEvents } from 'vue-global-events';
 import {store} from '../data/store';
 import {mouseStore} from '../data/mouseStore';
 import {sayWhichwave} from '../functions/audio';
-import {update,calculateRotation} from '../functions/animated_Logic';
+import {update,calculateRotation,stopRotation} from '../functions/animated_Logic';
 
 export default {
   name:'ControlSurface',
@@ -14,8 +13,6 @@ export default {
     }
   },
 
-  components:{GlobalEvents,},
-  
   methods:{
     
     startBattle(){
@@ -37,9 +34,10 @@ export default {
     activeMouseAim(){
         calculateRotation();
     },
-    updateMousePosition(event) {
-      mouseStore.mouse = [event.layerX,event.layerY];
+    deactiveMouseAim(){
+      stopRotation()
     },
+
     upGradeUser(key){
       switch (key) {
         case 'rateOfFire':
@@ -63,27 +61,20 @@ export default {
           console.log('fortune max 10')
           store.user.fortune += 1;
           break;
-
       }
-    }
+    },
   },
-
-  mounted(){}
-
 }
 </script>
 
 <template>
-<GlobalEvents
-  @mousemove="updateMousePosition"
-/>
-
 
   <div class="control-surface d-flex flex-wrap m-auto">
 
       <button @click="startBattle()" class="">startBattle</button>
       <button @click="stopBattle()" class="">stop test</button>
       <button @click="activeMouseAim()" class="">active mouse aim</button>
+      <button @click="deactiveMouseAim()" class="">deactive mouse aim</button>
 
       <div v-if="!store.animation" 
       class="control-surface ">

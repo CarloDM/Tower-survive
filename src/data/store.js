@@ -2,15 +2,11 @@ import { Modal } from 'bootstrap';
 import {reactive} from 'vue';
 export const store = reactive ({
 
-// creare i Modal/conteggio punteggio finale
-//
+// conteggio punteggio finale
 // rinominare in inglese pulire logiche e funzioni
 // produrre design
 // produrre sound design e colonne sonore
 // capire cache
-
-
-
 
   tower : {
           cord : {x:300,y:880},
@@ -68,18 +64,17 @@ waves:[
   bulletsDamage:    function(){return 40 + this.user.damage;},
 // user stat
 user:{
-  rateOfFire : 13,
-  bulletsVelocity: 8,
-  explosionRadius: 40,
-  damage:360,
-  fortune:10,
+  rateOfFire : 0,
+  bulletsVelocity: 0,
+  explosionRadius: 0,
+  damage:0,
+  fortune:1,
 },
-  userHealth: 1000,
+  userHealth: 10000,
   activationRadius: 30,
+
 // SPECIAL EVENT
-
 boosting:false,
-
 specialBoost: {
   bulletsFrequency :{  
       rateOfFire : 16,
@@ -87,28 +82,27 @@ specialBoost: {
   } ,
   allCritical :{
       fortune: 85,
-
   },
   superShot :{
       damage: 4000,
       bulletsVelocity: 20,
       activationRadius : 50,
   } 
-
 },
 
-
 // counter -----------
-  wavesCount: - 1,
+  wavesCount: -1,
   enemyCounter: 0,
   shotCounter:0,
-  autoShot: false,
-  autoAim: false,
-  manualAim: false,
+  shotGoals : 0,
   kills: 0,
   dead: 0,
 
- // utiliti
+  autoAim: false,
+  manualAim: false,
+
+ // utility
+  autoShot: false,
   checkDivider : true,
   userShoting : false,
 
@@ -121,5 +115,26 @@ specialBoost: {
   intervalFrame : (1000 / 60), // Intervallo di tempo  (in millisecondi)
   intervalBulletFrame : (1000 / 60), // Intervallo di tempo  (in millisecondi)
   armyBuffer:[],
+
+// GAME STATUS
+gameStatus : {
+  onMatch: false,
+  alive: true,
+  upgradeAvailable:0,
+  upgradesComplete: false,
+  lastWave : -1,
+  lastUserStatus: {
+    user:{
+      rateOfFire : 0,
+      bulletsVelocity: 0,
+      explosionRadius: 0,
+      damage:0,
+      fortune:1,
+    },
+    userHealth: 10000,
+    activationRadius: 30,
+  },
+}
+
 })
 

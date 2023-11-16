@@ -30,7 +30,7 @@ const shotC2 = new Audio('../../public/audio/foley/shotcritical2.mp3');
 const shotC22 = new Audio('../../public/audio/foley/shotcritical2.mp3');
 [shotC1,shotC11, shotC2, shotC22, shot1, shot2, shot3, shot4].forEach(audio => {
   audio.load(); 
-  audio.volume = 0.5;
+  audio.volume = 0.2 ;
 });
 
 
@@ -71,41 +71,37 @@ function foleyShot(critical){
 
     const random = rand(1,5);
     switch (random){
-        case 1: console.log('CRITICAL SHOT', 1);
+        case 1: 
           if(shotC1.paused){
             shotC1.play()
           }else{
-            console.log('non paused')
             shotC11.pause();
             shotC11.currentTime = 0;
             shotC11.play();
           }
         break;
-        case 2: console.log('CRITICAL SHOT', 11);
+        case 2: 
           if(shotC11.paused){
             shotC11.play()
           }else{
-            console.log('non paused')
             shotC1.pause();
             shotC1.currentTime = 0;
             shotC1.play();
           }
         break;
-        case 3: console.log('CRITICAL SHOT', 22);
+        case 3: 
           if(shotC2.paused){
             shotC2.play()
           }else{
-            console.log('non paused')
             shotC22.pause();
             shotC22.currentTime = 0;
             shotC22.play();
           }
         break;
-        case 4: console.log('CRITICAL SHOT', 22);
+        case 4: 
           if(shotC22.paused){
             shotC22.play()
           }else{
-            console.log('non paused')
             shotC2.pause();
             shotC2.currentTime = 0;
             shotC2.play();
@@ -117,44 +113,40 @@ function foleyShot(critical){
 
     const random = rand(1,5);
     switch (random){
-      case 1: console.log('SHOT', 1);
+      case 1: 
         if(shot1.paused){
           shot1.play()
         }else{
-          console.log('non paused')
-          shot1.pause();
-          shot1.currentTime = 0;
-          shot1.play();
-        }
-      break;
-      case 2: console.log('SHOT', 2);
-        if(shot2.paused){
-          shot2.play()
-        }else{
-          console.log('non paused')
           shot2.pause();
           shot2.currentTime = 0;
           shot2.play();
         }
       break;
-      case 3: console.log('SHOT', 3);
-        if(shot3.paused){
-          shot3.play()
+      case 2: 
+        if(shot2.paused){
+          shot2.play()
         }else{
-          console.log('non paused')
           shot3.pause();
           shot3.currentTime = 0;
           shot3.play();
         }
       break;
-      case 4: console.log('SHOT', 4);
-        if(shot4.paused){
-          shot4.play()
+      case 3: 
+        if(shot3.paused){
+          shot3.play()
         }else{
-          console.log('non paused')
           shot4.pause();
           shot4.currentTime = 0;
           shot4.play();
+        }
+      break;
+      case 4: 
+        if(shot4.paused){
+          shot4.play()
+        }else{
+          shot1.pause();
+          shot1.currentTime = 0;
+          shot1.play();
         }
       break;
     
