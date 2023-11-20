@@ -4,7 +4,7 @@ export const store = reactive ({
 // conteggio punteggio finale
 // rinominare in inglese pulire logiche e funzioni
 // produrre design
-// produrre sound design e colonne sonore
+// produrre sound design 
 // capire cache
 
   tower : {
@@ -36,21 +36,10 @@ waves:[
   {enemies:90,  frequency:12,  enemyNumber:1,  minMaxSpeed:[1,3.5],   minMaxhealt:[1000,1500]},  //12
   {enemies:110, frequency:12,  enemyNumber:1,  minMaxSpeed:[1,4],     minMaxhealt:[1200,2000]},  //13
 
-  {enemies:147, frequency:200, enemyNumber:7, minMaxSpeed:[0.6,1.3], minMaxhealt:[7000,9000]}, //14
+  {enemies:147, frequency:200, enemyNumber:7,  minMaxSpeed:[0.6,1.3], minMaxhealt:[7000,9000]}, //14
   {enemies:334, frequency:24,  enemyNumber:1,  minMaxSpeed:[7,12],    minMaxhealt:[700,1300]},   //15
-  {enemies:600, frequency:12,  enemyNumber:1,  minMaxSpeed:[9,14],    minMaxhealt:[750,1000]},   //16
+  {enemies:600, frequency:12,  enemyNumber:1,  minMaxSpeed:[9,14],    minMaxhealt:[750,900]},   //16
 ],
-// finalWaveexemple:{
-//   firstPart : {frequency:200, enemyNumber:7, minMaxSpeed:[0.6,1.3], minMaxhealt:[7000,9000]},
-//   secondPart : {frequency:24,  enemyNumber:1,  minMaxSpeed:[8,12],    minMaxhealt:[900,1500]}
-// },
-// finalWave: {
-//   frequency:200,
-//   enemyNumber:7,
-//   minMaxSpeed:[0.6,1.3], 
-//   minMaxhealt:[7000,9000]
-// },
-
 
 // bullets ---------------------
 /** EXEMPL
@@ -76,13 +65,13 @@ waves:[
   bulletsDamage:    function(){return 40 + this.user.damage;},
 // user stat
 user:{
-  rateOfFire : 13,
-  bulletsVelocity: 8,
-  explosionRadius: 40,
-  damage:360,
-  fortune:10,
+  rateOfFire : 0,
+  bulletsVelocity: 0,
+  explosionRadius: 0,
+  damage:0,
+  fortune:0,
 },
-  userHealth: 5000,
+  userHealth: 1,
   activationRadius: 30,
 
 // SPECIAL EVENT
@@ -103,12 +92,13 @@ specialBoost: {
 },
 
 // counter -----------
-  wavesCount: 12,
+  wavesCount: -1,
   enemyCounter: 0,
   shotCounter:0,
   shotGoals : 0,
   kills: 0,
   dead: 0,
+  restartNumb: 0,
 
   autoAim: false,
   manualAim: false,
@@ -137,18 +127,13 @@ gameStatus : {
   upgradesComplete: false,
   lastWave : -1,
   surviveMode: false,
-  lastUserStatus: {
-    user:{
-      rateOfFire : 0,
-      bulletsVelocity: 0,
-      explosionRadius: 0,
-      damage:0,
-      fortune:1,
-    },
-    userHealth: 10000,
-    activationRadius: 30,
-  },
-}
+
+},
+
+//  waves complete statistic
+wavesComplete: [
+  // {kills:0, dead:0, precision: 0, totalEnemies:0, retry:0 }
+]
 
 })
 

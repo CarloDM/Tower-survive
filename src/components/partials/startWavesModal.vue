@@ -1,6 +1,6 @@
 <script>
 import {store} from '../../data/store';
-import {startBattle,upGradeUser} from '../../functions/game_Menagment';
+import {startBattle,upGradeUser,restart} from '../../functions/game_Menagment';
 import {musicLowLoud, musicHightLoud, musicFinalWaveFade} from '../../functions/audio';
 export default {
   name:'StarWavesModal',
@@ -26,6 +26,9 @@ export default {
       }else if (store.wavesCount === 13){
         musicFinalWaveFade();
       }
+    },
+    restart(){
+      restart();
     },
     upGradeUser(key){
       upGradeUser(key);
@@ -85,7 +88,7 @@ export default {
               </div>
 
               <div 
-              v-if="store.gameStatus.upgradeAvailable !== 0"
+              v-if="store.gameStatus.upgradeAvailable !== 0 && store.gameStatus.alive"
               class="btn_start"
               >
                   <h4 >{{store.gameStatus.upgradeAvailable}} more upgrade </h4>
@@ -93,6 +96,7 @@ export default {
 
               <div v-if="!store.gameStatus.alive"
               class="btn_start"
+              @click="restart"
               >
                   <h4>retry</h4>
               </div>
@@ -101,7 +105,8 @@ export default {
         </div>
       </section>
 
-      <section class="upgrade">
+      <section v-if="store.gameStatus.alive"
+      class="upgrade">
 
           <div @click="upGradeUser('damage')"
           class="btn_upgrade"

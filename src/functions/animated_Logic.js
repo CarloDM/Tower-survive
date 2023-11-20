@@ -2,7 +2,7 @@
 import {store} from '../data/store';
 import {mouseStore} from '../data/mouseStore';
 import {sayWhichBoost, foleyShot, foleyExplosion, voxAssistantImpact,voxAssistantRejoices,voxAssistantRage, voxAssistantDanger} from './audio';
-import {saveLastUserStatus} from './game_Menagment';
+import {saveWaveCompleteStatistic} from './game_Menagment';
 // import {} from './mathFunction.js';
 export {update,calculateRotation,stopRotation};
 
@@ -33,16 +33,26 @@ function update() {
           stopRotation();
           if(store.autoShot){voxAssistantRejoices();}
           store.autoShot = false;
+          
           // aspettare che boost termini
           if(!store.boosting){
-              if(store.userHealth<= 0){store.gameStatus.alive = false;}
-              store.gameStatus.lastWave = store.wavesCount;
-              store.animation = false;
-              store.gameStatus.onMatch = false;
-              store.army = [];
-              store.bullets = [];
-              if(store.wavesCount < 13){
-                store.gameStatus.upgradeAvailable = 3;
+            console.log('boost false');
+            store.gameStatus.lastWave = store.wavesCount;
+            store.animation = false;
+            store.gameStatus.onMatch = false;
+            store.army = [];
+            store.bullets = [];
+
+              if(store.userHealth <= 0){
+                store.gameStatus.alive = false;
+                console.log('perso');
+              }else{
+                console.log('wave passata');
+                saveWaveCompleteStatistic();
+                store.restartNumb = 0;
+                if(store.wavesCount < 13 ){
+                  store.gameStatus.upgradeAvailable = 3;
+                }
               }
           }
         };
@@ -65,17 +75,17 @@ function update() {
       store.boosting = true;
       
       if(store.userHealth <= 3000){
-        console.warn(' inside 3000');
+
         probabilisticBoostEngine(9.5,8000,1000);
       }else{
 
         if(store.userHealth <= 5000){
-          console.warn('inside 5000');
+
           probabilisticBoostEngine(5,5000,3000);
         }else{
 
           if(store.userHealth <= 8000){
-            console.warn('inside 7500');
+
             probabilisticBoostEngine(3,4000,6000);
 
           }
@@ -336,7 +346,13 @@ function  probabilisticBoostEngine(luckMultiplier, boostDuration, boostGate){
   if(probabilistcEngine(store.user.fortune * luckMultiplier) === 4){
 
     const userOriginalState = JSON.parse(JSON.stringify(store.user));
-    const choice = rand(1,5);
+
+    let choice;
+    if(store.wavesCount < 15){
+      choice = rand(1,5); // all ultima ondata boost health scartato
+    }else{
+      choice = rand(1,4); // all ultima ondata boost health scartato
+    }
 
     switch (choice) {
 
@@ -374,7 +390,7 @@ function  probabilisticBoostEngine(luckMultiplier, boostDuration, boostGate){
 
       case 4:
         sayWhichBoost(choice); setTimeout(()=> {voxAssistantRage();},600);
-        store.userHealth += 2000 ;
+        // store.userHealth += 2000 ;
         setTimeout(() => {
           console.warn('cloose boost', store.userHealth);
               setTimeout(() => {store.boosting = false;console.log('switch boost')}, boostGate);

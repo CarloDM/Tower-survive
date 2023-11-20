@@ -1,10 +1,21 @@
 import {store} from '../data/store';
 import {sayWhichwave,playMusic,musicFinalWaveFade} from '../functions/audio';
 import {update,calculateRotation,stopRotation} from '../functions/animated_Logic';
-export {startBattle,upGradeUser, deactiveMouseAim, saveLastUserStatus};
+export {startBattle,restart, upGradeUser, deactiveMouseAim, saveWaveCompleteStatistic};
 
 function startBattle(){
   store.wavesCount ++;
+  sayWhichwave(store.wavesCount + 1);
+  store.shotCounter = 0;
+  store.shotGoals = 0;
+  store.kills = 0;
+  store.dead = 0;
+  store.enemyCounter = 0;
+  store.army= [];
+  store.bullets = [];
+  store.animation = true;
+  store.gameStatus.onMatch = true;
+  activeMouseAim();
 
   if(store.wavesCount === 0){
     playMusic(0);
@@ -26,7 +37,7 @@ function startBattle(){
       }, 5);
       setTimeout(() => {
         store.bullets = [];
-      }, 500);
+      }, 15000);
       setTimeout(() => {
         clearInterval(blockFrameCount);
         setTimeout(() => {
@@ -34,7 +45,7 @@ function startBattle(){
         }, 24);
       }, 31000);
 
-      setTimeout(() => { // dopo 1min e 30sec si attiva survivor mode la partita finisce quando arrivi a 0 vita
+      setTimeout(() => { //si attiva survivor mode la partita finisce quando arrivi a 0 vita
         store.gameStatus.surviveMode = true;
         console.warn('survivorMode');
         store.wavesCount ++;
@@ -44,17 +55,7 @@ function startBattle(){
 
     },160000)
   }
-  sayWhichwave(store.wavesCount + 1);
-  store.shotCounter = 0;
-  store.shotGoals = 0;
-  store.kills = 0;
-  store.dead = 0;
-  store.enemyCounter = 0;
-  store.army= [];
-  store.bullets = [];
-  store.animation = true;
-  store.gameStatus.onMatch = true;
-  activeMouseAim();
+
 
   if(store.wavesCount < 13){ // final
     setTimeout(() => {
@@ -70,8 +71,24 @@ function startBattle(){
     }, 22000);
   }
 }
+function restart(){
+  store.restartNumb ++;
+  store.user.rateOfFire = 0;
+  store.user.bulletsVelocity = 0;
+  store.user.explosionRadius = 0;
+  store.user.damage = 0;
+  store.user.fortune = 1;
+  store.userHealth = 1500;
+  store.activationRadius = 30;
+  store.wavesCount --;
+  store.gameStatus.alive = true;
 
-
+  if(store.wavesCount < 13 && store.wavesCount !== - 1){
+    store.gameStatus.upgradeAvailable = (3 * (store.wavesCount + 1)) ;
+  }else if(store.wavesCount > 13 ){
+    store.gameStatus.upgradeAvailable = 39;
+  }
+}
 
 function stopBattle(){
   store.animation = false;
@@ -116,9 +133,14 @@ function upGradeUser(key){
   }
 }
 
-function saveLastUserStatus(){
-  store.lastUserStatus.user = JSON.parse(JSON.stringify(store.user));
-  store.lastUserStatus.userHealth = JSON.parse(JSON.stringify(store.userHealth));
-  store.lastUserStatus.activationRadius = JSON.parse(JSON.stringify(store.activationRadius));
-  console.log(store.lastUserStatus);
+function saveWaveCompleteStatistic(){
+  let statistic = {
+    kills: store.kills, 
+    totalEnemies: store.enemyCounter, 
+    dead:store.dead, 
+    precision: parseFloat(((store.shotGoals / store.shotCounter) * 100).toFixed(1)), 
+    restartNumb: store.restartNumb,
+  }
+    store.wavesComplete.push(statistic);
+    console.log('statistic',store.wavesComplete);
 }
