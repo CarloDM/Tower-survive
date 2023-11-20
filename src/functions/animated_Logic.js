@@ -56,9 +56,17 @@ function update() {
               }
           }
         };
+
         if(store.gameStatus.surviveMode && store.userHealth < 0){
           console.warm('Finita!');
-          store.animation = false;
+          store.autoShot = false;
+          store.gameStatus.alive = false;
+          saveWaveCompleteStatistic();
+          stopRotation();
+          setTimeout(() => {
+            store.animation = false;
+            store.gameStatus.onMatch = false;
+          }, 5000);
         }
 
         // push enemy
