@@ -1,3 +1,6 @@
+const music1 = new Audio('../../public/audio/music/RocketTowerSurvive_Soundtrack.mp3');
+const music2 = new Audio('../../public/audio/music/RocketTowerSurvive_Soundtrack.mp3');
+[music1,music2].forEach(audio => {audio.load(); audio.volume = 0.15;}); // 0.5 a regime
 
 const voxSupershot =   new Audio('../../public/audio//vocal/voxSuperShot.mp3');
 const voxMachineGun =  new Audio('../../public/audio//vocal/voxMachineGun.mp3');
@@ -19,6 +22,10 @@ const voxWave12 =    new Audio('../../public/audio/vocal/voxW12.mp3');
 const voxWave13 =    new Audio('../../public/audio/vocal/voxW13.mp3');
 const voxWave14 =    new Audio('../../public/audio/vocal/voxW14.mp3');
 const voxWaveFinal = new Audio('../../public/audio/vocal/voxWFinal.mp3');
+[voxWave1,voxWave2,voxWave3,voxWave4,voxWave5,voxWave6,voxWave7,voxWave8,voxWave9,voxWave10,voxWave11,voxWave12,voxWave13,voxWave14,voxWaveFinal].forEach(audio => {
+  audio.load(); 
+  audio.volume = 1;
+});
 
 const voxAssistantDanger1 = new Audio('../../public/audio/vocal/voxAssistant_danger1.mp3');
 const voxAssistantDanger2 = new Audio('../../public/audio/vocal/voxAssistant_danger2.mp3');
@@ -39,7 +46,7 @@ const voxAssistantRage4 = new Audio('../../public/audio/vocal/voxAssistant_rage4
 const voxAssistantRage5 = new Audio('../../public/audio/vocal/voxAssistant_rage5.mp3');
 [voxAssistantRage1,voxAssistantRage2,voxAssistantRage3,voxAssistantRage4,voxAssistantRage5,voxAssistantDanger1,voxAssistantDanger2,voxAssistantDanger3,voxAssistantDanger4,voxAssistantDanger5,voxAssistantDanger6,voxAssistantDanger7].forEach(audio => {
   audio.load(); 
-  audio.volume = 0.6;
+  audio.volume = 1;
 });
 const voxAssistantRejoices1 = new Audio('../../public/audio/vocal/voxAssistant_rejoices1.mp3');
 const voxAssistantRejoices2 = new Audio('../../public/audio/vocal/voxAssistant_rejoices2.mp3');
@@ -59,7 +66,7 @@ const shotC2 = new Audio('../../public/audio/foley/shotcritical2.mp3');
 const shotC22 = new Audio('../../public/audio/foley/shotcritical2.mp3');
 [shotC1,shotC11, shotC2, shotC22, shot1, shot2, shot3, shot4].forEach(audio => {
   audio.load(); 
-  audio.volume = 0.1 ;
+  audio.volume = 0.25 ;
 });
 const explosion1 = new Audio('../../public/audio/foley/explosion1.mp3');
 const explosion11 = new Audio('../../public/audio/foley/explosion1.mp3');
@@ -77,11 +84,58 @@ const explosion7 = new Audio('../../public/audio/foley/explosion7.mp3');
 const explosion77 = new Audio('../../public/audio/foley/explosion7.mp3');
 [explosion1,explosion11,explosion2,explosion22,explosion3,explosion33,explosion4,explosion44,explosion5,explosion55,explosion6,explosion66,explosion7,explosion77].forEach(audio => {
   audio.load(); 
-  audio.volume = 0.3 ;
+  audio.volume = 0.8 ;
 });
 
-export{sayWhichBoost,sayWhichwave, foleyShot, foleyExplosion, voxAssistantImpact,voxAssistantRejoices,voxAssistantRage, voxAssistantDanger}
+export{sayWhichBoost,sayWhichwave, foleyShot, foleyExplosion, voxAssistantImpact,voxAssistantRejoices,voxAssistantRage, voxAssistantDanger, playMusic, musicLowLoud, musicHightLoud,musicFinalWaveFade}
 // --------------
+function playMusic(where){
+  // music1.pause();
+  // music1.load();
+  music1.currentTime = where;
+  // music1.volume = 0;
+  music1.play()
+}
+function musicLowLoud(){
+  const fade = (0.25 - 0.45) / (1500 / 10); //millisecondi
+  const fading = setInterval(()=>{
+    if(music1.volume > 0.25 ){
+      music1.volume += fade;
+      music2.volume += fade;
+    } else {
+      music1.volume = 0.25;
+      music2.volume = 0.25;
+      clearInterval(fading);
+    }
+  },10)
+}
+function musicHightLoud(){
+  const fade = (0.45 - 0.25) / (3000 / 10); //millisecondi
+  const fading = setInterval(()=>{
+    if(music1.volume < 0.45 ){
+      music1.volume += fade;
+      music2.volume += fade;
+    } else {
+      music1.volume = 0.45;
+      music2.volume = 0.45;
+      clearInterval(fading);
+    }
+  },10)
+}
+function musicFinalWaveFade(){
+  music1.volume = 0;
+  const fade = (0.45 - 0) / (10000 / 10); //millisecondi
+  const fading = setInterval(()=>{
+    if(music1.volume < 0.5 ){
+      music1.volume += fade;
+      music2.volume += fade;
+    } else {
+      music1.volume = 0.45;
+      music2.volume = 0.45;
+      clearInterval(fading);
+    }
+  },10)
+}
 function sayWhichBoost(choice) {
   switch (choice){
     case 1: voxMachineGun.play(); break;

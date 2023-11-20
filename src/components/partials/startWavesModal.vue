@@ -1,6 +1,7 @@
 <script>
 import {store} from '../../data/store';
-import {startBattle,upGradeUser} from '../../functions/game_Menagment'
+import {startBattle,upGradeUser} from '../../functions/game_Menagment';
+import {musicLowLoud, musicHightLoud, musicFinalWaveFade} from '../../functions/audio';
 export default {
   name:'StarWavesModal',
   data(){
@@ -9,14 +10,37 @@ export default {
     }
     
   },
+  watch: {
+    'store.gameStatus.onMatch'(n,o){
+      console.log('watch', n);
+      if (!n){
+        musicLowLoud(); 
+      }
+    }
+  },
   methods:{
     startBattle(){
       startBattle();
+      if(store.wavesCount <= 12){
+        musicHightLoud();
+      }else if (store.wavesCount === 13){
+        musicFinalWaveFade();
+      }
     },
     upGradeUser(key){
       upGradeUser(key);
-    }
+    },
+    musicLowLoud(){
+      musicLowLoud();
+    },
+    musicHightLoud(){
+      musicHightLoud();
+    },
+  },
+  mounted(){
+    this.musicLowLoud();
   }
+  
 }
 </script>
 <template>

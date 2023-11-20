@@ -5,6 +5,7 @@ import Header from './components/header.vue';
 import Main from './components/main.vue';
 import ControlSurface from './components/control_surface.vue';
 import StartWavesModal from './components/partials/startWavesModal.vue';
+import {playMusic} from './functions/audio';
 export default {
   name: 'App',
   data(){
@@ -19,8 +20,14 @@ export default {
     StartWavesModal,
     
   },
-  methods:{},
-  
+  methods:{
+    playMusic(where){
+      playMusic(where);
+    }
+  },
+  mounted(){
+    this.playMusic(0);
+  }
 }
 </script>
 

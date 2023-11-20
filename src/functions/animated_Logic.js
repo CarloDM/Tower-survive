@@ -46,6 +46,11 @@ function update() {
               }
           }
         };
+        if(store.gameStatus.surviveMode && store.userHealth < 0){
+          console.warm('Finita!');
+          store.animation = false;
+        }
+
         // push enemy
         if((store.frameCount % store.enemyFrequency(store.wavesCount) === 0 
             && store.waves[store.wavesCount].enemies > store.enemyCounter)){
@@ -197,7 +202,6 @@ function verificaCollisioneProiettile(bullet, army) {
   }
 }
 
-
 function calcolaDannoEsplosione(bullet, enemys) {
 
   bullet.stop= true;
@@ -328,6 +332,7 @@ function probabilistcEngine(fortune){
 // boostDuration: durata del boost
 // boostGate:     riapertura della condizione che permette, se possibile, di provare ad invocare un boost
 function  probabilisticBoostEngine(luckMultiplier, boostDuration, boostGate){
+  
   if(probabilistcEngine(store.user.fortune * luckMultiplier) === 4){
 
     const userOriginalState = JSON.parse(JSON.stringify(store.user));
@@ -377,7 +382,6 @@ function  probabilisticBoostEngine(luckMultiplier, boostDuration, boostGate){
         break;
 
         default: store.boosting = false;
-
     }
 
   }else{store.boosting = false;}

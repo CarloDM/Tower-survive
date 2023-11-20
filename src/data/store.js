@@ -36,9 +36,22 @@ waves:[
   {enemies:90,  frequency:12,  enemyNumber:1,  minMaxSpeed:[1,3.5],   minMaxhealt:[1000,1500]},  //12
   {enemies:110, frequency:12,  enemyNumber:1,  minMaxSpeed:[1,4],     minMaxhealt:[1200,2000]},  //13
 
-  {enemies:140, frequency:200, enemyNumber:7, minMaxSpeed:[0.6,1.3], minMaxhealt:[7000,9000]}, //14
-  {enemies:180, frequency:24,  enemyNumber:1,  minMaxSpeed:[8,12],    minMaxhealt:[900,1500]},   //15
+  {enemies:147, frequency:200, enemyNumber:7, minMaxSpeed:[0.6,1.3], minMaxhealt:[7000,9000]}, //14
+  {enemies:334, frequency:24,  enemyNumber:1,  minMaxSpeed:[7,12],    minMaxhealt:[700,1300]},   //15
+  {enemies:600, frequency:12,  enemyNumber:1,  minMaxSpeed:[9,14],    minMaxhealt:[750,1000]},   //16
 ],
+// finalWaveexemple:{
+//   firstPart : {frequency:200, enemyNumber:7, minMaxSpeed:[0.6,1.3], minMaxhealt:[7000,9000]},
+//   secondPart : {frequency:24,  enemyNumber:1,  minMaxSpeed:[8,12],    minMaxhealt:[900,1500]}
+// },
+// finalWave: {
+//   frequency:200,
+//   enemyNumber:7,
+//   minMaxSpeed:[0.6,1.3], 
+//   minMaxhealt:[7000,9000]
+// },
+
+
 // bullets ---------------------
 /** EXEMPL
     bullets:[
@@ -63,13 +76,13 @@ waves:[
   bulletsDamage:    function(){return 40 + this.user.damage;},
 // user stat
 user:{
-  rateOfFire : 0,
-  bulletsVelocity: 0,
-  explosionRadius: 0,
-  damage:0,
-  fortune:1,
+  rateOfFire : 13,
+  bulletsVelocity: 8,
+  explosionRadius: 40,
+  damage:360,
+  fortune:10,
 },
-  userHealth: 10000,
+  userHealth: 5000,
   activationRadius: 30,
 
 // SPECIAL EVENT
@@ -90,7 +103,7 @@ specialBoost: {
 },
 
 // counter -----------
-  wavesCount: -1,
+  wavesCount: 12,
   enemyCounter: 0,
   shotCounter:0,
   shotGoals : 0,
@@ -123,6 +136,7 @@ gameStatus : {
   upgradeAvailable:0,
   upgradesComplete: false,
   lastWave : -1,
+  surviveMode: false,
   lastUserStatus: {
     user:{
       rateOfFire : 0,
