@@ -14,61 +14,24 @@ ul {
   list-style-type:none;
   line-height: 1.2rem;
 }
+
 body{
   background-color: black;
-  overflow: hidden;
 }
+
 .main-wrapper{
-  width:100%;
-  min-width: 800px;
-  height:100%;
-  // overflow: hidden;
-}
-.main_container{
-  width: 800px;
+  font-family: monospace;
+  width:100vw;
+  height:100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
 }
 
-.main{
-  position: relative;
+#main{
   width: 600px;
-  height: 100vh;
-  padding:0;
+  height: 970px;
   overflow: hidden;
 }
 
-.control-surface{
-  display: flex;
-  flex-direction: column;
-  width: 140px;
-  background-color: rgb(46, 42, 42);
-}
-
-.battle-ground{
-  position: relative;
-  width: 600px;
-  height: 900px;
-  margin-top: 10px;
-  background-image: url("/src/assets/texture/1bg_top_z3.jpg");
-  background-color: rgb(39, 39, 39);
-  background-position:40%;
-  background-repeat: round;
-  background-size:contain;
-  cursor: crosshair;
-  // overflow: hidden;
-}
-
-.battle-ground * {
-  pointer-events: none;
-}
-
-
-.bullet-container{
-  position: absolute;
-  overflow: visible;
-}
-
-// .life-bar{
-//   width: 80px;
-//   height: 8px;
-//   border: 1px solid black;
-// }

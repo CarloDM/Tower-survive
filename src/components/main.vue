@@ -1,6 +1,5 @@
 <script>
 import {mouseStore} from '../data/mouseStore'
-import { GlobalEvents } from 'vue-global-events';
 import BattleGrond from './partials/battleGround.vue';
 
 export default {
@@ -10,24 +9,19 @@ export default {
       mouseStore,
     }
   },
-  components:{GlobalEvents,BattleGrond},
+  components:{BattleGrond},
   methods:{
     updateMousePosition(event) {
-      mouseStore.mouse = [event.layerX,event.layerY];
+        mouseStore.mouse = [event.layerX,event.layerY];
     },
   },
 }
 </script>
 
 <template>
-  <main  id="main" class="main d-flex justify-content-center align-item-center  ">
+  <main  id="main" class="main debug">
 
-    <GlobalEvents
-    @mousemove="updateMousePosition"/>
-    <BattleGrond />
+    <BattleGrond @mousemove="updateMousePosition" />
     
-
   </main>
 </template>
-
-<style lang="scss" scoped></style>

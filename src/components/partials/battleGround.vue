@@ -3,7 +3,7 @@ import {store} from '../../data/store'
 import Tower from '../single-components/tower.vue';
 import Enemy from '../single-components/enemy.vue';
 import Bullet from '../single-components/bullet.vue';
-import Base from '../partials/base.vue';
+import TowerBase from './towerBase.vue';
 
 export default {
   name:'BattleGrond',
@@ -12,7 +12,7 @@ export default {
       store,
     }
   },
-  components:{Enemy,Bullet,Tower,Base},
+  components:{Enemy,Bullet,Tower,TowerBase},
   methods:{
     // debug
     finishLevel(){
@@ -27,50 +27,41 @@ export default {
       }
     }
   },
-  computed:{},
-  props:{},
-  mounted(){
-    let delay = setTimeout(() => {
-      console.log('ciao stai per iniziare una versione di prova in sviluppo')  
-    }, 100);
-
-},
 }
 </script>
 
 <template>
   <div id="battle" class="battle-ground">
+
     <!-- debug -->
     <button @click="finishLevel">finishLevel</button>
+    <!-- debug -->
 
-    <Enemy class=""
+    <Enemy 
     v-for="(enemy, index) in store.army" :key="index"
-    :id="index"
-    :health="Math.trunc(enemy.health)"
-    :alive="enemy.alive"
     :enemy="enemy"
     />
 
     <Bullet
-    v-for="bullet, id in store.bullets" :key="id"
-    class="bullet-container" 
+    v-for="bullet, id in store.bullets" :key="id" 
     :id="bullet.id"
     :explode="bullet.explode"
     :bullett="bullet"
     />
 
-    <Base/>
+    <TowerBase/>
     <Tower />
 
 
   </div>
 
 </template>
-
 <style lang="scss" scoped>
-button {
+// dubug
+button { 
   cursor: pointer;
   z-index: 999;
   pointer-events: all;
 }
+// dubug
 </style>

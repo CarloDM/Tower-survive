@@ -1,1 +1,9 @@
-@import './general.scss'
+@use './var' as * ;
+@import './general.scss';
+@import './battleGround.scss';
+@import './startWavesModal.scss';
+@import './bullet.scss';
+@import './enemy.scss';
+@import './towerBase.scss';
+@import './tower.scss';
+@import './endGameModal.scss';
