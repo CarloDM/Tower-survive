@@ -173,7 +173,7 @@ export default {
     height: 300px;
     padding: 10px;
     transform: translate(-50%, -50%);
-    z-index: 999;
+    z-index: 10;
     background-color: rgb(186, 206, 167);
     border: 5px solid rgb(122, 122, 122);
     border-radius: 10px;

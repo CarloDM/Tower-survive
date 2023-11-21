@@ -1,11 +1,13 @@
 import {store} from '../data/store';
 import {sayWhichwave,playMusic,musicFinalWaveFade} from '../functions/audio';
 import {update,calculateRotation,stopRotation} from '../functions/animated_Logic';
-export {startBattle,restart, upGradeUser, deactiveMouseAim, saveWaveCompleteStatistic};
+export {startBattle,restart, upGradeUser, deactiveMouseAim, saveWaveCompleteStatistic,calculateAverange};
 
 function startBattle(){
   store.wavesCount ++;
   sayWhichwave(store.wavesCount + 1);
+  store.gameStatus.statTaken = false;
+  store.totalshotCounter += store.shotCounter;
   store.shotCounter = 0;
   store.shotGoals = 0;
   store.kills = 0;
@@ -137,10 +139,47 @@ function saveWaveCompleteStatistic(){
   let statistic = {
     kills: store.kills, 
     totalEnemies: store.enemyCounter, 
-    dead:store.dead, 
+    dead: store.dead, 
     precision: parseFloat(((store.shotGoals / store.shotCounter) * 100).toFixed(1)), 
     restartNumb: store.restartNumb,
   }
     store.wavesComplete.push(statistic);
+    store.gameStatus.statTaken = true;
     console.log('statistic',store.wavesComplete);
+}
+
+function calculateAverange(){
+  console.log('calculate media')
+  let killsSum = 0 ,deadSum = 0, precisionSum = 0, totalEnemiesSum = 0, retrySum = 0, precisionAverange = 0;
+
+  for (let index = 0; index < store.wavesComplete.length; index++) {
+      killsSum +=        store.wavesComplete[index].kills;
+      deadSum +=         store.wavesComplete[index].dead;
+      precisionSum +=    store.wavesComplete[index].precision;
+      totalEnemiesSum += store.wavesComplete[index].totalEnemies;
+      retrySum +=        store.wavesComplete[index].restartNumb;
+  }
+
+  precisionAverange = Math.floor(precisionSum / store.wavesComplete.length);
+  store.precisionAverange = precisionAverange;
+
+  store.wavesCompletTot.kills =        killsSum;
+  store.wavesCompletTot.dead =         deadSum;
+  store.wavesCompletTot.precisionAverange =    precisionAverange.toString() + ' ' + '%';
+  store.wavesCompletTot.totalEnemies = totalEnemiesSum;
+  store.wavesCompletTot.restartNumb =        retrySum;
+  calculateScore();
+}
+
+function calculateScore(){
+
+  store.killsPoint = store.wavesCompletTot.kills ;
+  store.survivorKillsPoint = store.survivorKills * 5;
+  store.deadPoint = -(store.wavesCompletTot.dead * 1.25);
+  store.precisionPoint = store.precisionAverange * 2;
+  store.retrySum = -(store.wavesCompletTot.restartNumb * 20);
+  store.finalScore = store.killsPoint + store.survivorKillsPoint + store.deadPoint + store.precisionPoint + store.retrySum;
+
+  console.log(store.killsPoint , store.survivorKillsPoint , store.deadPoint , store.precisionPoint , store.retrySum)
+  console.log('calculate score', store.finalScore);
 }

@@ -5,6 +5,7 @@ import Header from './components/header.vue';
 import Main from './components/main.vue';
 import ControlSurface from './components/control_surface.vue';
 import StartWavesModal from './components/partials/startWavesModal.vue';
+import EndGameModal from './components/partials/endGameModal.vue';
 import {playMusic} from './functions/audio';
 export default {
   name: 'App',
@@ -18,6 +19,7 @@ export default {
     Main,
     ControlSurface,
     StartWavesModal,
+    EndGameModal,
     
   },
   methods:{
@@ -34,10 +36,10 @@ export default {
 <template>
 
 <div class="main-wrapper container-fluid"  >
-  <div class="d-flex  flex-row justify-content-around main_container m-auto debug"
-    >
+  <div class="d-flex  flex-row justify-content-around main_container m-auto debug">
 
-    <StartWavesModal/>
+    <StartWavesModal v-if="!store.gameStatus.endGame" />
+    <EndGameModal v-if="store.gameStatus.endGame && !store.gameStatus.onMatch"/>
     <Main />
     
   </div>

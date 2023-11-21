@@ -69,9 +69,9 @@ user:{
   bulletsVelocity: 0,
   explosionRadius: 0,
   damage:0,
-  fortune:0,
+  fortune:1,
 },
-  userHealth: 1,
+  userHealth: 10000,
   activationRadius: 30,
 
 // SPECIAL EVENT
@@ -95,19 +95,16 @@ specialBoost: {
   wavesCount: -1,
   enemyCounter: 0,
   shotCounter:0,
+  totalshotCounter:0,
   shotGoals : 0,
   kills: 0,
+  survivorKills:15,
   dead: 0,
   restartNumb: 0,
-
-  autoAim: false,
-  manualAim: false,
 
  // utility
   autoShot: false,
 
-  // checkDivider : true,
-  // userShoting : false,
 
 // animation frame
   frameCount: 0,
@@ -127,13 +124,39 @@ gameStatus : {
   upgradesComplete: false,
   lastWave : -1,
   surviveMode: false,
-
+  endGame: false,
+  statTaken:false,
 },
 
 //  waves complete statistic
 wavesComplete: [
-  // {kills:0, dead:0, precision: 0, totalEnemies:0, retry:0 }
-]
+  // {kills:4, dead:1, precision: 80, totalEnemies:5, restartNumb:0 },
+  // {kills:10, dead:0, precision: 87, totalEnemies:10, restartNumb:0 },
+  // {kills:15, dead:5, precision: 75, totalEnemies:20, restartNumb:0 },
+  // {kills:20, dead:5, precision: 71.5, totalEnemies:25, restartNumb:0 },
+  // {kills:25, dead:5, precision: 68, totalEnemies:30, restartNumb:0 },
+  // {kills:40, dead:10, precision: 74, totalEnemies:50, restartNumb:0 },
+  // {kills:45, dead:5, precision: 65, totalEnemies:50, restartNumb:0 },
+  // {kills:50, dead:10, precision: 62, totalEnemies:60, restartNumb:0 },
+  // {kills:50, dead:15, precision: 59, totalEnemies:65, restartNumb:0 },
+  // {kills:60, dead:5, precision: 68, totalEnemies:65, restartNumb:0 },
+  // {kills:50, dead:20, precision: 48, totalEnemies:70, restartNumb:0 },
+  // {kills:72, dead:8, precision: 62, totalEnemies:80, restartNumb:1 },
+  // {kills:180, dead:180, precision: 32.7, totalEnemies:360, restartNumb:0 },
+],
+
+// waves complete sum
+wavesCompletTot:
+{kills:0, dead:0, precisionAverange: '0', totalEnemies:0, restartNumb:0 },
+precisionAverange: 0,
+
+//  score
+killsPoint : 0,
+survivorKillsPoint : 0,
+deadPoint : 0,
+precisionPoint : 0,
+retrySum : 0,
+finalScore: 0,
 
 })
 

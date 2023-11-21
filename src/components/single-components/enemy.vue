@@ -37,7 +37,7 @@ components: {LifeBar},
 .enemy{
   position: absolute;
   text-align: center;
-  z-index: 998;
+  z-index: 19;
   background-color: rgb(88, 100, 114);
   box-shadow: 0px -5px 5px 0px rgba(46, 46, 46, 0.397);
   width: 30px;

@@ -2,7 +2,7 @@
 import {store} from '../data/store';
 import {mouseStore} from '../data/mouseStore';
 import {sayWhichBoost, foleyShot, foleyExplosion, voxAssistantImpact,voxAssistantRejoices,voxAssistantRage, voxAssistantDanger} from './audio';
-import {saveWaveCompleteStatistic} from './game_Menagment';
+import {saveWaveCompleteStatistic,calculateAverange} from './game_Menagment';
 // import {} from './mathFunction.js';
 export {update,calculateRotation,stopRotation};
 
@@ -48,7 +48,9 @@ function update() {
                 console.log('perso');
               }else{
                 console.log('wave passata');
-                saveWaveCompleteStatistic();
+                if(!store.gameStatus.statTaken){
+                  saveWaveCompleteStatistic();
+                }
                 store.restartNumb = 0;
                 if(store.wavesCount < 13 ){
                   store.gameStatus.upgradeAvailable = 3;
@@ -58,15 +60,20 @@ function update() {
         };
 
         if(store.gameStatus.surviveMode && store.userHealth < 0){
-          console.warm('Finita!');
-          store.autoShot = false;
-          store.gameStatus.alive = false;
-          saveWaveCompleteStatistic();
-          stopRotation();
-          setTimeout(() => {
-            store.animation = false;
-            store.gameStatus.onMatch = false;
-          }, 5000);
+          console.warn('Finita!');
+          if(!store.gameStatus.endGame){
+            store.gameStatus.endGame = true;
+            store.autoShot = false;
+            store.gameStatus.alive = false;
+            stopRotation();
+            saveWaveCompleteStatistic();
+            calculateAverange();
+            console.warn('finita stop save score');
+            setTimeout(() => {
+              store.animation = false;
+              store.gameStatus.onMatch = false;
+            }, 5000);
+          }
         }
 
         // push enemy
@@ -83,24 +90,19 @@ function update() {
       store.boosting = true;
       
       if(store.userHealth <= 3000){
-
         probabilisticBoostEngine(9.5,8000,1000);
       }else{
 
-        if(store.userHealth <= 5000){
+          if(store.userHealth <= 5000){
+            probabilisticBoostEngine(5,5000,3000);
+          }else{
 
-          probabilisticBoostEngine(5,5000,3000);
-        }else{
-
-          if(store.userHealth <= 8000){
-
-            probabilisticBoostEngine(3,4000,6000);
-
-          }
+              if(store.userHealth <= 8000){
+                probabilisticBoostEngine(3,4000,6000);
+              }
         }
       }
       };
-
     // Richiedi un nuovo frame di animazione
     requestAnimationFrame(BulletUpdate);
   }
@@ -286,7 +288,12 @@ function  animazioneMovimentoVerticale(enemy) {
     const altezzaCampoBattaglia = 800; // Altezza del campo di battaglia
       if (enemy.health <= 0) {
         enemy.alive= false;
-        store.kills ++;
+        if(!store.gameStatus.surviveMode){
+          store.kills ++;
+        }else{
+          store.kills ++;
+          store.survivorKills ++;
+        }
       
       }else if(enemy.cord.y > altezzaCampoBattaglia){
         voxAssistantImpact();
@@ -398,9 +405,12 @@ function  probabilisticBoostEngine(luckMultiplier, boostDuration, boostGate){
 
       case 4:
         sayWhichBoost(choice); setTimeout(()=> {voxAssistantRage();},600);
-        // store.userHealth += 2000 ;
+        store.userHealth += 500;
+        store.user.rateOfFire = store.specialBoost.bulletsFrequency.rateOfFire;
+        store.user.bulletsVelocity = store.specialBoost.bulletsFrequency.bulletsVelocity;
         setTimeout(() => {
           console.warn('cloose boost', store.userHealth);
+          store.user = userOriginalState;
               setTimeout(() => {store.boosting = false;console.log('switch boost')}, boostGate);
         }, boostDuration);
         break;
