@@ -44,8 +44,6 @@ export default {
 
     <Bullet
     v-for="bullet, id in store.bullets" :key="id" 
-    :id="bullet.id"
-    :explode="bullet.explode"
     :bullett="bullet"
     />
 

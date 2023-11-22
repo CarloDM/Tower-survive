@@ -2,9 +2,10 @@
   position: relative;
   width: 100%;
   height: 900px;
-  background-image: url("/src/assets/texture/1bg_top_z3.jpg");
+  background-image: url("/src/assets/texture/1bg_top_z3_tiled_low.jpg");
   background-size:contain;
-  cursor: crosshair;
+  cursor: url('/src/assets/texture/cross-hair-opt.svg')20 20, crosshair ;
+  
 }
 .battle-ground * {
   pointer-events: none;

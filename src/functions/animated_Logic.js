@@ -2,9 +2,9 @@
 import {store} from '../data/store';
 import {mouseStore} from '../data/mouseStore';
 import {sayWhichBoost, foleyShot, foleyExplosion, voxAssistantImpact,voxAssistantRejoices,voxAssistantRage, voxAssistantDanger} from './audio';
-import {saveWaveCompleteStatistic,calculateAverange} from './game_Menagment';
+import {saveWaveCompleteStatistic,calculateAverange} from './game_Menagement';
 // import {} from './mathFunction.js';
-export {update,calculateRotation,stopRotation};
+export {update,calculateRotation,stopRotation,rand};
 
 import TowerWorker from './workers/TowerWorker?worker';
 import ExplosionWorker from './workers/ExplosionWorker?worker';
@@ -118,6 +118,7 @@ function BulletUpdate() {
 
     // frequenza spara proiettile
     if((store.frameCount % store.bulletsFrequency()) === 0 && store.autoShot ){
+      store.shotCounter ++;
       newshot();
     }
 
@@ -168,7 +169,6 @@ function bulletComputation(bullet, army) {
       if(!bullet.isDirected){ // solo se non direzionato calcoliamo la sua velocità di movimento 
           bullet.velXY = calcolaVelocitaMovimento(store.tower.rotation, bullet.velocity);
           bullet.isDirected = true;
-          store.shotCounter ++;
       };
       // Calcola la nuova coordinata X e Y in base alla velocità AKA sposta il proiettile.
       bullet.cord.y += bullet.velXY.y ;
@@ -360,6 +360,8 @@ function  probabilisticBoostEngine(luckMultiplier, boostDuration, boostGate){
   
   if(probabilistcEngine(store.user.fortune * luckMultiplier) === 4){
 
+    store.boostingTimeOut = boostDuration;
+    console.log(store.boostingTimeOut);
     const userOriginalState = JSON.parse(JSON.stringify(store.user));
 
     let choice;
@@ -373,44 +375,55 @@ function  probabilisticBoostEngine(luckMultiplier, boostDuration, boostGate){
 
       case 1:
         sayWhichBoost(choice); setTimeout(()=> {voxAssistantRage();},600);
-
+        store.boostNameDisplay = 'MachineGun';
         store.user.rateOfFire = store.specialBoost.bulletsFrequency.rateOfFire;
         store.user.bulletsVelocity = store.specialBoost.bulletsFrequency.bulletsVelocity;
         setTimeout(() => {
           store.user = userOriginalState;
+          store.boostingTimeOut = 0; console.log(store.boostingTimeOut);
+          store.boostNameDisplay = 'WaitBoost';
               setTimeout(() => {store.boosting = false;console.log('switch boost')}, boostGate);
         }, boostDuration);
         break;
 
       case 2:
         sayWhichBoost(choice); setTimeout(()=> {voxAssistantRage();},600);
+        store.boostNameDisplay = 'AllCritical';
         store.user.fortune = store.specialBoost.allCritical.fortune;
         setTimeout(() => {
+          store.boostingTimeOut = 0; console.log(store.boostingTimeOut);
           store.user = userOriginalState;
+          store.boostNameDisplay = 'WaitBoost';
               setTimeout(() => {store.boosting = false;console.log('switch boost')}, boostGate);
         }, boostDuration);
         break;
 
       case 3:
         sayWhichBoost(choice); setTimeout(()=> {voxAssistantRage();},600);
+        store.boostNameDisplay = 'SuperShot';
         store.user.damage = store.specialBoost.superShot.damage;
         store.user.bulletsVelocity = store.specialBoost.superShot.bulletsVelocity;
         store.activationRadius = store.specialBoost.superShot.activationRadius;
         setTimeout(() => {
+          store.boostingTimeOut = 0; console.log(store.boostingTimeOut);
           store.user = userOriginalState;
           store.activationRadius = 30;
+          store.boostNameDisplay = 'WaitBoost';
               setTimeout(() => {store.boosting = false;console.log('switch boost')}, boostGate);
         }, boostDuration);
         break;
 
       case 4:
         sayWhichBoost(choice); setTimeout(()=> {voxAssistantRage();},600);
+        store.boostNameDisplay = 'Health+Mg';
         store.userHealth += 500;
         store.user.rateOfFire = store.specialBoost.bulletsFrequency.rateOfFire;
         store.user.bulletsVelocity = store.specialBoost.bulletsFrequency.bulletsVelocity;
         setTimeout(() => {
+          store.boostingTimeOut = 0; console.log(store.boostingTimeOut);
           console.warn('cloose boost', store.userHealth);
           store.user = userOriginalState;
+          store.boostNameDisplay = 'WaitBoost';
               setTimeout(() => {store.boosting = false;console.log('switch boost')}, boostGate);
         }, boostDuration);
         break;

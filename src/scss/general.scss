@@ -15,18 +15,26 @@ ul {
   line-height: 1.2rem;
 }
 
+// font-family: 'Quantico', monospace;          ------title +
+// font-family: 'Chakra Petch', monospace;      ------title
+// font-family: 'Big Shoulders Stencil Display', monospace;  ----wave message / title
+// font-family: 'Handjet', monospace;           ------- base console display
+// font-family: 'Amatic SC', monospace;         ------ hand write message
+
 body{
   background-color: black;
+
 }
 
 .main-wrapper{
-  font-family: monospace;
+  font-family: 'Quantico', monospace;
   width:100vw;
   height:100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: auto;
+
 }
 
 #main{

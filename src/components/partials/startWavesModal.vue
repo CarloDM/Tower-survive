@@ -1,6 +1,6 @@
 <script>
 import {store} from '../../data/store';
-import {startBattle,upGradeUser,restart} from '../../functions/game_Menagment';
+import {startBattle,upGradeUser,restart} from '../../functions/game_Menagement';
 import {musicLowLoud, musicHightLoud, musicFinalWaveFade} from '../../functions/audio';
 export default {
   name:'StarWavesModal',

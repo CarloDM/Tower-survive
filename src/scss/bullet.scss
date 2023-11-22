@@ -12,14 +12,32 @@
     background-color: rgb(198, 198, 220) ;
     box-shadow: 0px 0px 10px 7px  rgba(198, 198, 220, 0.411);
   }
+  &.pit-texture1{
+    background-image: url($pitTexture1);
+  }
+  &.pit-texture2{
+    background-image: url($pitTexture2);
+  }
+  &.pit-texture4{
+    background-image: url($pitTexture4);
+  }
   &.pit{
-    background-color: rgba(112, 77, 63, 0.548);
-    box-shadow:  0px 0px 8px 6px rgb(180, 147, 132);
-    width: 15px;
+    // background-color: rgba(112, 77, 63, 0.548);
+    border: none;
+    box-shadow: none;
+    background-color: rgba(0, 0, 0, 0);
+    background-size: contain;
+    filter: contrast(1.1) hue-rotate(45deg) saturate(0.5) brightness(0.8);
+    // box-shadow:  0px 0px 8px 6px rgb(180, 147, 132);
+    width: 30px;
     animation-name: dissolvePit ;
     animation-duration: 5s ;
     animation-timing-function: ease-in;
     opacity: 0;
+    &.critical{
+      filter: contrast(1.8) hue-rotate(200deg) saturate(1) brightness(1.2) opacity(0.8);
+      width: 40px;
+    }
   }
 }
 @keyframes dissolvePit {

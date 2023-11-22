@@ -6,9 +6,31 @@
   margin-top: -90px;
   margin-left: -90px;
   z-index: 2;
-
 }
+.recoil{
+  top: 0px;
+  animation-name: recoil;
+  animation-timing-function: ease-in;
+  animation-duration: 100ms;
+}
+@keyframes recoil {
+  from {top: 10px;}
+  to{top: 0px;}
+}
+.recoil2{
+  top: 0px;
+  animation-name: recoil2;
+  animation-timing-function: ease-out;
+  animation-duration: 100ms;
+}
+@keyframes recoil2 {
+  from {top: 10px;}
+  to{top: 0px;}
+}
+
 img{
   position: absolute;
+  top: 0px;
   width: 100%;
+  // transition: all 100ms ease-out;
 }

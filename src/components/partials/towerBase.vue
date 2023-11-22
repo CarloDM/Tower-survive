@@ -5,7 +5,27 @@ export default {
   data(){
     return{
       store,
+      boostingTimeOut : 0,
+      canBoost : false,
     }
+  },
+  watch:{
+    'store.boostingTimeOut'(n,o){
+      console.log('watch boosting', n, o);
+
+      if(n !== o){
+        this.boostingTimeOut = n;
+      }
+    },
+
+    'store.userHealth'(ne,ol){
+      console.log('user healt watch', ne)
+      if(ne !== ol && ne < 7500){
+        this.canBoost = true;
+      }else{
+        this.canBoost = false;
+      }
+    },
   }
 }
 </script>
@@ -24,10 +44,14 @@ export default {
     </div>
 
     <div class="boost">
-      <div></div>
-      <div></div>
-      <div></div>
+      <div :class="{'can-boost': this.canBoost}"></div>
+      <div :class="{
+        'boosting4': this.boostingTimeOut == 4000,
+        'boosting5': this.boostingTimeOut == 5000,
+        'boosting8': this.boostingTimeOut == 8000,
+        }"></div>
     </div>
+    <div class="boostDisplay " ><span>{{ store.boostNameDisplay }}</span></div>
 
     <div class="userHealth">
       <div class="healthmask" :style="{width: 100 - ((store.userHealth / 10000) * 100)  + '%' }" ></div>

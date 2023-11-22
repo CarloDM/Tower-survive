@@ -17,7 +17,7 @@
   left: 230px;
   width: 140px;
   height: 75px;
-  background-color: rgb(29, 202, 224);
+  background-color: $groundLow;
   z-index: -1;
 }
 .towerParams{
@@ -26,7 +26,7 @@
   left: 50px;
   width: 137px;
   height: 65px;
-  background-color: rgb(31, 40, 116);
+  background-color: $radiogreenH5;
   z-index: -1;
   display: flex;
 }
@@ -50,7 +50,7 @@
 }
 .boost{
   position: absolute;
-  background-color: rgb(31, 40, 116);
+  background-color: $radiogreenH5;
   right: 50.5px;
   top: 10px;
   width: 47px;
@@ -58,16 +58,74 @@
   z-index: -1;
   display: flex;
   justify-content: center;
+  align-items: end;
+  flex-direction: row-reverse;
   &  div {
-    width: calc(100% / 3);
-    height: 100%;
+    width: calc(100% / 2);
     box-shadow: inset 0px 0px 9px 0px black;
-    background-color: red;
+    transition: height 500ms;
   }
 }
+.can-boost{
+  height: 100% !important;
+  background-image: $redYellowGradientInv;
+}
+.boosting4{
+  height: 2%;
+  
+  animation-name: boosting3;
+  animation-duration: 4.2s;
+  animation-delay: 400ms;
+  animation-timing-function: ease-out;
+}
+@keyframes boosting3 {
+  from {height: 100%;background-color: $yellow;}
+  to {height: 2%;background-color: $red;}
+}
+.boosting5{
+  height: 2%;
+  animation-name: boosting5;
+  animation-duration: 5.2s;
+  animation-delay: 400ms;
+  animation-timing-function: ease-out;
+}
+@keyframes boosting5 {
+  from {height: 100%;background-color: $yellow;}
+  to {height: 2%;background-color: $red}
+}
+.boosting8{
+  height: 2%;
+  animation-name: boosting8;
+  animation-duration: 8.2s;
+  animation-delay: 400ms;
+  animation-timing-function: ease-out;
+}
+@keyframes boosting8 {
+  from {height: 100%;background-color: $yellow;}
+  to {height: 2%;background-color: $red}
+}
+
+.boostDisplay{
+  position: absolute;
+  right: 107px;
+  top: 52px;
+  z-index: 1;
+  & span{
+    font-family: 'Handjet', monospace; 
+    color: blue;
+    font-weight: 100;
+    font-size: 2rem;
+    // line-height: 1rem;
+    letter-spacing: -1px;
+
+
+  }
+}
+
+
 .userHealth{
   position: absolute;
-  background-color: rgb(0, 202, 61);
+  background-color: $radiogreen;
   right: 49px;
   bottom: 23px;
   width: 505px;

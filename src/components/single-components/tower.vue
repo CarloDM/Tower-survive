@@ -5,15 +5,23 @@ name: 'Tower',
   data() {
     return {
       store,
+      recoil: false,
     };
   },
+  watch:{
+    'store.shotCounter'(n,o){
+      if(n !== o){
+        this.recoil = !this.recoil;
+      }
+    }
+  }
 }
 </script>
 
 <template>
 
   <div 
-  class="tower visible" 
+  class="tower"
   :style="{ 
     transform: `rotate(${store.tower.rotation}deg)`, 
     left: store.tower.cord.x + 'px',
@@ -22,7 +30,9 @@ name: 'Tower',
     > 
 
     <img src="../../assets/texture/loader-opt.svg" style="transform: translateY(-14px);">
-    <img src="../../assets/texture/cannon-opt.svg" style="transform: translateY(-14px);">
+    <img src="../../assets/texture/cannon-opt.svg" style="transform: translateY(-14px);"
+    :class="{'recoil' : this.recoil, 'recoil2' : !this.recoil,}"
+    >
 
 
     <!--  debug

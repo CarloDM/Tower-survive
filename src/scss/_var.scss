@@ -1,0 +1,43 @@
+$black20 : rgb(20, 20, 20);
+$black40 : rgb(40, 40, 40);
+$black60 : rgb(60, 60, 60);
+$graylow:  rgb(80, 80, 80);
+$graymid : rgb(120, 120, 120);
+$grayhight:rgb(160, 160, 160);
+$white00 : rgb(200, 200, 200);
+$white20 : rgb(220, 220, 220);
+$white40 : rgb(240, 240, 240);
+
+// -------------------------- game color
+$groundLow :          rgb(63, 65, 60);
+$ground :          rgb(84, 86, 64);
+$green :           rgb(68, 86, 64);
+$greenmid :        rgba(110, 156, 94, 0.733);
+$groundhigth :     rgb(170, 173, 131);
+
+$radiogreenLow :   rgb(51, 99, 55);
+$radiogreen :      rgb(9, 207, 26);
+$radiogreenHight : rgb(126, 243, 135);
+$radiogreenH5 :    rgba(9, 207, 25, 0.5);
+$radiogreenH2 :    rgba(9, 207, 25, 0.2);
+
+$enemyPit :          rgba(37, 17, 4, 0.671);
+$redLow :          rgb(41, 0, 0);
+$redYellowGradient:
+  linear-gradient(192deg, #cc000081 0%,
+                          #ffd5007c 91%);
+$redYellowGradientInv:
+  linear-gradient(192deg, #ffd500 0%,
+                          #cc0000a2 91%);
+$red: #cc0000;
+$yellow: #ffd500;
+
+
+
+// texture
+
+$pitTexture1: '/src/assets/texture/bulletPit-opt1.svg';
+$pitTexture2: '/src/assets/texture/bulletPit-opt2.svg';
+$pitTexture3: '/src/assets/texture/bulletPit-opt3.svg';
+$pitTexture4: '/src/assets/texture/bulletPit-opt4.svg';
+$enemyPitTexture: '/src/assets/texture/enemyPit-opt.svg'

@@ -76,6 +76,8 @@ user:{
 
 // SPECIAL EVENT
 boosting:false,
+boostingTimeOut: false,
+boostNameDisplay: '...',
 specialBoost: {
   bulletsFrequency :{  
       rateOfFire : 16,
@@ -104,6 +106,7 @@ specialBoost: {
 
  // utility
   autoShot: false,
+  recoil: false,
 
 
 // animation frame

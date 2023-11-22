@@ -1,6 +1,6 @@
 import {store} from '../data/store';
-import {sayWhichwave,playMusic,musicFinalWaveFade} from '../functions/audio';
-import {update,calculateRotation,stopRotation} from '../functions/animated_Logic';
+import {sayWhichwave,playMusic,musicFinalWaveFade} from './audio';
+import {update,calculateRotation,stopRotation} from './animated_Logic';
 export {startBattle,restart, upGradeUser, deactiveMouseAim, saveWaveCompleteStatistic,calculateAverange};
 
 function startBattle(){
@@ -163,23 +163,23 @@ function calculateAverange(){
   precisionAverange = Math.floor(precisionSum / store.wavesComplete.length);
   store.precisionAverange = precisionAverange;
 
-  store.wavesCompletTot.kills =        killsSum;
-  store.wavesCompletTot.dead =         deadSum;
-  store.wavesCompletTot.precisionAverange =    precisionAverange.toString() + ' ' + '%';
-  store.wavesCompletTot.totalEnemies = totalEnemiesSum;
-  store.wavesCompletTot.restartNumb =        retrySum;
+  store.wavesCompletTot.kills =             killsSum;
+  store.wavesCompletTot.dead =              deadSum;
+  store.wavesCompletTot.precisionAverange = precisionAverange.toString() + ' ' + '%';
+  store.wavesCompletTot.totalEnemies =      totalEnemiesSum;
+  store.wavesCompletTot.restartNumb =       retrySum;
   calculateScore();
 }
 
 function calculateScore(){
 
-  store.killsPoint = store.wavesCompletTot.kills ;
+  store.killsPoint = Math.floor(store.wavesCompletTot.kills * 0.2) ;
   store.survivorKillsPoint = store.survivorKills * 5;
   store.deadPoint = -(store.wavesCompletTot.dead * 1.25);
   store.precisionPoint = store.precisionAverange * 2;
   store.retrySum = -(store.wavesCompletTot.restartNumb * 20);
   store.finalScore = store.killsPoint + store.survivorKillsPoint + store.deadPoint + store.precisionPoint + store.retrySum;
 
-  console.log(store.killsPoint , store.survivorKillsPoint , store.deadPoint , store.precisionPoint , store.retrySum)
+  console.log(store.killsPoint , store.survivorKillsPoint , Math.floor(store.deadPoint) , store.precisionPoint , store.retrySum)
   console.log('calculate score', store.finalScore);
 }
