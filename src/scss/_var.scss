@@ -1,3 +1,4 @@
+// grey scale
 $black20 : rgb(20, 20, 20);
 $black40 : rgb(40, 40, 40);
 $black60 : rgb(60, 60, 60);
@@ -9,7 +10,7 @@ $white20 : rgb(220, 220, 220);
 $white40 : rgb(240, 240, 240);
 
 // -------------------------- game color
-$groundLow :          rgb(63, 65, 60);
+$groundLow :       rgb(63, 65, 60);
 $ground :          rgb(84, 86, 64);
 $green :           rgb(68, 86, 64);
 $greenmid :        rgba(110, 156, 94, 0.733);
@@ -21,8 +22,9 @@ $radiogreenHight : rgb(126, 243, 135);
 $radiogreenH5 :    rgba(9, 207, 25, 0.5);
 $radiogreenH2 :    rgba(9, 207, 25, 0.2);
 
-$enemyPit :          rgba(37, 17, 4, 0.671);
+
 $redLow :          rgb(41, 0, 0);
+
 $redYellowGradient:
   linear-gradient(192deg, #cc000081 0%,
                           #ffd5007c 91%);
@@ -31,8 +33,20 @@ $redYellowGradientInv:
                           #cc0000a2 91%);
 $red: #cc0000;
 $yellow: #ffd500;
+//------- enemy color
+$enemyPit :            rgba(37, 17, 4, 0.671);
 
-
+$verySlowEnemyColor :  rgb(78, 57, 52);
+$SlowEnemyColor :      rgb(113, 122, 87);
+$mediumEnemyColor :    rgb(81, 112, 148);
+$fastEnemyColor :      rgb(61, 153, 118);
+$veryFastEnemyColor :  rgb(155, 143, 32);
+$ultraFastEnemyColor : rgb(214, 120, 43);
+//  enemy armor aka border space
+$lowArmor :  1px;
+$midArmor :  2px;
+$highArmor : 3px;
+$bigArmor :  4px;
 
 // texture
 

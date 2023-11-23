@@ -1,15 +1,17 @@
 .enemy{
+  // box-sizing: content-box;
   position: absolute;
-  text-align: center;
-  z-index: 12;
-  background-color: rgb(88, 100, 114);
-  box-shadow: 0px -5px 5px 0px rgba(46, 46, 46, 0.397);
-  width: 30px;
+  width: 35px;
   aspect-ratio: 1/1;
+  box-shadow: 0px -5px 5px 0px rgba(46, 46, 46, 0.397);
+  text-align: center;
   margin-top: -15px;
   margin-left: -15px;
+  
+  
   border-radius: 50%;
   font-size: 0.7rem;
+  z-index: 12;
   transition: opacity 20s;
   & p {
     padding-top: 7px;
@@ -26,4 +28,20 @@
     opacity: 0;
     z-index: 1;
   }
+}
+.vary-slow{   background-color: $verySlowEnemyColor;}
+.slow{        background-color: $SlowEnemyColor;}
+.medium{      background-color: $mediumEnemyColor;}
+.fast{        background-color: $fastEnemyColor;}
+.very-fast{   background-color: $veryFastEnemyColor;}
+.ultra-fast{  background-color: $ultraFastEnemyColor;}
+
+.low-armor{   border: $lowArmor solid $black20;}
+.mid-armor{   border: $midArmor solid $black20;}
+.high-armor{  border: $highArmor solid $black20;}
+.big-armor{
+  border: $bigArmor solid $black20;
+  box-shadow: 0px -2px 20px 5px rgb(34, 34, 34);
+  // box-sizing: content-box; 
+  width: 40px;
 }

@@ -1,10 +1,9 @@
 import {reactive} from 'vue';
 export const store = reactive ({
 
-// conteggio punteggio finale
 // rinominare in inglese pulire logiche e funzioni
-// produrre design
-// produrre sound design 
+// produrre design - enemy color
+// produrre sound design -- aggiustamenti vocal - due suonini per i tast
 // capire cache
 
   tower : {
@@ -20,6 +19,7 @@ export const store = reactive ({
   enemyFrequency: function(waveNumber){return this.waves[waveNumber].frequency;}, // ogni n  framerequest
 // waves
 waves:[
+  // {enemies:200,   frequency:12,  enemyNumber:1,  minMaxSpeed:[0.1,14], minMaxhealt:[250,4000]},    //0 TEST different enemy
   {enemies:5,   frequency:12,  enemyNumber:1,  minMaxSpeed:[0.9,1.5], minMaxhealt:[250,400]},    //1
   {enemies:5,   frequency:24,  enemyNumber:1,  minMaxSpeed:[0.9,1.8], minMaxhealt:[350,500]},    //2
   {enemies:12,  frequency:44,  enemyNumber:2,  minMaxSpeed:[1,1.8],   minMaxhealt:[400,600]},    //3 
@@ -27,7 +27,7 @@ waves:[
   {enemies:24,  frequency:80,  enemyNumber:3,  minMaxSpeed:[1.4,2.0], minMaxhealt:[400,680]},    //5 
 
   {enemies:30,  frequency:78,  enemyNumber:3,  minMaxSpeed:[1.0,2.2], minMaxhealt:[500,680]},    //6 
-  {enemies:60,  frequency:24,  enemyNumber:1,  minMaxSpeed:[0.5,2.6], minMaxhealt:[500,750]},    //7
+  {enemies:60,  frequency:24,  enemyNumber:1,  minMaxSpeed:[0.6,2.6], minMaxhealt:[500,750]},    //7
 
   {enemies:70,  frequency:48,  enemyNumber:2,  minMaxSpeed:[0.8,2.6], minMaxhealt:[500,800]},    //8
   {enemies:70,  frequency:42,  enemyNumber:2,  minMaxSpeed:[0.6,2.8], minMaxhealt:[580,940]},    //9 
