@@ -1,5 +1,5 @@
 import {store} from '../data/store';
-import {sayWhichwave,playMusic,musicFinalWaveFade} from './audio';
+import {sayWhichwave,playMusic,musicFinalWaveFade,voxAssistantFinal} from './audio';
 import {update,calculateRotation,stopRotation} from './animated_Logic';
 export {startBattle,restart, upGradeUser, deactiveMouseAim, saveWaveCompleteStatistic,calculateAverange};
 
@@ -27,27 +27,44 @@ function startBattle(){
     playMusic(488.02);
   }else if (store.wavesCount === 13) { // final
     playMusic(648.02);
+    store.graficFx = 1;
     setTimeout(()=>{
+      voxAssistantFinal(1);
+    },1500)
+    setTimeout(()=>{ // incomincia a ruotare il colore
+      store.graficFx = 2;
+    },80000)
+
+    setTimeout(()=>{ // timeout prima ondata
       store.wavesCount ++;
       store.frameCount = 0;
-      store.army = [];
       store.autoShot = false;
+      store.bullets = [];
+      store.army = [];
+      setTimeout(()=>{
+        voxAssistantFinal(2);
+      },20000)
+
 
       let blockFrameCount = setInterval(() => { // impedisco di arrivare all enemyfrequency
         if(store.frameCount > 20)
+        store.army = [];
         store.frameCount = 0;
       }, 5);
       setTimeout(() => {
         store.bullets = [];
       }, 15000);
-      setTimeout(() => {
+
+      setTimeout(() => { // timeout seconda ondata
         clearInterval(blockFrameCount);
         setTimeout(() => {
           store.autoShot = true;
+          store.graficFx = 3;
         }, 24);
       }, 31000);
 
       setTimeout(() => { //si attiva survivor mode la partita finisce quando arrivi a 0 vita
+        store.graficFx = 4;
         store.gameStatus.surviveMode = true;
         console.warn('survivorMode');
         store.wavesCount ++;
@@ -67,7 +84,9 @@ function startBattle(){
   }else{
     setTimeout(() => {
       update();
+      store.boosting = true;
           setTimeout(() => {
+            store.boosting = false;
             store.autoShot = true;
           },10000)
     }, 22000);

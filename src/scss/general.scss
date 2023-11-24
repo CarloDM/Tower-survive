@@ -23,11 +23,12 @@ ul {
 
 body{
   background-color: black;
-
+  overflow: hidden;
 }
 
 .main-wrapper{
   font-family: 'Quantico', monospace;
+  font-size: 0.9rem;
   width:100vw;
   height:100vh;
   display: flex;

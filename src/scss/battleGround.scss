@@ -5,8 +5,87 @@
   background-image: url("/src/assets/texture/1bg_top_z3_tiled_low.jpg");
   background-size:contain;
   cursor: url('/src/assets/texture/cross-hair-opt.svg')20 20, crosshair ;
-  
 }
 .battle-ground * {
   pointer-events: none;
+}
+.the_end{
+  filter: contrast(1.1) hue-rotate(20deg) brightness(1.0) blur(0.5px) saturate(1) ;
+  animation-name: theend;
+  animation-duration: 34s;
+  animation-timing-function: linear;
+}
+@keyframes theend {
+  from {  filter: contrast(1) hue-rotate(0deg) brightness(0.1) blur(0px) saturate(1) ;}
+
+  10.7%{  filter: contrast(1) hue-rotate(0deg) brightness(0.5) blur(0px) saturate(1) };
+  11% {   filter: contrast(1) hue-rotate(0deg) brightness(2) blur(4px) saturate(1) };
+  11.1% { filter: contrast(1) hue-rotate(40deg) brightness(1) blur(0px) saturate(1) };
+
+  13.8%{  filter: contrast(1) hue-rotate(40deg) brightness(1) blur(0px) saturate(1) };
+  14% {   filter: contrast(1) hue-rotate(0deg) brightness(2) blur(4px) saturate(1) };
+  14.1% { filter: contrast(1) hue-rotate(300deg) brightness(1) blur(0px) saturate(1) };
+
+  15.7%{  filter: contrast(1) hue-rotate(300deg) brightness(1) blur(0px) saturate(1) };
+  16% {   filter: contrast(1) hue-rotate(0deg) brightness(2) blur(4px) saturate(1) };
+  16.1% { filter: contrast(1) hue-rotate(120deg) brightness(1.5) blur(5px) saturate(1) };
+  
+  30% {   filter: contrast(1) hue-rotate(120deg) brightness(1) blur(0px) saturate(1) };
+
+  80% {   filter: contrast(2) hue-rotate(359deg) brightness(3) blur(2px) saturate(0.1) };
+  
+  to {    filter: contrast(1.1) hue-rotate(20deg) brightness(1.0) blur(0.0px) saturate(1) ;}
+}
+
+.the_end_rotation{
+  filter: contrast(1.1) hue-rotate(20deg) brightness(1.0) blur(0.5px) saturate(1) ;
+  animation-name: theendrotation;
+  animation-duration: 15s;
+  animation-iteration-count: infinite;
+  // animation-fill-mode:;
+  animation-timing-function:linear
+}
+@keyframes theendrotation {
+  from {  filter: contrast(1.1) hue-rotate(20deg) brightness(1.0) blur(0.5px) saturate(1) ;}
+  50% {  filter: contrast(1.1) hue-rotate(80deg) brightness(1) blur(0px) saturate(1) ;}
+  to {    filter: contrast(1.1) hue-rotate(20deg) brightness(1.0) blur(0.5px) saturate(1) ;}
+}
+.the_end_rotation2{
+  filter: contrast(1.1) hue-rotate(20deg) brightness(1.0) blur(0.5px) saturate(1) ;
+  animation-name: theendrotation2;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  // animation-fill-mode:;
+  animation-timing-function:steps(12);
+}
+@keyframes theendrotation2 {
+  from {  filter: contrast(1.1) hue-rotate(20deg) brightness(1.0) blur(0.5px) saturate(1) ;}
+  50% {  filter: contrast(1.1) hue-rotate(340deg) brightness(1) blur(0px) saturate(2) ;}
+  to {    filter: contrast(1.1) hue-rotate(20deg) brightness(1.0) blur(0.5px) saturate(1) ;}
+}
+.the_end_rotation3{
+  filter: contrast(1.1) hue-rotate(20deg) brightness(1.0) blur(0.5px) saturate(1) ;
+  animation-name: theendrotation3;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  // animation-fill-mode:;
+  animation-timing-function:steps(4);
+}
+@keyframes theendrotation3 {
+  from {  filter: contrast(1.1) hue-rotate(20deg) brightness(1.0) blur(0.5px) saturate(1) ;}
+  50% {  filter: contrast(1.1) hue-rotate(340deg) brightness(1) blur(0px) saturate(2) ;}
+  to {    filter: contrast(1.1) hue-rotate(20deg) brightness(1.0) blur(0.5px) saturate(1) ;}
+}
+
+
+.the-death{
+  filter: contrast(1.1) hue-rotate(0deg) brightness(0) blur(0.5px) saturate(1) ;
+  animation-name: thedeath;
+  animation-duration: 20s;
+  animation-timing-function: linear;
+}
+
+@keyframes thedeath {
+  from {  filter: contrast(1.1) hue-rotate(20deg) brightness(5) blur(4px) saturate(1) ;}
+  to {    filter: contrast(1.1) hue-rotate(0deg) brightness(0) blur(0.5px) saturate(0) ;}
 }

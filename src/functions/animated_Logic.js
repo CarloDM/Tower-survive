@@ -1,7 +1,7 @@
 // ------------------------------------- in out-
 import {store} from '../data/store';
 import {mouseStore} from '../data/mouseStore';
-import {sayWhichBoost, foleyShot, foleyExplosion, voxAssistantImpact,voxAssistantRejoices,voxAssistantRage, voxAssistantDanger} from './audio';
+import {sayWhichBoost, foleyShot, foleyExplosion, voxAssistantImpact,voxAssistantRejoices,voxAssistantRage, voxAssistantDanger,musicLowLoud} from './audio';
 import {saveWaveCompleteStatistic,calculateAverange} from './game_Menagement';
 // import {} from './mathFunction.js';
 export {update,calculateRotation,stopRotation,rand};
@@ -68,11 +68,23 @@ function update() {
             stopRotation();
             saveWaveCompleteStatistic();
             calculateAverange();
-            console.warn('finita stop save score');
+            musicLowLoud();
+            store.graficFx = 5;
+            let finalExplosio = setInterval(() => {
+              foleyExplosion();
+            }, 851);
+            let finalExplosio2 = setInterval(() => {
+              foleyExplosion();
+            }, 320);
+            finalExplosio;
+            finalExplosio2;
+
             setTimeout(() => {
+              clearInterval(finalExplosio);
+              clearInterval(finalExplosio2);
               store.animation = false;
               store.gameStatus.onMatch = false;
-            }, 5000);
+            }, 20000);
           }
         }
 
@@ -85,7 +97,7 @@ function update() {
       };
 
       // Boost
-      if(store.frameCount % 60 === 0 && store.userHealth <= 7500 && !store.boosting){
+      if(store.frameCount % 60 === 0 && store.userHealth <= 7500 && !store.boosting && store.gameStatus.alive){
       console.warn('try boost'); voxAssistantDanger();
       store.boosting = true;
       
@@ -152,7 +164,7 @@ function enemypush(numb){
 
     const newEnemy ={ 
       id:store.enemyCounter,
-      cord : {x:rand(20,580), y:rand(-40, 0)},
+      cord : {x:rand(20,580), y:rand(-10, 0)},
       health:randDecimal(store.waves[store.wavesCount].minMaxhealt[0],store.waves[store.wavesCount].minMaxhealt[1]), 
       speed: randDecimal(store.waves[store.wavesCount].minMaxSpeed[0],store.waves[store.wavesCount].minMaxSpeed[1]),
       alive: true, 
@@ -301,8 +313,8 @@ function  animazioneMovimentoVerticale(enemy) {
         enemy.alive= false;
         store.dead ++;
 
-        if(store.userHealth < (-1400)){
-          store.userHealth = (-1400);
+        if(store.userHealth < (-400)){
+          store.userHealth = (-400);
         }
       };
        // Velocità di movimento in pixel per frame (puoi     regolare   il valore)

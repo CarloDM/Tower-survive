@@ -1,5 +1,4 @@
 const music1 = new Audio('../../public/audio/music/RocketTowerSurvive_Soundtrack.mp3');
-const music2 = new Audio('../../public/audio/music/RocketTowerSurvive_Soundtrack.mp3');
 music1.load(); music1.volume = 0.15; // 0.5 a regime
 
 const voxSupershot =   new Audio('../../public/audio//vocal/voxSuperShot.mp3');
@@ -39,6 +38,7 @@ const voxAssistantImpact2 = new Audio('../../public/audio/vocal/voxAssistant_imp
 const voxAssistantImpact3 = new Audio('../../public/audio/vocal/voxAssistant_impact3.mp3');
 const voxAssistantImpact4 = new Audio('../../public/audio/vocal/voxAssistant_impact4.mp3');
 const voxAssistantImpact5 = new Audio('../../public/audio/vocal/voxAssistant_impact5.mp3');
+const voxAssistantImpact6 = new Audio('../../public/audio/vocal/voxAssistant_impact6.mp3');
 const voxAssistantRage1 = new Audio('../../public/audio/vocal/voxAssistant_rage1.mp3');
 const voxAssistantRage2 = new Audio('../../public/audio/vocal/voxAssistant_rage2.mp3');
 const voxAssistantRage3 = new Audio('../../public/audio/vocal/voxAssistant_rage3.mp3');
@@ -53,6 +53,9 @@ const voxAssistantRejoices2 = new Audio('../../public/audio/vocal/voxAssistant_r
 const voxAssistantRejoices3 = new Audio('../../public/audio/vocal/voxAssistant_rejoices3.mp3');
 const voxAssistantRejoices4 = new Audio('../../public/audio/vocal/voxAssistant_rejoices4.mp3');
 const voxAssistantRejoices5 = new Audio('../../public/audio/vocal/voxAssistant_rejoices5.mp3');
+
+const voxAssistantFinal1 = new Audio('../../public/audio/vocal/voxAssistant_finalwave1.mp3');
+const voxAssistantFinal2 = new Audio('../../public/audio/vocal/voxAssistant_finalwave2.mp3');
 
 
 // ---------------------
@@ -87,7 +90,7 @@ const explosion77 = new Audio('../../public/audio/foley/explosion7.mp3');
   audio.volume = 0.8 ;
 });
 
-export{sayWhichBoost,sayWhichwave, foleyShot, foleyExplosion, voxAssistantImpact,voxAssistantRejoices,voxAssistantRage, voxAssistantDanger, playMusic, musicLowLoud, musicHightLoud,musicFinalWaveFade}
+export{sayWhichBoost,sayWhichwave, foleyShot, foleyExplosion, voxAssistantImpact,voxAssistantRejoices,voxAssistantRage, voxAssistantDanger, voxAssistantFinal, playMusic, musicLowLoud, musicHightLoud,musicFinalWaveFade}
 // --------------
 function playMusic(where){
   // music1.pause();
@@ -101,10 +104,8 @@ function musicLowLoud(){
   const fading = setInterval(()=>{
     if(music1.volume > 0.25 ){
       music1.volume += fade;
-      music2.volume += fade;
     } else {
       music1.volume = 0.25;
-      music2.volume = 0.25;
       clearInterval(fading);
     }
   },10)
@@ -114,10 +115,8 @@ function musicHightLoud(){
   const fading = setInterval(()=>{
     if(music1.volume < 0.45 ){
       music1.volume += fade;
-      music2.volume += fade;
     } else {
       music1.volume = 0.45;
-      music2.volume = 0.45;
       clearInterval(fading);
     }
   },10)
@@ -128,10 +127,8 @@ function musicFinalWaveFade(){
   const fading = setInterval(()=>{
     if(music1.volume < 0.5 ){
       music1.volume += fade;
-      music2.volume += fade;
     } else {
       music1.volume = 0.45;
-      music2.volume = 0.45;
       clearInterval(fading);
     }
   },10)
@@ -160,8 +157,7 @@ function sayWhichwave(wave){
     case 11: voxWave11.play(); break;
     case 12: voxWave12.play(); break;
     case 13: voxWave13.play(); break;
-    case 14: voxWave14.play(); break;
-    case 15: voxWaveFinal.play(); break;
+    case 14: voxWaveFinal.play(); break;
   }
 }
 
@@ -323,7 +319,7 @@ function foleyExplosion(){
 }
 function voxAssistantImpact(){
 
-    const random = rand(1,6);
+    const random = rand(1,7);
     switch (random){
         case 1: 
             voxAssistantImpact1.pause();
@@ -349,6 +345,11 @@ function voxAssistantImpact(){
             voxAssistantImpact5.pause();
             voxAssistantImpact5.currentTime = 0;
             voxAssistantImpact5.play();
+        break;
+        case 5: 
+            voxAssistantImpact6.pause();
+            voxAssistantImpact6.currentTime = 0;
+            voxAssistantImpact6.play();
         break;
       }
 }
@@ -454,6 +455,18 @@ function voxAssistantRejoices(){
             voxAssistantRejoices5.play();
         break;
       }
+}
+function voxAssistantFinal(numb){
+  switch (numb) {
+    case 1:
+      voxAssistantFinal1.volume = 1; 
+      voxAssistantFinal1.play();
+      break;
+    case 2:
+      voxAssistantFinal2.volume = 0.9;
+      voxAssistantFinal2.play()
+      break;
+  }
 }
 
 function rand(min, max) {

@@ -2,7 +2,6 @@ import {reactive} from 'vue';
 export const store = reactive ({
 
 // rinominare in inglese pulire logiche e funzioni
-// produrre design - enemy color
 // produrre sound design -- aggiustamenti vocal - due suonini per i tast
 // capire cache
 
@@ -12,11 +11,11 @@ export const store = reactive ({
     aim: false,
   },
 
-// enemy
-// army: [ {cord : {x:150,y:20}, id:0,health: 1000, alive: true}, ecc...  ]
+// enemies
   army : [],
-  enemyNumber: function(waveNumber){return this.waves[waveNumber].enemyNumber;}, // n nemici
-  enemyFrequency: function(waveNumber){return this.waves[waveNumber].frequency;}, // ogni n  framerequest
+  enemyNumber:    function(waveNumber){return this.waves[waveNumber].enemyNumber;}, // n nemici
+  enemyFrequency: function(waveNumber){return this.waves[waveNumber].frequency;}, // ogni n  frame 
+
 // waves
 waves:[
   // {enemies:200,   frequency:12,  enemyNumber:1,  minMaxSpeed:[0.1,14], minMaxhealt:[250,4000]},    //0 TEST different enemy
@@ -36,7 +35,7 @@ waves:[
   {enemies:90,  frequency:12,  enemyNumber:1,  minMaxSpeed:[1,3.5],   minMaxhealt:[1000,1500]},  //12
   {enemies:110, frequency:12,  enemyNumber:1,  minMaxSpeed:[1,4],     minMaxhealt:[1200,2000]},  //13
 
-  {enemies:147, frequency:200, enemyNumber:7,  minMaxSpeed:[0.6,1.3], minMaxhealt:[7000,9000]}, //14
+  {enemies:160, frequency:200, enemyNumber:7,  minMaxSpeed:[0.6,1.3], minMaxhealt:[7000,9000]}, //14
   {enemies:334, frequency:24,  enemyNumber:1,  minMaxSpeed:[7,12],    minMaxhealt:[700,1300]},   //15
   {enemies:600, frequency:12,  enemyNumber:1,  minMaxSpeed:[9,14],    minMaxhealt:[750,900]},   //16
 ],
@@ -100,14 +99,13 @@ specialBoost: {
   totalshotCounter:0,
   shotGoals : 0,
   kills: 0,
-  survivorKills:15,
+  survivorKills:0,
   dead: 0,
   restartNumb: 0,
 
  // utility
   autoShot: false,
-  recoil: false,
-
+  graficFx: 0,
 
 // animation frame
   frameCount: 0,

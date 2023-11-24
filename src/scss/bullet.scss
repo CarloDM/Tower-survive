@@ -51,9 +51,10 @@
     transform: translate(-50%,-50%)  scale(0%);
     border-radius: 50%;
     background-color: rgb(168, 118, 42);
+    box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0);
     opacity: 0;
     animation-name: dissolve ;
-    animation-duration: 0.5s ;
+    animation-duration: 1s ;
     animation-timing-function: ease-in-out;
     
     &.critical{
@@ -66,14 +67,23 @@
   from {
     transform:translate(-50%,-50%) scale(100%);
     background-color: rgb(175, 212, 201);
-    opacity: 0.7;}
-  20%{
-    background-color: rgba(253, 1, 1, 0);
-    transform:translate(-50%,-50%) scale(40%)
+    box-shadow: 0px 0px 1px 2px rgb(255, 255, 255);
+    opacity: 1;
+  }
+  10%{
+    background-color: rgba(255, 255, 255, 0);
+    box-shadow:  0px 0px 10px 2px rgba(255, 255, 255, 0.267);
+    transform:translate(-50%,-50%) scale(40%);
+  }
+  30%{    
+    transform:translate(-50%,-50%) scale(100%);
+    box-shadow: 0px 0px 10px 20px rgba(255, 255, 255, 0.322) ;
+    opacity: 1;
   }
   90% {
-    transform:translate(-50%,-50%) scale(100%);
-    opacity: 0.3;}
+    transform:translate(-50%,-50%) scale(0%);
+    box-shadow: 0px 0px 400px 300px rgba(255, 255, 255, 0) ;
+    opacity: 0.0;}
 }
 
 // debug trigger area
