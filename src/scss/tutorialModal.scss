@@ -1,0 +1,51 @@
+.tutorial_modal{
+
+  position: absolute;
+  width: 600px;
+  height: 970px;
+  background-color: $groundhigth;
+  border-radius: 10px;
+  z-index: 11;
+
+}
+
+.tutorial_container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+}
+
+.tutorial_section{
+  display: flex;
+  width: 100%;
+  padding: 10px;
+  box-shadow: inset 0px 0px 20px 0px $groundLow;
+  border: 1px solid $black40;
+  height: calc(95% / 4);
+}
+
+.section-column{
+  display: inline-block;
+  
+  width: 50%;
+  height: 100%;
+}
+
+.enemy-card{
+  position: relative;
+  display: in;
+  margin-top: 7px;
+  width: 32px;
+  aspect-ratio: 1/1;
+  & span{
+    display: inline-block;
+    font-family: 'Amatic SC', monospace; 
+    color: $white00;
+    width: 200px;
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+    margin-left: 50px;
+    line-height: 1.7rem;
+  }
+}

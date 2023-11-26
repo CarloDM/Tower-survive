@@ -161,5 +161,7 @@ precisionPoint : 0,
 retrySum : 0,
 finalScore: 0,
 
+record: null,
+
 })
 

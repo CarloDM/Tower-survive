@@ -7,8 +7,6 @@
   text-align: center;
   margin-top: -15px;
   margin-left: -15px;
-  
-  
   border-radius: 50%;
   font-size: 0.7rem;
   z-index: 12;
@@ -29,7 +27,7 @@
     z-index: 1;
   }
 }
-.vary-slow{   background-color: $verySlowEnemyColor;}
+.very-slow{   background-color: $verySlowEnemyColor;}
 .slow{        background-color: $SlowEnemyColor;}
 .medium{      background-color: $mediumEnemyColor;}
 .fast{        background-color: $fastEnemyColor;}
@@ -42,6 +40,5 @@
 .big-armor{
   border: $bigArmor solid $black20;
   box-shadow: 0px -2px 20px 5px rgb(34, 34, 34);
-  // box-sizing: content-box; 
   width: 40px;
 }

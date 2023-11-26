@@ -1,6 +1,6 @@
 <script>
 import {store} from '../../data/store';
-import {startBattle,upGradeUser,restart} from '../../functions/game_Menagement';
+import {startBattle,upGradeUser,restart, getBestRecord} from '../../functions/game_Menagement';
 import {musicLowLoud, musicHightLoud, musicFinalWaveFade, sayWhichwave,playMusic} from '../../functions/audio';
 export default {
   name:'StarWavesModal',
@@ -17,6 +17,11 @@ export default {
     }
   },
   methods:{
+    getBestRecord(){
+      getBestRecord();
+      
+    },
+
     startBattle(){
       startBattle();
       if(store.wavesCount <= 12){
@@ -46,6 +51,7 @@ export default {
     }
   },
   mounted(){
+    getBestRecord();
     this.musicLowLoud();
   }
 }
@@ -76,6 +82,9 @@ export default {
             
               <img v-if="store.wavesCount == -1 && store.gameStatus.alive"
               @click="sayWhichwave(0)" class="audio_btn"  src="../../assets/volume-high-solid.svg" alt="">
+
+              <!-- <img v-if="store.wavesCount == -1 && store.gameStatus.alive"
+              @click="" class="tutorial_btn"  src="../../assets/clipboard-question-solid.svg" alt=""> -->
             
 
       </div>

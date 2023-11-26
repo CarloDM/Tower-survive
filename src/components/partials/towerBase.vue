@@ -55,6 +55,8 @@ export default {
     </div>
 
     <img src="../../assets/texture/base-opt.svg" alt="">
+
+    <span v-if="store.record" class="best_record">Best Score: {{store.record}} </span>
     
   </div>
 </template>

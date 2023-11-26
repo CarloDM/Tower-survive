@@ -17,7 +17,7 @@ components: {LifeBar},
 mounted(){
 
     if(this.enemy.speed >= 0 && this.enemy.speed <= 0.9){
-      this.speed = 'varyslow';
+      this.speed = 'veryslow';
     }else if (this.enemy.speed >= 0.91 && this.enemy.speed <= 1.7){
       this.speed = 'slow';
     }else if (this.enemy.speed >= 1.71 && this.enemy.speed <= 2.8){
@@ -47,7 +47,7 @@ mounted(){
 <!-- :class="{!(enemy.alive) ? 'dead' : '' }"  -->
   <div class="enemy" 
   :class="{
-    'vary-slow' : this.speed ===  'varyslow',
+    'very-slow' : this.speed ===  'veryslow',
     'slow' :      this.speed ===      'slow',
     'medium' :    this.speed ===    'medium',
     'fast' :      this.speed ===      'fast',

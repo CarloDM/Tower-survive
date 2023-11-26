@@ -66,9 +66,7 @@ export default {
     <TowerBase/>
     <Tower />
 
-
   </div>
-
 </template>
 <style lang="scss" scoped>
 // dubug

@@ -1,7 +1,7 @@
 import {store} from '../data/store';
 import {sayWhichwave,playMusic,musicFinalWaveFade,voxAssistantFinal} from './audio';
 import {update,calculateRotation,stopRotation} from './animated_Logic';
-export {startBattle,restart, upGradeUser, deactiveMouseAim, saveWaveCompleteStatistic,calculateAverange};
+export {startBattle,restart, upGradeUser, deactiveMouseAim, saveWaveCompleteStatistic,calculateAverange,getBestRecord};
 
 function startBattle(){
   store.wavesCount ++;
@@ -190,4 +190,22 @@ function calculateScore(){
   store.precisionPoint = store.precisionAverange * 2;
   store.retrySum = -(store.wavesCompletTot.restartNumb * 20);
   store.finalScore = store.killsPoint + store.survivorKillsPoint + store.deadPoint + store.precisionPoint + store.retrySum;
+  localSaveBestRecord(store.finalScore); //salva in cache del browser il tuo record
+}
+
+function localSaveBestRecord(score){
+  const record = localStorage.getItem('bestRecord');
+  if(record < score || (record === null) ){
+    localStorage.setItem('bestRecord', score);
+    console.log('nuovo record!', localStorage.getItem('bestRecord'));
+  }else{
+    console.log('non hai superato il tuo miglior record', record)
+  }
+}
+
+function getBestRecord(){
+  const record = localStorage.getItem('bestRecord');
+  if(!(record === null)){
+    store.record = record;
+  }
 }
