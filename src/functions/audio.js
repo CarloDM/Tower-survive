@@ -1,10 +1,10 @@
 const music1 = new Audio('../../audio/music/RocketTowerSurvive_Soundtrack.mp3');
 music1.load(); music1.volume = 0.15; // 0.5 a regime
 
-const voxSupershot =   new Audio('../../audio//vocal/voxSuperShot.mp3');
-const voxMachineGun =  new Audio('../../audio//vocal/voxMachineGun.mp3');
-const voxAllCritical = new Audio('../../audio//vocal/voxAllCritical.mp3');
-const voxHealth =      new Audio('../../audio//vocal/voxHealth.mp3');
+const voxSupershot =   new Audio('../../audio/vocal/voxSuperShot.mp3');
+const voxMachineGun =  new Audio('../../audio/vocal/voxMachineGun.mp3');
+const voxAllCritical = new Audio('../../audio/vocal/voxAllCritical.mp3');
+const voxHealth =      new Audio('../../audio/vocal/voxHealth.mp3');
 
 const voxWave1 =     new Audio('../../audio/vocal/voxW1.mp3');
 const voxWave2 =     new Audio('../../audio/vocal/voxW2.mp3');
