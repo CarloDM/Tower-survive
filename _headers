@@ -1,2 +1,5 @@
 /*
   Access-Control-Allow-Origin: *
+  
+/*.mp3
+  Content-Type: audio/mp3
