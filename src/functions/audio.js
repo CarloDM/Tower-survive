@@ -1,4 +1,4 @@
-const music1 = new Audio('../../public/audio/music/RocketTowerSurvive_Soundtrack.mp3');
+const music1 = new Audio('../../src/assets/audio/RocketTowerSurvive_Soundtrack.mp3');
 music1.load(); music1.volume = 0.15; // 0.5 a regime
 
 const voxSupershot =   new Audio('../../public/audio//vocal/voxSuperShot.mp3');
