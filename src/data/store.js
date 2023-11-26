@@ -19,6 +19,7 @@ export const store = reactive ({
 // waves
 waves:[
   // {enemies:200,   frequency:12,  enemyNumber:1,  minMaxSpeed:[0.1,14], minMaxhealt:[250,4000]},    //0 TEST different enemy
+  // {enemies:20,   frequency:100,  enemyNumber:1,  minMaxSpeed:[0.1,0.1], minMaxhealt:[250,400]},    //1
   {enemies:5,   frequency:12,  enemyNumber:1,  minMaxSpeed:[0.9,1.5], minMaxhealt:[250,400]},    //1
   {enemies:5,   frequency:24,  enemyNumber:1,  minMaxSpeed:[0.9,1.8], minMaxhealt:[350,500]},    //2
   {enemies:12,  frequency:44,  enemyNumber:2,  minMaxSpeed:[1,1.8],   minMaxhealt:[400,600]},    //3 
@@ -58,6 +59,7 @@ waves:[
     ]
  */
   bullets:[],
+  // bulletsFrequency: function(){return 2000 - this.user.rateOfFire;},
   bulletsFrequency: function(){return 20 - this.user.rateOfFire;},
   bulletsVelocity:  function(){return 10 + this.user.bulletsVelocity;},
   bulletsDmgRadius: function(){return 30 + this.user.explosionRadius;},
@@ -65,7 +67,7 @@ waves:[
 // user stat
 user:{
   rateOfFire : 0,
-  bulletsVelocity: 0,
+  bulletsVelocity: 0 ,
   explosionRadius: 0,
   damage:0,
   fortune:1,

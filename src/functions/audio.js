@@ -21,7 +21,8 @@ const voxWave12 =    new Audio('../../public/audio/vocal/voxW12.mp3');
 const voxWave13 =    new Audio('../../public/audio/vocal/voxW13.mp3');
 const voxWave14 =    new Audio('../../public/audio/vocal/voxW14.mp3');
 const voxWaveFinal = new Audio('../../public/audio/vocal/voxWFinal.mp3');
-[voxWave1,voxWave2,voxWave3,voxWave4,voxWave5,voxWave6,voxWave7,voxWave8,voxWave9,voxWave10,voxWave11,voxWave12,voxWave13,voxWave14,voxWaveFinal].forEach(audio => {
+const voxWaveWelcome = new Audio('../../public/audio/vocal/voxWelcome.mp3');
+[voxWave1,voxWave2,voxWave3,voxWave4,voxWave5,voxWave6,voxWave7,voxWave8,voxWave9,voxWave10,voxWave11,voxWave12,voxWave13,voxWave14,voxWaveFinal,voxWaveWelcome].forEach(audio => {
   audio.load(); 
   audio.volume = 1;
 });
@@ -93,10 +94,7 @@ const explosion77 = new Audio('../../public/audio/foley/explosion7.mp3');
 export{sayWhichBoost,sayWhichwave, foleyShot, foleyExplosion, voxAssistantImpact,voxAssistantRejoices,voxAssistantRage, voxAssistantDanger, voxAssistantFinal, playMusic, musicLowLoud, musicHightLoud,musicFinalWaveFade}
 // --------------
 function playMusic(where){
-  // music1.pause();
-  // music1.load();
   music1.currentTime = where;
-  // music1.volume = 0;
   music1.play()
 }
 function musicLowLoud(){
@@ -143,6 +141,7 @@ function sayWhichBoost(choice) {
 }
 function sayWhichwave(wave){
   switch (wave) {
+    case 0: voxWaveWelcome.play(); break;
     case 1: voxWave1.play(); break;
     case 2: voxWave2.play(); break;
     case 3: voxWave3.play(); break;

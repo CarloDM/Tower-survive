@@ -19,7 +19,7 @@ export default {
 </script>
 
 <template>
-  <main  id="main" class="main debug">
+  <main  id="main" class="main">
 
     <BattleGrond @mousemove="updateMousePosition" />
     

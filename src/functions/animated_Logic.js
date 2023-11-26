@@ -29,14 +29,12 @@ function update() {
         };
         // controlla se ondata è terminata
         if(store.dead + store.kills >= store.waves[store.wavesCount].enemies){
-          console.log('ondata terminata', store.dead + store.kills , store.enemyCounter,  store.waves[store.wavesCount].enemies);
           stopRotation();
           if(store.autoShot){voxAssistantRejoices();}
           store.autoShot = false;
           
           // aspettare che boost termini
           if(!store.boosting){
-            console.log('boost false');
             store.gameStatus.lastWave = store.wavesCount;
             store.animation = false;
             store.gameStatus.onMatch = false;
@@ -45,9 +43,7 @@ function update() {
 
               if(store.userHealth <= 0){
                 store.gameStatus.alive = false;
-                console.log('perso');
               }else{
-                console.log('wave passata');
                 if(!store.gameStatus.statTaken){
                   saveWaveCompleteStatistic();
                 }
@@ -60,7 +56,7 @@ function update() {
         };
 
         if(store.gameStatus.surviveMode && store.userHealth < 0){
-          console.warn('Finita!');
+
           if(!store.gameStatus.endGame){
             store.gameStatus.endGame = true;
             store.autoShot = false;
@@ -98,12 +94,12 @@ function update() {
 
       // Boost
       if(store.frameCount % 60 === 0 && store.userHealth <= 7500 && !store.boosting && store.gameStatus.alive){
-      console.warn('try boost'); voxAssistantDanger();
-      store.boosting = true;
+        voxAssistantDanger();
+        store.boosting = true;
       
-      if(store.userHealth <= 3000){
-        probabilisticBoostEngine(9.5,8000,1000);
-      }else{
+        if(store.userHealth <= 3000){
+          probabilisticBoostEngine(9.5,8000,1000);
+        }else{
 
           if(store.userHealth <= 5000){
             probabilisticBoostEngine(5,5000,3000);
@@ -145,15 +141,15 @@ function BulletUpdate() {
     requestAnimationFrame(update);
 }
 
-function resetArrays(){
+function resetArrays(){ //obsolete
 
   const currentTime = performance.now();
   const deltaTime = currentTime - store.lastTimeReset;
   if (deltaTime >= store.intervalFrame) {
   store.frameCount = 0;
-  console.warn('RESET COUNTER');
   store.lastTimeReset = currentTime;
 }
+
 requestAnimationFrame(update);
 }
 // ANIMATION FRAME --------------------<-------
@@ -357,7 +353,6 @@ function probabilistcEngine(fortune){
   const i =  Math.floor(Math.random() * 100 + 1);
   
   if(i <= fortune){
-    // console.warn('CRITICO!')
     return 4;
   }else{
     return 1
@@ -373,7 +368,6 @@ function  probabilisticBoostEngine(luckMultiplier, boostDuration, boostGate){
   if(probabilistcEngine(store.user.fortune * luckMultiplier) === 4){
 
     store.boostingTimeOut = boostDuration;
-    console.log(store.boostingTimeOut);
     const userOriginalState = JSON.parse(JSON.stringify(store.user));
 
     let choice;
@@ -392,9 +386,9 @@ function  probabilisticBoostEngine(luckMultiplier, boostDuration, boostGate){
         store.user.bulletsVelocity = store.specialBoost.bulletsFrequency.bulletsVelocity;
         setTimeout(() => {
           store.user = userOriginalState;
-          store.boostingTimeOut = 0; console.log(store.boostingTimeOut);
+          store.boostingTimeOut = 0;
           store.boostNameDisplay = 'WaitBoost';
-              setTimeout(() => {store.boosting = false;console.log('switch boost')}, boostGate);
+              setTimeout(() => {store.boosting = false;}, boostGate);
         }, boostDuration);
         break;
 
@@ -403,10 +397,10 @@ function  probabilisticBoostEngine(luckMultiplier, boostDuration, boostGate){
         store.boostNameDisplay = 'AllCritical';
         store.user.fortune = store.specialBoost.allCritical.fortune;
         setTimeout(() => {
-          store.boostingTimeOut = 0; console.log(store.boostingTimeOut);
+          store.boostingTimeOut = 0;
           store.user = userOriginalState;
           store.boostNameDisplay = 'WaitBoost';
-              setTimeout(() => {store.boosting = false;console.log('switch boost')}, boostGate);
+              setTimeout(() => {store.boosting = false;}, boostGate);
         }, boostDuration);
         break;
 
@@ -417,11 +411,11 @@ function  probabilisticBoostEngine(luckMultiplier, boostDuration, boostGate){
         store.user.bulletsVelocity = store.specialBoost.superShot.bulletsVelocity;
         store.activationRadius = store.specialBoost.superShot.activationRadius;
         setTimeout(() => {
-          store.boostingTimeOut = 0; console.log(store.boostingTimeOut);
+          store.boostingTimeOut = 0;
           store.user = userOriginalState;
           store.activationRadius = 30;
           store.boostNameDisplay = 'WaitBoost';
-              setTimeout(() => {store.boosting = false;console.log('switch boost')}, boostGate);
+              setTimeout(() => {store.boosting = false;}, boostGate);
         }, boostDuration);
         break;
 
@@ -432,11 +426,10 @@ function  probabilisticBoostEngine(luckMultiplier, boostDuration, boostGate){
         store.user.rateOfFire = store.specialBoost.bulletsFrequency.rateOfFire;
         store.user.bulletsVelocity = store.specialBoost.bulletsFrequency.bulletsVelocity;
         setTimeout(() => {
-          store.boostingTimeOut = 0; console.log(store.boostingTimeOut);
-          console.warn('cloose boost', store.userHealth);
+          store.boostingTimeOut = 0;
           store.user = userOriginalState;
           store.boostNameDisplay = 'WaitBoost';
-              setTimeout(() => {store.boosting = false;console.log('switch boost')}, boostGate);
+              setTimeout(() => {store.boosting = false;}, boostGate);
         }, boostDuration);
         break;
 

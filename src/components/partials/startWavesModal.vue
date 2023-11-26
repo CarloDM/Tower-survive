@@ -1,7 +1,7 @@
 <script>
 import {store} from '../../data/store';
 import {startBattle,upGradeUser,restart} from '../../functions/game_Menagement';
-import {musicLowLoud, musicHightLoud, musicFinalWaveFade} from '../../functions/audio';
+import {musicLowLoud, musicHightLoud, musicFinalWaveFade, sayWhichwave,playMusic} from '../../functions/audio';
 export default {
   name:'StarWavesModal',
   data(){
@@ -11,7 +11,6 @@ export default {
   },
   watch: {
     'store.gameStatus.onMatch'(n,o){
-      console.log('watch', n);
       if (!n){
         musicLowLoud(); 
       }
@@ -38,11 +37,17 @@ export default {
     musicHightLoud(){
       musicHightLoud();
     },
+    sayWhichwave(wave){
+      sayWhichwave(wave);
+      setTimeout(() => {
+        playMusic(0);
+      }, 3150);
+
+    }
   },
   mounted(){
     this.musicLowLoud();
   }
-  
 }
 </script>
 <template>
@@ -53,18 +58,27 @@ export default {
 
       <section class="main_section">
 
-        <div v-if="store.wavesCount == -1 && store.gameStatus.alive"
-        class="modal_title">
-          Start Game
-        </div>
-        <div v-if="store.wavesCount > -1 && store.gameStatus.alive"
-        class="modal_title">
-          Wave {{ store.wavesCount + 1 }} Complete
-        </div>
-        <div v-if="!store.gameStatus.alive" 
-        class="modal_title">
-          you loose
-        </div>
+        <div class="title_container">
+
+            <div v-if="store.wavesCount == -1 && store.gameStatus.alive"
+            class="modal_title">
+              <h4>Start Game </h4> 
+            </div>
+            <div v-if="store.wavesCount > -1 && store.gameStatus.alive"
+            class="modal_title">
+            <h4> Wave {{ store.wavesCount + 1 }} Complete </h4> 
+            </div>
+            <div v-if="!store.gameStatus.alive" 
+            class="modal_title">
+            <h4> you loose </h4> 
+            </div>
+
+            
+              <img v-if="store.wavesCount == -1 && store.gameStatus.alive"
+              @click="sayWhichwave(0)" class="audio_btn"  src="../../assets/volume-high-solid.svg" alt="">
+            
+
+      </div>
 
         <div class="my_row ">
 
@@ -73,7 +87,7 @@ export default {
                 <li>Kills:     {{ store.kills }}/{{ store.enemyCounter }}                       </li>
                 <li>Shots:     {{ store.shotCounter }}                                          </li>
                 <li>Precision: {{ ((store.shotGoals / store.shotCounter) * 100).toFixed(1) }}%  </li>
-                <li>Health:     {{ ((store.userHealth /10000) *100).toFixed(1) }}%               </li>
+                <li>Health:    {{ ((store.userHealth /10000) *100).toFixed(1) }}%               </li>
               </ul>
             </div>
 

@@ -29,7 +29,6 @@ export default {
 
 <template>
 <div class="main-wrapper">
-
     <StartWavesModal v-if="!store.gameStatus.endGame" />
 
     <EndGameModal v-if="store.gameStatus.endGame && !store.gameStatus.onMatch"/>
@@ -42,3 +41,4 @@ export default {
 <style lang="scss">
 @import'./scss/main.scss';
 </style>
+

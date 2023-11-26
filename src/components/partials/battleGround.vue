@@ -16,10 +16,8 @@ export default {
   components:{Enemy,Bullet,Tower,TowerBase},
   watch:{
     'store.graficFx'(n,o){
-      console.warn('grafic', n)
       if(n !== o){
         this.effect = n;
-        console.log(this.effect)
       }
     }
   },
@@ -52,7 +50,7 @@ export default {
   >
 
     <!-- debug -->
-    <button @click="finishLevel">finishLevel</button>
+    <!-- <button @click="finishLevel">finishLevel</button> -->
     <!-- debug -->
 
     <Enemy 

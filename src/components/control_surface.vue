@@ -41,24 +41,19 @@ export default {
     upGradeUser(key){
       switch (key) {
         case 'rateOfFire':
-          console.log('rateOfFire max 13')
           store.user.rateOfFire += 1;
           break;
         case 'bulletsVelocity':
-          console.log('bulletsVelocity max 8')
           store.user.bulletsVelocity += 2;
           break;
         case 'explosionRadius':
-          console.log('explosionRadius max 40')
           store.user.explosionRadius += 10;
           store.activationRadius += 2;
           break;
         case 'damage':
-          console.log('damage max 360')
           store.user.damage += 40;
           break;
         case 'fortune':
-          console.log('fortune max 10')
           store.user.fortune += 1;
           break;
       }

@@ -11,15 +11,12 @@ export default {
   },
   watch:{
     'store.boostingTimeOut'(n,o){
-      console.log('watch boosting', n, o);
-
       if(n !== o){
         this.boostingTimeOut = n;
       }
     },
 
     'store.userHealth'(ne,ol){
-      console.log('user healt watch', ne)
       if(ne !== ol && ne < 7500){
         this.canBoost = true;
       }else{

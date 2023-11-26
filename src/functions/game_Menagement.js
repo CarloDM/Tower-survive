@@ -66,7 +66,6 @@ function startBattle(){
       setTimeout(() => { //si attiva survivor mode la partita finisce quando arrivi a 0 vita
         store.graficFx = 4;
         store.gameStatus.surviveMode = true;
-        console.warn('survivorMode');
         store.wavesCount ++;
         store.army = [];
         store.userHealth += 2500;
@@ -126,28 +125,23 @@ stopRotation()
 function upGradeUser(key){
   switch (key) {
     case 'rateOfFire':
-      console.log('rateOfFire max 13')
       store.user.rateOfFire += 1;
       store.gameStatus.upgradeAvailable --;
       break;
     case 'bulletsVelocity':
-      console.log('bulletsVelocity max 8')
       store.user.bulletsVelocity += 2;
       store.gameStatus.upgradeAvailable --;
       break;
     case 'explosionRadius':
-      console.log('explosionRadius max 40')
       store.user.explosionRadius += 10;
       store.activationRadius += 2;
       store.gameStatus.upgradeAvailable --;
       break;
     case 'damage':
-      console.log('damage max 360')
       store.user.damage += 40;
       store.gameStatus.upgradeAvailable --;
       break;
     case 'fortune':
-      console.log('fortune max 10')
       store.user.fortune += 1;
       store.gameStatus.upgradeAvailable --;
       break;
@@ -164,11 +158,9 @@ function saveWaveCompleteStatistic(){
   }
     store.wavesComplete.push(statistic);
     store.gameStatus.statTaken = true;
-    console.log('statistic',store.wavesComplete);
 }
 
 function calculateAverange(){
-  console.log('calculate media')
   let killsSum = 0 ,deadSum = 0, precisionSum = 0, totalEnemiesSum = 0, retrySum = 0, precisionAverange = 0;
 
   for (let index = 0; index < store.wavesComplete.length; index++) {
@@ -198,7 +190,4 @@ function calculateScore(){
   store.precisionPoint = store.precisionAverange * 2;
   store.retrySum = -(store.wavesCompletTot.restartNumb * 20);
   store.finalScore = store.killsPoint + store.survivorKillsPoint + store.deadPoint + store.precisionPoint + store.retrySum;
-
-  console.log(store.killsPoint , store.survivorKillsPoint , Math.floor(store.deadPoint) , store.precisionPoint , store.retrySum)
-  console.log('calculate score', store.finalScore);
 }

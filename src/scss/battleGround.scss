@@ -6,15 +6,21 @@
   background-size:contain;
   cursor: url('/src/assets/texture/cross-hair-opt.svg')20 20, crosshair ;
 }
+
 .battle-ground * {
   pointer-events: none;
 }
+
+
+
 .the_end{
   filter: contrast(1.1) hue-rotate(20deg) brightness(1.0) blur(0.5px) saturate(1) ;
   animation-name: theend;
   animation-duration: 34s;
   animation-timing-function: linear;
 }
+
+
 @keyframes theend {
   from {  filter: contrast(1) hue-rotate(0deg) brightness(0.1) blur(0px) saturate(1) ;}
 
@@ -36,6 +42,7 @@
   
   to {    filter: contrast(1.1) hue-rotate(20deg) brightness(1.0) blur(0.0px) saturate(1) ;}
 }
+
 
 .the_end_rotation{
   filter: contrast(1.1) hue-rotate(20deg) brightness(1.0) blur(0.5px) saturate(1) ;
